@@ -22,7 +22,7 @@ This package contains transformation models, designed to work simultaneously wit
 | [conector__model_1](link to model sql file on github)             | toot toot |
 | [conector__model_2](link to model sql file on github)             | beep beep |
 
-# Models - source package version
+## Models - source package version
 
 This package contains staging models, designed to work simultaneously with our [Connector modeling package](link to transformation package repo).  The staging models:
 * Remove any rows that are soft-deleted
