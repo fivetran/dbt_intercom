@@ -1,9 +1,9 @@
 > Fivetran's starter project which acts as the foundation to building dbt packages
 > Here's a template of the README for both transformation + source packages
 
-# [Connector Name] ([docs](home page of the netlify-hosted docs site)) 
+# [Intercom] ([docs](home page of the netlify-hosted docs site)) 
 
-This package models [connector name] data from [Fivetran's connector](https://fivetran.com/docs/applications/connector). It uses data in the format described by [this ERD](link to the connector ERD).
+This package models [Intercom] data from [Fivetran's connector](https://fivetran.com/docs/applications/connector). It uses data in the format described by [this ERD](link to the connector ERD).
 
 [High level objective of package]. It achieves this by:
 - [major thing the package does #1]
