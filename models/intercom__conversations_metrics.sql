@@ -14,11 +14,11 @@ final as (
     conversation_part_aggregates.count_reopens,
     conversation_part_aggregates.count_total_parts,
     conversation_part_aggregates.first_response_at,
-    round((timestamp_diff(first_response_at, conversation_part_aggregates.conversation_created_at, second)/60),2) as time_to_first_response,
+    round(({{ dbt_utils.datediff("conversation_part_aggregates.conversation_created_at", "first_response_at", 'second') }} /60),2) as time_to_first_response,
     conversation_part_aggregates.first_close_at,
-    round((timestamp_diff(first_close_at, conversation_part_aggregates.conversation_created_at, second)/60),2) as time_to_first_close,
+    round(({{ dbt_utils.datediff("conversation_part_aggregates.conversation_created_at", "first_close_at", 'second') }} /60),2) as time_to_first_close,
     conversation_part_aggregates.last_close_at,
-    round((timestamp_diff(last_close_at, conversation_part_aggregates.conversation_created_at, second)/60),2) as time_to_last_close,
+    round(({{ dbt_utils.datediff("conversation_part_aggregates.conversation_created_at", "last_close_at", 'second') }} /60),2) as time_to_last_close,
     conversation_part_aggregates.last_close_by_author_id
   from conversation_part_aggregates
 
