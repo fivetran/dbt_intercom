@@ -1,3 +1,6 @@
 version: 2
 
 models:
+
+  - name: tbd
+    description: Each record represents an Intercom conversation, enhriched with metrics about reply times, resolution times and work times.
