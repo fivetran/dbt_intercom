@@ -1,21 +1,16 @@
-> Fivetran's starter project which acts as the foundation to building dbt packages
-> Here's a template of the README for both transformation + source packages
-
 # [Intercom] ([docs](home page of the netlify-hosted docs site)) 
 
-This package models [Intercom] data from [Fivetran's connector](https://fivetran.com/docs/applications/connector). It uses data in the format described by [this ERD](link to the connector ERD).
+This package models [Intercom] data from [Fivetran's connector](https://fivetran.com/docs/applications/intercom). It uses data in the format described by [this ERD](https://fivetran.com/docs/applications/intercom#schemainformation).
 
-[High level objective of package]. It achieves this by:
-- [major thing the package does #1]
-- [ #2 ] 
-- [ #3]
+The main focus of this package is to enable users to better understand how customers are responding to conversations and recognize responsiveness to customer questions via Intercom. You can easily gain insights from multiple conversations
+with customers to determine how your customer support teams are performing, customer sentiment from conversations, and what customers are talking about to focus your efforts on continued meaningful and helpful conversations.
 ...
-
+## Compatibility
 > The [Connector] dbt package is compatible with BigQuery, Redshift, and Snowflake.
 
-## Models - transformation package version
+## Models
 
-This package contains transformation models, designed to work simultaneously with our [Connector source package](link to source package repo). A dependency on the source package is declared in this package's `packages.yml` file, so it will automatically download when you run `dbt deps`. The primary outputs of this package are described below. Intermediate models are used to create these output models.
+This package contains transformation models, designed to work simultaneously with our [Intercom source package](https://github.com/fivetran/dbt_intercom_source). A depenedency on the source package is declared in this package's `packages.yml` file, so it will automatically download when you run `dbt deps`. The primary outputs of this package are described below. Intermediate models are used to create these output models.
 
 | **model**                | **description**                                                                                                                                |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -74,6 +69,7 @@ on the best workflow for contributing to a package.
 
 ## Database support
 This package has been tested on BigQuery, Snowflake and Redshift.
+Coming soon -- compatibility with Spark
 
 ## Resources:
 - Provide [feedback](https://www.surveymonkey.com/r/DQ7K7WW) on our existing dbt packages or what you'd like to see next
