@@ -15,7 +15,8 @@ admin_metrics as (
         admin_table.name as admin_name,
         admin_table.job_title,
         sum(case when intercom__conversations_metrics.conversation_state = 'closed' then 1 else 0 end) as total_conversations_closed,
-        avg(intercom__conversations_metrics.count_total_parts) as average_conversation_parts
+        round(avg(intercom__conversations_metrics.count_total_parts),2) as average_conversation_parts,
+        avg(intercom__conversations_metrics.conversation_rating) as average_conversation_rating
 
     from admin_table
     
@@ -28,9 +29,9 @@ admin_metrics as (
 final as (
     select distinct
         admin_metrics.*,
-        round(percentile_cont(intercom__conversations_metrics.count_reopens, 0.5) over(partition by admin_metrics.admin_id),2) as median_conversations_reopened,
-        round(percentile_cont(intercom__conversations_metrics.time_to_first_response, 0.5) over(partition by admin_metrics.admin_id),2) as median_time_to_first_response_time,
-        round(percentile_cont(intercom__conversations_metrics.time_to_last_close, 0.5) over(partition by admin_metrics.admin_id),2) as median_time_to_last_close
+        round({{ fivetran_utils.get_median("intercom__conversations_metrics.count_reopens", "admin_metrics.admin_id") }}, 2) as median_conversations_reopened,
+        round({{ fivetran_utils.get_median("intercom__conversations_metrics.time_to_first_response", "admin_metrics.admin_id") }}, 2) as median_time_to_first_response_time,
+        round({{ fivetran_utils.get_median("intercom__conversations_metrics.time_to_last_close", "admin_metrics.admin_id") }}, 2) as median_time_to_last_close
 
     from admin_metrics
 
