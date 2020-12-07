@@ -8,22 +8,41 @@ conversations_enhanced as(
   from {{ ref('intercom__conversations_enhanced') }}
 ),
 
+conversation_part_events as(
+  select *
+  from {{ ref('conversation_part_events') }}
+),
+
 final as (
   select 
     conversations_enhanced.*,
     conversation_part_aggregates.count_reopens,
     conversation_part_aggregates.count_total_parts,
-    conversation_part_aggregates.first_response_at,
-    round(({{ dbt_utils.datediff("conversation_part_aggregates.conversation_created_at", "first_response_at", 'second') }} /60),2) as time_to_first_response,
+    conversation_part_aggregates.count_assignments,
+    conversation_part_aggregates.first_contact_reply_at,
+    conversation_part_aggregates.first_assignment_at,
+    round(({{ dbt_utils.datediff("conversations_enhanced.conversation_created_at", "conversation_part_aggregates.first_assignment_at", 'second') }} /60),2) as time_to_first_assignment,        --Intercom metric. I don't think it adds much value.
+    conversation_part_aggregates.first_admin_response_at,
+    round(({{ dbt_utils.datediff("conversations_enhanced.conversation_created_at", "conversation_part_aggregates.first_admin_response_at", 'second') }} /60),2) as time_to_first_response,      --Our metric. We use convo created at date.
     conversation_part_aggregates.first_close_at,
-    round(({{ dbt_utils.datediff("conversation_part_aggregates.conversation_created_at", "first_close_at", 'second') }} /60),2) as time_to_first_close,
+    round(({{ dbt_utils.datediff("conversation_part_aggregates.first_contact_reply_at", "conversation_part_aggregates.first_close_at", 'second') }} /60),2) as time_to_first_close_new,
+    round(({{ dbt_utils.datediff("conversations_enhanced.conversation_created_at", "conversation_part_aggregates.first_close_at", 'second') }} /60),2) as time_to_first_close_old,
+    conversation_part_aggregates.first_reopen_at,
+    conversation_part_aggregates.last_assignment_at,
+    round(({{ dbt_utils.datediff("conversation_part_aggregates.first_contact_reply_at", "conversation_part_aggregates.last_assignment_at", 'second') }} /60),2) as time_to_last_assignment,     --Intercom metric. I don't think it adds much value.
+    conversation_part_aggregates.last_contact_reply_at,
+    conversation_part_aggregates.last_admin_response_at,
+    conversation_part_aggregates.last_reopen_at,
     conversation_part_aggregates.last_close_at,
-    round(({{ dbt_utils.datediff("conversation_part_aggregates.conversation_created_at", "last_close_at", 'second') }} /60),2) as time_to_last_close,
-    conversation_part_aggregates.last_close_by_author_id
+    round(({{ dbt_utils.datediff("conversation_part_aggregates.first_contact_reply_at", "conversation_part_aggregates.last_close_at", 'second') }} /60),2) as time_to_last_close,
+    round(({{ dbt_utils.datediff("conversations_enhanced.conversation_created_at", "conversation_part_aggregates.last_close_at", 'second') }} /60),2) as time_to_last_close_old,
   from conversation_part_aggregates
 
   left join conversations_enhanced
     on conversations_enhanced.conversation_id = conversation_part_aggregates.conversation_id
+
+  left join conversation_part_events
+    on conversation_part_events.conversation_id = conversation_part_aggregates.conversation_id
   
 )
 
