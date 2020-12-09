@@ -21,12 +21,13 @@ admin_metrics as (
 ),
 
 median_metrics as (
-    select
+    select distinct
         last_close_by_admin_id,
-        round({{ fivetran_utils.get_median("intercom__conversations_metrics.count_reopens", "last_close_by_admin_id") }}, 2) as median_conversations_reopened,
-        round({{ fivetran_utils.get_median("intercom__conversations_metrics.count_assignments", "last_close_by_admin_id") }}, 2) as median_conversation_assignments,
-        round({{ fivetran_utils.get_median("intercom__conversations_metrics.time_to_first_response", "last_close_by_admin_id") }}, 2) as median_time_to_first_response_time,
-        round({{ fivetran_utils.get_median("intercom__conversations_metrics.time_to_last_close", "last_close_by_admin_id") }}, 2) as median_time_to_last_close
+        round({{ fivetran_utils.median("intercom__conversations_metrics.count_reopens", "last_close_by_admin_id") }}, 2) as median_conversations_reopened,
+        round({{ fivetran_utils.median("intercom__conversations_metrics.count_assignments", "last_close_by_admin_id") }}, 2) as median_conversation_assignments,
+        round({{ fivetran_utils.median("intercom__conversations_metrics.time_to_first_response", "last_close_by_admin_id") }}, 2) as median_time_to_first_response_time,
+        round({{ fivetran_utils.median("intercom__conversations_metrics.time_to_first_close", "last_close_by_admin_id") }}, 2) as median_time_to_first_close,
+        round({{ fivetran_utils.median("intercom__conversations_metrics.time_to_last_close", "last_close_by_admin_id") }}, 2) as median_time_to_last_close
     from intercom__conversations_metrics
 ),
 
@@ -53,5 +54,3 @@ final as (
 
 select * 
 from final
-
-

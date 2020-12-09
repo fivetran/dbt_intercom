@@ -3,9 +3,9 @@ with conversation_part_history as (
   from {{ ref('stg_intercom__conversation_part_history') }}
 ),
 
-conversation_most_recent as (
+latest_conversation as (
   select *
-  from {{ ref('conversation_most_recent') }}
+  from {{ ref('latest_conversation') }}
 ),
 
 conversation_part_events as (
@@ -16,8 +16,8 @@ conversation_part_events as (
 metric_aggregations as (
 
   select 
-    conversation_most_recent.conversation_id,
-    conversation_most_recent.created_at as conversation_created_at,
+    latest_conversation.conversation_id,
+    latest_conversation.created_at as conversation_created_at,
     count(conversation_part_history.conversation_part_id) as count_total_parts,
     min(case when conversation_part_history.part_type = 'comment' and (conversation_part_history.author_type = 'lead' or conversation_part_history.author_type = 'user') then conversation_part_history.created_at else null end) as first_contact_reply_at,
     min(case when conversation_part_history.part_type like '%assignment%' then conversation_part_history.created_at else null end) as first_assignment_at,
@@ -29,10 +29,10 @@ metric_aggregations as (
     max(case when conversation_part_history.part_type = 'open' then conversation_part_history.created_at else null end) as last_reopen_at,
     sum(case when conversation_part_history.part_type like '%assignment%' then 1 else 0 end) as count_assignments,
     sum(case when conversation_part_history.part_type = 'open' then 1 else 0 end) as count_reopens
-  from conversation_most_recent
+  from latest_conversation
 
   left join conversation_part_history
-    on conversation_most_recent.conversation_id = conversation_part_history.conversation_id
+    on latest_conversation.conversation_id = conversation_part_history.conversation_id
 
   group by 1, 2
   
@@ -40,16 +40,9 @@ metric_aggregations as (
 
 final as (
   select
-    -- metric_aggregations.conversation_id,
-    -- metric_aggregations.conversation_created_at,
-    -- metric_aggregations.count_reopens,
-    -- metric_aggregations.count_total_parts,
-    -- metric_aggregations.first_response_at,
     metric_aggregations.*,
-    --conversation_part_events.first_assigned_to_author_id,
     conversation_part_events.first_close_at,
-    conversation_part_events.last_close_at,
-    --conversation_part_events.last_close_by_author_id
+    conversation_part_events.last_close_at
   from metric_aggregations
 
   left join conversation_part_events 

@@ -5,12 +5,12 @@ with conversation_part_history as (
 
 conversation_admin_events as (
 
-  select distinct
+  select
     conversation_id,
-    first_value(author_id) over (partition by conversation_id order by created_at asc) as first_assigned_to_admin_id,
-    first_value(author_id) over (partition by conversation_id order by created_at desc) as last_close_by_admin_id,
-    first_value(created_at) over (partition by conversation_id order by created_at desc) as last_close_at,
-    first_value(created_at) over (partition by conversation_id order by created_at asc) as first_close_at  
+    {{ fivetran_utils.first_value("author_id","conversation_id","created_at","asc") }} as first_assigned_to_admin_id,
+    {{ fivetran_utils.first_value("author_id","conversation_id","created_at","desc") }} as last_close_by_admin_id,
+    {{ fivetran_utils.first_value("created_at","conversation_id","created_at","asc") }} as last_close_at,
+    {{ fivetran_utils.first_value("created_at","conversation_id","created_at","desc") }} as first_close_at
   from conversation_part_history
 
   where part_type = 'close' and author_type = 'admin'
@@ -19,26 +19,32 @@ conversation_admin_events as (
 
 conversation_contact_events as (
 
-  select distinct
+  select
     conversation_id,
-    first_value(author_id) over (partition by conversation_id order by created_at asc) as first_contact_author_id,
-    first_value(author_id) over (partition by conversation_id order by created_at desc) as last_contact_author_id 
+    {{ fivetran_utils.first_value("author_id","conversation_id","created_at","asc") }} as first_contact_author_id,
+    {{ fivetran_utils.first_value("author_id","conversation_id","created_at","desc") }} as last_contact_author_id
   from conversation_part_history
 
-  where part_type != 'closed' and author_type in ('user','lead')
+  where part_type != 'close' and author_type in ('user','lead')
 
 ), 
 
 final as (
     select distinct
         conversation_part_history.conversation_id,
-        cast(conversation_admin_events.first_assigned_to_admin_id as INT64) as first_assigned_to_admin_id,
-        cast(conversation_admin_events.last_close_by_admin_id as INT64) as last_close_by_admin_id,
+        
+        {% if target.type == 'bigquery' %}
+          cast(conversation_admin_events.first_assigned_to_admin_id as INT64) as first_assigned_to_admin_id,
+          cast(conversation_admin_events.last_close_by_admin_id as INT64) as last_close_by_admin_id,
+        {% else %}
+          cast(conversation_admin_events.first_assigned_to_admin_id as bigint) as first_assigned_to_admin_id,
+          cast(conversation_admin_events.last_close_by_admin_id as bigint) as last_close_by_admin_id,
+        {% endif %}
+
         conversation_admin_events.last_close_at,
         conversation_admin_events.first_close_at,
         conversation_contact_events.first_contact_author_id,
         conversation_contact_events.last_contact_author_id
-
     from conversation_part_history
 
     left join conversation_admin_events

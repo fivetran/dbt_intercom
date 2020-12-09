@@ -26,6 +26,14 @@ final as (
     contact_most_recent.is_unsubscribed_from_emails,
     company_history.company_history_id as company_id
 
+    --The below script allows for pass through columns.
+
+    {% if var('contacts_enhanced_pass_through_columns') %}
+    ,
+    {{ var('contacts_enhanced_pass_through_columns') | join (", ")}}
+
+    {% endif %}
+
   from contact_most_recent
   
   left join contact_company_history

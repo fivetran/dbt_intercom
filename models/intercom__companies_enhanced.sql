@@ -12,7 +12,15 @@ enhanced as (
         company_history.updated_at,
         company_history.industry,
         company_history.monthly_spend,
-        company_history.user_count,
+        company_history.user_count
+
+        --The below script allows for pass through columns.
+
+        {% if var('companies_enhanced_pass_through_columns') %}
+        ,
+        {{ var('companies_enhanced_pass_through_columns') | join (", ")}}
+
+        {% endif %}
 
     from company_history
 )

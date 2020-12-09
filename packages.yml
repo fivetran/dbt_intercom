@@ -1,5 +1,7 @@
 packages:
+  # To switch packages once release is created.
   # - package: fivetran/intercom_source
   #   version: 0.1.0
 
-  - local: ../dbt_intercom_source
+  - git: https://github.com/fivetran/dbt_intercom_source.git
+    warn-unpinned: false
