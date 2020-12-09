@@ -1,4 +1,4 @@
-# [Intercom] (https://dbt-intercom.netlify.app/) 
+# Intercom ([docs](https://dbt-intercom.netlify.app/))
 
 This package models [Intercom] data from [Fivetran's connector](https://fivetran.com/docs/applications/intercom). It uses data in the format described by [this ERD](https://docs.google.com/presentation/d/1K3HTGqNQ-neUNeTtjJq42RHBV68_4FuXFp8X81zJ5Xo/edit#slide=id.p).
 
