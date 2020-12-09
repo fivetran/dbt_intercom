@@ -5,7 +5,7 @@ with conversation_part_aggregates as (
 
 conversations_enhanced as(
   select *
-  from {{ ref('intercom__conversations_enhanced') }}
+  from {{ ref('intercom__conversation_enhanced') }}
 ),
 
 final as (

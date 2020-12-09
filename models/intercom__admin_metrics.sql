@@ -1,6 +1,6 @@
 with intercom__conversations_metrics as (
   select *
-  from {{ ref('intercom__conversations_metrics') }}
+  from {{ ref('intercom__conversation_metrics') }}
   where conversation_assignee_type = 'admin'
 ),
 

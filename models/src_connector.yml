@@ -2,5 +2,209 @@ version: 2
 
 models:
 
-  - name: tbd
-    description: Each record represents an Intercom conversation, enhriched with metrics about reply times, resolution times and work times.
+  - name: intercom__admin_metrics
+    description: Each record represents an Intercom admin with corresponding conversation closing metrics.
+    columns:
+      - name: admin_id
+        description: The unique identfier representing the admin.
+        tests:
+          - not_null
+          - unique
+      - name: admin_name
+        description: The name of the admin.
+      - name: job_title
+        description: The admin job title.
+      - name: total_conversations_closed
+        description: The admins sum of total closed conversations.
+      - name: average_conversation_parts
+        description: The admins average number of parts associated with a single conversation.
+      - name: average_conversation_rating
+        description: The admins total average rating given to conversations they closed.
+      - name: median_conversations_reopened
+        description: The admins median value of times they reopened conversations.
+      - name: median_conversation_assignments
+        description: The admins median value of times they closed a conversation and had other assignees on the conversation.
+      - name: median_time_to_first_response_time
+        description: The admins median value of time it took for their first response on a conversation.
+      - name: median_time_to_last_close
+        description: The admins median value of time it took to the last closure of a conversation.
+
+  - name: intercom__company_enhanced
+    description: Each record represents a company logged within Intercom along with enriched company information. Can be easily joined with Intercom__Contact_Enhanced via the company_id.
+    columns:
+      - name: company_id
+        description: The unique identifier representing the historical Intercom defined company.
+        tests:
+          - not_null
+          - unique
+      - name: company_name
+        description: The name of the company.
+      - name: website
+        description: The website associated with the company.
+      - name: created_at
+        description: The time the company was created.
+      - name: updated_at
+        description: The time the company was last updated at.
+      - name: industry
+        description: The defined industry the company operates in.
+      - name: monthly_spend
+        description: How much revenue the company generates for your business.
+      - name: user_count
+        description: The total count of users associated with the company.
+
+  - name: intercom__contact_enhanced
+    description: Each record represents a contact logged within Intercom along with enriched contact information. Can be easily joined with Intercom_Conversation_Enhanced/Metrics.
+    columns:
+      - name: contact_id
+        description: The unique identifier for the contact which is given by Intercom. Can be used to join on Intercom__Conversation_Enhanced/Metrics using first_contact_author_id or last_contact_author_id.
+        tests:
+          - not_null
+          - unique
+      - name: contact_name  
+        description: The name of the contact.             
+      - name: contact_role
+        descrption: The role of the contact (user or lead).
+      - name: contact_email
+        description: The contacts email.
+      - name: last_contacted_at
+        description: The time when the contact was last messaged.
+      - name: last_email_opened_at
+        description: The time when a contact last opened an email.
+      - name: last_email_clicked_at
+        description: The time when the contact last clicked a link in an email.
+      - name: last_replied_at
+        description: The time when the contact lsat messaged in.
+      - name: is_unsubscribed_from_emails
+        description: Boolean indicating whether the contact has unsubscribed from emails.
+      - name: company_id
+        description: The company_id of the company the user is associated with. Can be used to join on Intercom__Company_Enhanced using company_id.
+
+  - name: intercom__conversation_enhanced
+    description: Each record represents a single conversation with enriched information from conversation parts.
+    columns:
+      - name: conversation_id
+        description: The id representing the conversation.
+        tests:
+          - not_null
+          - unique
+      - name: conversation_created_at
+        description: The time the conversation was created.
+      - name: conversation_last_updated_at
+        description: The date the conversation was last updated at.
+      - name: conversation_type
+        description: The type of conversation. This includes conversation push facebook twitter and email.
+      - name: conversation_initiated_type
+        description: How the conversation was initially delivered to the responder.
+      - name: conversation_subject
+        description: The subject of the conversation created by the initiator.
+      - name: conversation_assignee_type
+        description: The type of user the conversation is assigned to. If it is not assigned to a user it will return null.
+      - name: conversation_author_type
+        description: The type of individual who authored the first message. Will be either contact or admin.
+      - name: first_assigned_to_admin_id
+        description: The admin_id of the admin who was first assigned to the conversation.
+      - name: last_close_by_admin_id
+        description: The admin_id of the admin who last closed the conversation.
+      - name: first_contact_author_id
+        description: The contact_id of the contact who was first associated with the conversation.
+      - name: last_contact_author_id
+        description: The contact_id of the contact who was last associated with the conversation before closing.
+      - name: conversation_state
+        description: The current state of the conversation (open or close).
+      - name: is_read
+        description: Boolean indicating whether the conversation message has been read.
+      - name: waiting_since
+        description: The last time a contact responded to an admin. The time a customer started waiting for a response. Set to null if last reply is from an admin.
+      - name: snoozed_until
+        description: If set this is the time in the future when this conversation will be marked as open.
+      - name: all_conversation_admins
+        description: String aggregate of all admins that contributed to the conversation.
+      - name: all_conversation_contacts
+        description: String aggregate of all contacts that contributed to the conversation.
+      - name: conversation_rating
+        description: An optional field for the customer to rate the conversation which will be between 1 and 5.
+      - name: conversation_remark
+        description: An optional field to add a remark to correspond to the number rating.
+
+  - name: intercom__conversation_metrics
+    description: Each record represents a single conversation with metrics aggregated from conversation parts.
+    columns:
+      - name: count_reopens
+        description: The count of conversation parts where the part_type value was 'open'. Note, a conversation part_type must be manually opened by an admin.
+      - name: count_total_parts
+        description: The count of total conversation parts for a single given conversation. Max parts is 500.
+      - name: count_assignments
+        description: The count of conversation parts where the part_type value contained 'assignment'.
+      - name: first_contact_reply_at
+        description: The time when the conversation author of type user or lead commented in a conversation.
+      - name: first_assignment_at
+        description: The time when the first conversation assignment was made.
+      - name: time_to_first_assignment
+        description: The time difference (not factoring in business hours) between the conversation creation and the first_assignment_at.
+      - name: first_admin_response_at
+        description: The time when the conversation part author of type admin first commented in a conversation.
+      - name: time_to_first_response
+        description: The time difference (not factoring in business hours) between the conversation creation and the first_admin_response_at.
+      - name: first_close_at
+        description: The time the of the first conversation part where part_type was 'close' indicating the conversation was closed.
+      - name: time_to_first_close
+        description: The time difference (not factoring in business hours) between the first_admin_response_at and the first_close_at.
+      - name: first_reopen_at
+        description: The time of the first conversation part where part_type was 'open' indicating the conversation was reopened.
+      - name: last_assignment_at
+        description: The time of the last conversation assignment.
+      - name: time_to_last_assignment
+        description: The time difference (not factoring in business hours) between the first_admin_response_at and the last_assignment_at.
+      - name: last_contact_reply_at
+        description: The time of the last contact response within the conversation.
+      - name: last_admin_response_at
+        description: The time of the last admin response within the conversation.
+      - name: last_reopen_at
+        description: The time of the last conversation part where part_type was 'open' indicating the conversation was reopened.
+      - name: last_close_at
+        description: The time the of the last conversation part where part_type was 'close' indicating the conversation was closed.
+      - name: time_to_last_close
+        description: The time difference (not factoring in business hours) between the last_close_at and the first_contact_reply.
+      - name: conversation_id
+        description: The id representing the conversation.
+        tests:
+          - not_null
+          - unique
+      - name: conversation_created_at
+        description: The time the conversation was created.
+      - name: conversation_last_updated_at
+        description: The date the conversation was last updated at.
+      - name: conversation_type
+        description: The type of conversation. This includes conversation push facebook twitter and email.
+      - name: conversation_initiated_type
+        description: How the conversation was initially delivered to the responder.
+      - name: conversation_subject
+        description: The subject of the conversation created by the initiator.
+      - name: conversation_assignee_type
+        description: The type of user the conversation is assigned to. If it is not assigned to a user it will return null.
+      - name: conversation_author_type
+        description: The type of individual who authored the first message. Will be either contact or admin.
+      - name: first_assigned_to_admin_id
+        description: The admin_id of the admin who was first assigned to the conversation.
+      - name: last_close_by_admin_id
+        description: The admin_id of the admin who last closed the conversation.
+      - name: first_contact_author_id
+        description: The contact_id of the contact who was first associated with the conversation.
+      - name: last_contact_author_id
+        description: The contact_id of the contact who was last associated with the conversation before closing.
+      - name: conversation_state
+        description: The current state of the conversation (open or close).
+      - name: is_read
+        description: Boolean indicating whether the conversation message has been read.
+      - name: waiting_since
+        description: The last time a contact responded to an admin. The time a customer started waiting for a response. Set to null if last reply is from an admin.
+      - name: snoozed_until
+        description: If set this is the time in the future when this conversation will be marked as open.
+      - name: all_conversation_admins
+        description: String aggregate of all admins that contributed to the conversation.
+      - name: all_conversation_contacts
+        description: String aggregate of all contacts that contributed to the conversation.
+      - name: conversation_rating
+        description: An optional field for the customer to rate the conversation which will be between 1 and 5.
+      - name: conversation_remark
+        description: An optional field to add a remark to correspond to the number rating.

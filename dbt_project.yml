@@ -14,10 +14,12 @@ models:
 vars:
   intercom:
     admin: "{{ ref('stg_intercom__admin') }}"
-    conversation_history: "{{ ref('stg_intercom__conversation_history') }}"
-    conversation_part_history: "{{ ref('stg_intercom__conversation_part_history') }}"
+    company_history: "{{ ref('stg_intercom__company_history') }}"
+    contact_company_history: "{{ ref('stg_intercom__contact_company_history') }}"
     contact_history: "{{ ref('stg_intercom__contact_history') }}"
     conversation_contact_history: "{{ ref('stg_intercom__conversation_contact_history') }}"
+    conversation_history: "{{ ref('stg_intercom__conversation_history') }}"
+    conversation_part_history: "{{ ref('stg_intercom__conversation_part_history') }}"   
     
     # Use to add more field to the opportunity enhanced table. 
     # Note these columns must be present in the downstream account table or user table

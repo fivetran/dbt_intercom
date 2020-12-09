@@ -5,6 +5,16 @@ profile: 'integration_tests'
 
 
 vars:
+  intercom:
+    admin: "{{ ref('stg_intercom__admin') }}"
+    conversation_history: "{{ ref('stg_intercom__conversation_history') }}"
+    conversation_part_history: "{{ ref('stg_intercom__conversation_part_history') }}"
+    contact_history: "{{ ref('stg_intercom__contact_history') }}"
+    conversation_contact_history: "{{ ref('stg_intercom__conversation_contact_history') }}"
+    company_history: "{{ ref('stg_intercom__company_history') }}"
+    contact_company_history: "{{ ref('stg_intercom__contact_company_history') }}"
+    intercom_schema: intercom_intergration_tests
+
   intercom_source:
     admin: "{{ ref('admin_data') }}"
     conversation_history: "{{ ref('conversation_history_data') }}"
@@ -13,6 +23,7 @@ vars:
     conversation_contact_history: "{{ ref('conversation_contact_history_data') }}"
     company_history: "{{ ref('company_history_data') }}"
     contact_company_history: "{{ ref('contact_company_history_data') }}"
+    intercom_schema: intercom_source_intergration_tests
 
 seeds:
   +quote_columns: "{{ true if target.type == 'redshift' else false }}"
