@@ -1,6 +1,6 @@
 with latest_conversation as (
     select *
-    from {{ ref('latest_conversation') }}
+    from {{ ref('int_intercom__latest_conversation') }}
 ),
 
 contact_history as (
@@ -10,24 +10,26 @@ contact_history as (
 
 latest_conversation_contact as (
     select *
-    from {{ ref('latest_conversation_contact') }}
+    from {{ ref('int_intercom__latest_conversation_contact') }}
 ),
 
 conversation_string_aggregates as (
     select *
-    from {{ ref('conversation_string_aggregates') }}
+    from {{ ref('int_intercom__conversation_string_aggregates') }}
 ),
 
 conversation_part_events as (
     select *
-    from {{ ref('conversation_part_events') }}
+    from {{ ref('int_intercom__conversation_part_events') }}
 ),
 
-enriched as (
+enriched as ( 
     select
         latest_conversation.conversation_id,
         latest_conversation.created_at as conversation_created_at,
         latest_conversation.updated_at as conversation_last_updated_at,
+        conversation_part_events.first_close_at,
+        conversation_part_events.last_close_at,
         latest_conversation.source_type as conversation_type,
         latest_conversation.source_delivered_as as conversation_initiated_type,
         latest_conversation.source_subject as conversation_subject,

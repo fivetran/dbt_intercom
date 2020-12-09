@@ -2,7 +2,7 @@ version: 2
 
 models:
 
-  - name: intercom__admin_metrics
+  - name: fct_intercom__admin_metrics
     description: Each record represents an Intercom admin with corresponding conversation closing metrics.
     columns:
       - name: admin_id
@@ -29,11 +29,11 @@ models:
       - name: median_time_to_last_close
         description: The admins median value of time it took to the last closure of a conversation.
 
-  - name: intercom__company_enhanced
-    description: Each record represents a company logged within Intercom along with enriched company information. Can be easily joined with Intercom__Contact_Enhanced via the company_id.
+  - name: dim_intercom__company
+    description: Each record represents a company logged within Intercom along with enriched company information. Can be easily joined with dim_intercom__contact.
     columns:
       - name: company_id
-        description: The unique identifier representing the historical Intercom defined company.
+        description: The unique identifier representing the historical Intercom defined company. Can be used to join with dim_intercom__contact via the company_id.
         tests:
           - not_null
           - unique
@@ -52,11 +52,11 @@ models:
       - name: user_count
         description: The total count of users associated with the company.
 
-  - name: intercom__contact_enhanced
-    description: Each record represents a contact logged within Intercom along with enriched contact information. Can be easily joined with Intercom_Conversation_Enhanced/Metrics.
+  - name: dim_intercom__contact
+    description: Each record represents a contact logged within Intercom along with enriched contact information. Can be easily joined with fct_intercom__conversation_metrics.
     columns:
       - name: contact_id
-        description: The unique identifier for the contact which is given by Intercom. Can be used to join on Intercom__Conversation_Enhanced/Metrics using first_contact_author_id or last_contact_author_id.
+        description: The unique identifier for the contact which is given by Intercom. Can be used to join on fct_intercom__conversation_metrics using first_contact_author_id or last_contact_author_id.
         tests:
           - not_null
           - unique
@@ -77,9 +77,9 @@ models:
       - name: is_unsubscribed_from_emails
         description: Boolean indicating whether the contact has unsubscribed from emails.
       - name: company_id
-        description: The company_id of the company the user is associated with. Can be used to join on Intercom__Company_Enhanced using company_id.
+        description: The company_id of the company the user is associated with. Can be used to join on dim_intercom__company using company_id.
 
-  - name: intercom__conversation_enhanced
+  - name: dim_intercom__conversation
     description: Each record represents a single conversation with enriched information from conversation parts.
     columns:
       - name: conversation_id
@@ -126,7 +126,7 @@ models:
       - name: conversation_remark
         description: An optional field to add a remark to correspond to the number rating.
 
-  - name: intercom__conversation_metrics
+  - name: fct_intercom__conversation_metrics
     description: Each record represents a single conversation with metrics aggregated from conversation parts.
     columns:
       - name: count_reopens

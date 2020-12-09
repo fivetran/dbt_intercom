@@ -15,10 +15,9 @@ enhanced as (
         company_history.user_count
 
         --The below script allows for pass through columns.
-
-        {% if var('companies_enhanced_pass_through_columns') %}
+        {% if var('dim_company_pass_through_columns') %}
         ,
-        {{ var('companies_enhanced_pass_through_columns') | join (", ")}}
+        {{ var('dim_company_pass_through_columns') | join (", ")}}
 
         {% endif %}
 

@@ -5,15 +5,10 @@ with conversation_part_history as (
 
 latest_conversation as (
   select *
-  from {{ ref('latest_conversation') }}
-),
- 
-conversation_part_events as (
-  select *
-  from {{ ref('conversation_part_events') }}
+  from {{ ref('int_intercom__latest_conversation') }}
 ),
 
-metric_aggregations as (
+final as (
 
   select 
     latest_conversation.conversation_id,
@@ -36,17 +31,6 @@ metric_aggregations as (
 
   group by 1, 2
   
-),
-
-final as (
-  select
-    metric_aggregations.*,
-    conversation_part_events.first_close_at,
-    conversation_part_events.last_close_at
-  from metric_aggregations
-
-  left join conversation_part_events 
-    on conversation_part_events.conversation_id = metric_aggregations.conversation_id
 )
 
 select * 

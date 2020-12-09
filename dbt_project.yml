@@ -23,8 +23,8 @@ vars:
     
     # Use to add more field to the opportunity enhanced table. 
     # Note these columns must be present in the downstream account table or user table
-    companies_enhanced_pass_through_columns: []
-    contacts_enhanced_pass_through_columns: []
+    dim_company_pass_through_columns: []
+    dim_contact_pass_through_columns: []
 
 clean-targets:
     - target

@@ -27,10 +27,9 @@ final as (
     company_history.company_history_id as company_id
 
     --The below script allows for pass through columns.
-
-    {% if var('contacts_enhanced_pass_through_columns') %}
+    {% if var('dim_contact_pass_through_columns') %}
     ,
-    {{ var('contacts_enhanced_pass_through_columns') | join (", ")}}
+    {{ var('dim_contact_pass_through_columns') | join (", ")}}
 
     {% endif %}
 
@@ -41,8 +40,6 @@ final as (
 
   left join company_history
     on company_history.company_history_id = contact_company_history.company_id
-  
-  where admin_id is null
 )
 
 select *
