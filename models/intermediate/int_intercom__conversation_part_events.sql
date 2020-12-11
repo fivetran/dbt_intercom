@@ -25,7 +25,7 @@ conversation_contact_events as (
     {{ fivetran_utils.first_value("author_id","conversation_id","created_at","desc") }} as last_contact_author_id
   from conversation_part_history
 
-  where part_type != 'close' and author_type in ('user','lead')
+  where author_type in ('user','lead')
 
 ), 
 
@@ -36,15 +36,17 @@ final as (
         {% if target.type == 'bigquery' %}
           cast(conversation_admin_events.first_assigned_to_admin_id as INT64) as first_assigned_to_admin_id,
           cast(conversation_admin_events.last_close_by_admin_id as INT64) as last_close_by_admin_id,
+          cast(conversation_contact_events.first_contact_author_id as string) as first_contact_author_id,
+          cast(conversation_contact_events.last_contact_author_id as string) as last_contact_author_id,
         {% else %}
           cast(conversation_admin_events.first_assigned_to_admin_id as bigint) as first_assigned_to_admin_id,
           cast(conversation_admin_events.last_close_by_admin_id as bigint) as last_close_by_admin_id,
+          cast(conversation_contact_events.first_contact_author_id as varchar(50)) as first_contact_author_id,
+          cast(conversation_contact_events.last_contact_author_id as varchar(50)) as last_contact_author_id,
         {% endif %}
 
         conversation_admin_events.last_close_at,
-        conversation_admin_events.first_close_at,
-        conversation_contact_events.first_contact_author_id,
-        conversation_contact_events.last_contact_author_id
+        conversation_admin_events.first_close_at
     from conversation_part_history
 
     left join conversation_admin_events

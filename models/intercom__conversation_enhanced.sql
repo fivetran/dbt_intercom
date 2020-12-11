@@ -23,6 +23,35 @@ conversation_part_events as (
     from {{ ref('int_intercom__conversation_part_events') }}
 ),
 
+--If you use conversation tags this will be included, if not it will be ignored.
+{% if var('using_conversation_tags', True) %}
+conversation_tags as (
+    select *
+    from {{ ref('stg_intercom__conversation_tag_history') }}
+),
+
+tags as (
+    select *
+    from {{ ref('stg_intercom__tag') }}
+),
+
+conversation_tags_aggregate as (
+    select
+        latest_conversation.conversation_id,
+        {{ fivetran_utils.string_agg('tags.name', "', '" ) }} as all_conversation_tags
+    from latest_conversation
+
+    left join conversation_tags
+        on conversation_tags.conversation_id = latest_conversation.conversation_id
+        
+    left join tags
+        on tags.tag_id = conversation_tags.tag_id
+
+    group by 1    
+),
+{% endif %}  
+
+
 enriched as ( 
     select
         latest_conversation.conversation_id,
@@ -32,6 +61,12 @@ enriched as (
         conversation_part_events.last_close_at,
         latest_conversation.source_type as conversation_type,
         latest_conversation.source_delivered_as as conversation_initiated_type,
+
+        --If you use conversation tags this will be included, if not it will be ignored.
+        {% if var('using_conversation_tags', True) %}
+        conversation_tags_aggregate.all_conversation_tags,
+        {% endif %} 
+
         latest_conversation.source_subject as conversation_subject,
         case when (latest_conversation.assignee_type is not null) then latest_conversation.assignee_type else 'unassigned' end as conversation_assignee_type,
         case when (latest_conversation.source_author_type != 'admin') then 'contact' else 'admin' end as conversation_author_type,
@@ -60,6 +95,12 @@ enriched as (
 
     left join conversation_part_events
         on conversation_part_events.conversation_id = latest_conversation.conversation_id
+
+    --If you use conversation tags this will be included, if not it will be ignored.
+    {% if var('using_conversation_tags', True) %}
+    left join conversation_tags_aggregate
+      on conversation_tags_aggregate.conversation_id = latest_conversation.conversation_id
+    {% endif %} 
 
 )
 select * 

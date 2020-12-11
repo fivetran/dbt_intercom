@@ -15,16 +15,22 @@ vars:
   intercom:
     admin: "{{ ref('stg_intercom__admin') }}"
     company_history: "{{ ref('stg_intercom__company_history') }}"
+    company_tag_history: "{{ ref('stg_intercom__company_tag_history') }}"
     contact_company_history: "{{ ref('stg_intercom__contact_company_history') }}"
     contact_history: "{{ ref('stg_intercom__contact_history') }}"
+    contact_tag_history: "{{ ref('stg_intercom__contact_tag_history') }}"
     conversation_contact_history: "{{ ref('stg_intercom__conversation_contact_history') }}"
     conversation_history: "{{ ref('stg_intercom__conversation_history') }}"
-    conversation_part_history: "{{ ref('stg_intercom__conversation_part_history') }}"   
+    conversation_part_history: "{{ ref('stg_intercom__conversation_part_history') }}"
+    conversation_tag_history: "{{ ref('stg_intercom__conversation_tag_history') }}"
+    tag: "{{ ref('stg_intercom__tag') }}"
+    team_admin: "{{ ref('stg_intercom__team_admin') }}"
+    team: "{{ ref('stg_intercom__team') }}"
     
     # Use to add more field to the opportunity enhanced table. 
     # Note these columns must be present in the downstream account table or user table
-    dim_company_pass_through_columns: []
-    dim_contact_pass_through_columns: []
+    company_pass_through_columns: []
+    contact_pass_through_columns: []
 
 clean-targets:
     - target

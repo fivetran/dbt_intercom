@@ -1,34 +1,79 @@
 name: 'intercom_integration_tests'
 version: '0.1.0'
-config-version: 2
 profile: 'integration_tests'
+config-version: 2
 
+models:
+  intercom:
+    materialized: table
+    intermediate:
+      materialized: view
 
 vars:
   intercom:
     admin: "{{ ref('stg_intercom__admin') }}"
+    company_history: "{{ ref('stg_intercom__company_history') }}"
+    company_tag_history: "{{ ref('stg_intercom__company_tag_history') }}"
+    contact_company_history: "{{ ref('stg_intercom__contact_company_history') }}"
+    contact_history: "{{ ref('stg_intercom__contact_history') }}"
+    contact_tag_history: "{{ ref('stg_intercom__contact_tag_history') }}"
+    conversation_contact_history: "{{ ref('stg_intercom__conversation_contact_history') }}"
     conversation_history: "{{ ref('stg_intercom__conversation_history') }}"
     conversation_part_history: "{{ ref('stg_intercom__conversation_part_history') }}"
-    contact_history: "{{ ref('stg_intercom__contact_history') }}"
-    conversation_contact_history: "{{ ref('stg_intercom__conversation_contact_history') }}"
-    company_history: "{{ ref('stg_intercom__company_history') }}"
-    contact_company_history: "{{ ref('stg_intercom__contact_company_history') }}"
+    conversation_tag_history: "{{ ref('stg_intercom__conversation_tag_history') }}"
+    tag: "{{ ref('stg_intercom__tag') }}"
+    team_admin: "{{ ref('stg_intercom__team_admin') }}"
+    team: "{{ ref('stg_intercom__team') }}"
     intercom_schema: intercom_intergration_tests
 
   intercom_source:
     admin: "{{ ref('admin_data') }}"
+    company_history: "{{ ref('company_history_data') }}"
+    company_tag_history: "{{ ref('company_tag_history_data') }}"
+    contact_company_history: "{{ ref('contact_company_history_data') }}"
+    contact_history: "{{ ref('contact_history_data') }}"
+    contact_tag_history: "{{ ref('contact_tag_history_data') }}"
+    conversation_contact_history: "{{ ref('conversation_contact_history_data') }}"
     conversation_history: "{{ ref('conversation_history_data') }}"
     conversation_part_history: "{{ ref('conversation_part_history_data') }}"
-    contact_history: "{{ ref('contact_history_data') }}"
-    conversation_contact_history: "{{ ref('conversation_contact_history_data') }}"
-    company_history: "{{ ref('company_history_data') }}"
-    contact_company_history: "{{ ref('contact_company_history_data') }}"
-    intercom_schema: intercom_source_intergration_tests
+    conversation_tag_history: "{{ ref('conversation_tag_history_data') }}"
+    tag: "{{ ref('tag_data') }}"
+    team_admin: "{{ ref('team_admin_data') }}"
+    team: "{{ ref('team_data') }}"
 
 seeds:
   +quote_columns: "{{ true if target.type == 'redshift' else false }}"
   intercom_integration_tests:
     admin_data:
+      +column_types:
+        id: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
+    company_history_data:
+      +column_types:
+        created_at: timestamp
+        updated_at: timestamp
+    company_tag_history_data:
+      +column_types:
+        company_updated_at: timestamp
+        tag_id: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
+    contact_company_history_data:
+      +column_types:
+        contact_updated_at: timestamp
+    contact_history_data:
+      +column_types:
+        created_at: timestamp
+        signed_up_at: timestamp
+        last_replied_at: timestamp
+        last_contacted_at: timestamp
+        last_email_clicked_at: timestamp
+        last_email_opened_at: timestamp
+    contact_tag_history_data:
+      +column_types:
+        contact_updated_at: timestamp
+        tag_id: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
+    conversation_contact_history_data:
+      +column_types:
+        conversation_id: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
+        conversation_updated_at: timestamp 
     conversation_history_data:
       +column_types:
         id: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
@@ -40,30 +85,25 @@ seeds:
     conversation_part_history_data:
       +column_types:
         id: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
-        conversation_id: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
         created_at: timestamp
         conversation_updated_at: timestamp
         updated_at: timestamp
-    contact_history_data:
-      +column_types:
-        created_at: timestamp
-        signed_up_at: timestamp
-        last_replied_at: timestamp
-        last_contacted_at: timestamp
-        last_email_clicked_at: timestamp
-        last_email_opened_at: timestamp
-    conversation_contact_history_data:
+    conversation_tag_history_data:
       +column_types:
         conversation_id: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
-        conversation_updated_at: timestamp 
-    company_history_data:
+        conversation_updated_at: timestamp
+        tag_id: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
+    tag_data:
       +column_types:
-        created_at: timestamp
-        updated_at: timestamp
-    contact_company_history_data:
+        id: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
+    team_admin_data:
       +column_types:
-        contact_updated_at: timestamp
+        admin_id: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
+        team_id: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
+    team_data:
+      +column_types:
+        id: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
 
 clean-targets:
- - target
- - dbt_modules
+    - target
+    - dbt_modules

@@ -5,3 +5,4 @@ packages:
 
   - git: https://github.com/fivetran/dbt_intercom_source.git
     warn-unpinned: false
+ 
