@@ -38,10 +38,10 @@ company_metrics as (
 median_metrics as (
     select
         company_enhanced.company_id,
-        round({{ fivetran_utils.median("conversation_metrics.count_reopens", "company_enhanced.company_id") }}, 2) as median_conversations_reopened,
-        round({{ fivetran_utils.median("conversation_metrics.time_to_first_response", "company_enhanced.company_id") }}, 2) as median_time_to_first_response_time,
-        round({{ fivetran_utils.median("conversation_metrics.time_to_first_close", "company_enhanced.company_id") }}, 2) as median_time_to_first_close,
-        round({{ fivetran_utils.median("conversation_metrics.time_to_last_close", "company_enhanced.company_id") }}, 2) as median_time_to_last_close
+        round({{ fivetran_utils.percentile("conversation_metrics.count_reopens", "company_enhanced.company_id", "0.5") }}, 2) as median_conversations_reopened,
+        round({{ fivetran_utils.percentile("conversation_metrics.time_to_first_response", "company_enhanced.company_id", "0.5") }}, 2) as median_time_to_first_response_time,
+        round({{ fivetran_utils.percentile("conversation_metrics.time_to_first_close", "company_enhanced.company_id", "0.5") }}, 2) as median_time_to_first_close,
+        round({{ fivetran_utils.percentile("conversation_metrics.time_to_last_close", "company_enhanced.company_id", "0.5") }}, 2) as median_time_to_last_close
     from conversation_metrics
 
     left join contact_enhanced
