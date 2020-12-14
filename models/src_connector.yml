@@ -6,7 +6,7 @@ models:
     description: Each record represents an Intercom admin with corresponding conversation closing metrics.
     columns:
       - name: admin_id
-        description: The unique identfier representing the admin.
+        description: The unique identifier representing the admin.
         tests:
           - not_null
           - unique
@@ -72,7 +72,7 @@ models:
       - name: median_time_to_first_response_time
         description: The median value of time it took for contacts of a single company to receive their first response on a conversation.
       - name: median_time_to_last_close
-        description: The median value of time it took for contacts of a single company to receive thier last closure of a conversation.
+        description: The median value of time it took for contacts of a single company to receive their last closure of a conversation.
       - name: company_id
         description: The unique identifier representing the historical Intercom defined company. Can be used to join with intercom__contact_enhanced via the company_id.
         tests:
@@ -108,9 +108,9 @@ models:
       - name: contact_name  
         description: The name of the contact.
       - name: all_contact_tags
-        description: String aggregation of all tags associcated with the contact.        
+        description: String aggregation of all tags associated with the contact.        
       - name: contact_role
-        descrption: The role of the contact (user or lead).
+        description: The role of the contact (user or lead).
       - name: contact_email
         description: The contacts email.
       - name: last_contacted_at
@@ -120,7 +120,7 @@ models:
       - name: last_email_clicked_at
         description: The time when the contact last clicked a link in an email.
       - name: last_replied_at
-        description: The time when the contact lsat messaged in.
+        description: The time when the contact last messaged in.
       - name: is_unsubscribed_from_emails
         description: Boolean indicating whether the contact has unsubscribed from emails.
       - name: company_id
@@ -141,7 +141,7 @@ models:
       - name: conversation_type
         description: The type of conversation. This includes conversation push facebook twitter and email.
       - name: all_conversation_tags
-        description: String aggregation of all tags associated the conversation.
+        description: String aggregation of all tags associated with the conversation.
       - name: conversation_initiated_type
         description: How the conversation was initially delivered to the responder.
       - name: conversation_subject
@@ -163,13 +163,17 @@ models:
       - name: is_read
         description: Boolean indicating whether the conversation message has been read.
       - name: waiting_since
-        description: The last time a contact responded to an admin. The time a customer started waiting for a response. Set to null if last reply is from an admin.
+        description: The last time a contact responded to an admin. The time a customer started waiting for a response. Set to null if the last reply is from an admin.
       - name: snoozed_until
         description: If set this is the time in the future when this conversation will be marked as open.
       - name: all_conversation_admins
         description: String aggregate of all admins that contributed to the conversation.
       - name: all_conversation_contacts
         description: String aggregate of all contacts that contributed to the conversation.
+      - name: first_close_at
+        description: The time of the first conversation part where part_type was 'close' indicating the conversation was closed.
+      - name: last_close_at
+        description: The time of the last conversation part where part_type was 'close' indicating the conversation was closed.
       - name: conversation_rating
         description: An optional field for the customer to rate the conversation which will be between 1 and 5.
       - name: conversation_remark
@@ -181,7 +185,7 @@ models:
       - name: count_reopens
         description: The count of conversation parts where the part_type value was 'open'. Note, a conversation part_type must be manually opened by an admin.
       - name: count_total_parts
-        description: The count of total conversation parts for a single given conversation. Max parts is 500.
+        description: The count of total conversation parts for a single given conversation. Max parts are 500.
       - name: count_assignments
         description: The count of conversation parts where the part_type value contained 'assignment'.
       - name: first_contact_reply_at
@@ -195,7 +199,7 @@ models:
       - name: time_to_first_response
         description: The time difference (not factoring in business hours) between the conversation creation and the first_admin_response_at.
       - name: first_close_at
-        description: The time the of the first conversation part where part_type was 'close' indicating the conversation was closed.
+        description: The time of the first conversation part where part_type was 'close' indicating the conversation was closed.
       - name: time_to_first_close
         description: The time difference (not factoring in business hours) between the first_admin_response_at and the first_close_at.
       - name: first_reopen_at
@@ -211,7 +215,7 @@ models:
       - name: last_reopen_at
         description: The time of the last conversation part where part_type was 'open' indicating the conversation was reopened.
       - name: last_close_at
-        description: The time the of the last conversation part where part_type was 'close' indicating the conversation was closed.
+        description: The time of the last conversation part where part_type was 'close' indicating the conversation was closed.
       - name: time_to_last_close
         description: The time difference (not factoring in business hours) between the last_close_at and the first_contact_reply.
       - name: conversation_id
@@ -226,7 +230,7 @@ models:
       - name: conversation_type
         description: The type of conversation. This includes conversation push facebook twitter and email.
       - name: all_conversation_tags
-        description: String aggregation of all tags associated the conversation.
+        description: String aggregation of all tags associated with the conversation.
       - name: conversation_initiated_type
         description: How the conversation was initially delivered to the responder.
       - name: conversation_subject

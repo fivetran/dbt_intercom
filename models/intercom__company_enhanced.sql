@@ -1,3 +1,4 @@
+--This model will only run if the using_contact_company variable within your dbt_project.yml file is set to True.
 {{ config(enabled=var('using_contact_company', True)) }}
 
 with company_history as (

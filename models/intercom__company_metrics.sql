@@ -1,3 +1,6 @@
+--This model will only run if the using_contact_company variable within your dbt_project.yml file is set to True.
+{{ config(enabled=var('using_contact_company', True)) }}
+
 with conversation_metrics as (
   select *
   from {{ ref('intercom__conversation_metrics') }}
@@ -66,21 +69,3 @@ final as (
 
 select * 
 from final
-
-----------
--- select 
---     company_enhanced.company_id,
---     sum(case when conversation_metrics.conversation_state = 'closed' then 1 else 0 end) as total_conversations_closed
-
-
--- from company_enhanced
-
--- left join contact_enhanced
---     on contact_enhanced.company_id = company_enhanced.company_id
-
--- left join conversation_metrics
---     on conversation_metrics.first_contact_author_id = contact_enhanced.contact_id
-
--- group by 1
-
-----------

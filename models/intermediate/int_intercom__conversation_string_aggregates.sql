@@ -4,7 +4,7 @@ with conversation_part_history as (
 ),
 
 admin_conversation_parts as (
-    select
+    select distinct
         conversation_id,
         {% if target.type == 'bigquery' %}
         cast(author_id as string) as author_id
@@ -27,7 +27,7 @@ admin_conversation_aggregates as (
 ),
 
 contact_conversation_parts as (
-    select
+    select distinct
         conversation_id,
         {% if target.type == 'bigquery' %}
         cast(author_id as string) as author_id
@@ -50,7 +50,7 @@ contact_conversation_aggregates as (
 ),
 
 final as (
-    select
+    select distinct
         admin_conversation_aggregates.conversation_id,
         admin_conversation_aggregates.conversation_admins,
         contact_conversation_aggregates.conversation_contacts
