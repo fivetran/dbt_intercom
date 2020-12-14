@@ -18,6 +18,7 @@ tags as (
   from {{ ref('stg_intercom__tag') }}
 ),
 
+--Aggregates the tags associated with a single company into an array.
 company_tags_aggregate as (
   select
     company_history.company_history_id,
@@ -34,6 +35,7 @@ company_tags_aggregate as (
 ),
 {% endif %}
 
+--Enriches the base company table with tag details (if company tags are used).
 enhanced as (
     select
         company_history.company_history_id as company_id,

@@ -3,6 +3,7 @@ with conversation_part_history as (
   from {{ ref('stg_intercom__conversation_part_history') }}
 ),
 
+--Returns each distinct admin author(s) that were associated with a single conversation.
 admin_conversation_parts as (
     select distinct
         conversation_id,
@@ -17,6 +18,7 @@ admin_conversation_parts as (
 
 ),
 
+--Aggregates the admin_conversation_parts author_ids into an array to show all admins associated with a single conversation within one cell.
 admin_conversation_aggregates as (
     select 
         conversation_id,
@@ -26,6 +28,7 @@ admin_conversation_aggregates as (
     group by 1
 ),
 
+--Returns each distinct contact (as either a user or lead) author(s) that were associated with a single conversation.
 contact_conversation_parts as (
     select distinct
         conversation_id,
@@ -40,6 +43,7 @@ contact_conversation_parts as (
 
 ),
 
+--Aggregates the contact_conversation_parts author_ids into an array to show all contacts associated with a single conversation within one cell.
 contact_conversation_aggregates as (
     select 
         conversation_id,
@@ -49,8 +53,9 @@ contact_conversation_aggregates as (
     group by 1
 ),
 
+--Joins the admin and contact author aggregate CTEs on the conversation_id.
 final as (
-    select distinct
+    select
         admin_conversation_aggregates.conversation_id,
         admin_conversation_aggregates.conversation_admins,
         contact_conversation_aggregates.conversation_contacts

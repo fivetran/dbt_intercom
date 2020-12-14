@@ -16,6 +16,7 @@ contact_enhanced as (
   from {{ ref('intercom__contact_enhanced') }}
 ),
 
+--Aggregates company specific metrics for companies where a contact from that company was attached to the conversation.
 company_metrics as (
     select
         company_enhanced.company_id,
@@ -33,6 +34,7 @@ company_metrics as (
     group by 1
 ),
 
+--Generates the median values for companies where a contact from that company was attached to the conversation.
 median_metrics as (
     select
         company_enhanced.company_id,
@@ -49,6 +51,7 @@ median_metrics as (
         on company_enhanced.company_id = contact_enhanced.company_id
 ),
 
+--Joins the aggregate, and median CTEs to the company_enhanced model. Distinct is necessary to keep grain with median values and aggregates.
 final as (
     select distinct
         company_enhanced.*,

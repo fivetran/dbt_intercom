@@ -8,8 +8,8 @@ latest_conversation as (
   from {{ ref('int_intercom__latest_conversation') }}
 ),
 
+--Aggregates conversation part data related to a single conversation from the int_intercom__latest_conversation model. See below for specific aggregates.
 final as (
-
   select 
     latest_conversation.conversation_id,
     latest_conversation.created_at as conversation_created_at,

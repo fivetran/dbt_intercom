@@ -3,11 +3,6 @@ with latest_conversation as (
     from {{ ref('int_intercom__latest_conversation') }}
 ),
 
-contact_history as (
-    select *
-    from {{ ref('stg_intercom__contact_history') }}
-),
-
 latest_conversation_contact as (
     select *
     from {{ ref('int_intercom__latest_conversation_contact') }}
@@ -35,6 +30,7 @@ tags as (
     from {{ ref('stg_intercom__tag') }}
 ),
 
+--Aggregates the tags associated with a single conversation into an array.
 conversation_tags_aggregate as (
     select
         latest_conversation.conversation_id,
@@ -51,7 +47,7 @@ conversation_tags_aggregate as (
 ),
 {% endif %}  
 
-
+--Enriches the latest conversation model with data from conversation_part_events, conversation_string_aggregates, and conversation_tags_aggregate
 enriched as ( 
     select
         latest_conversation.conversation_id,
@@ -86,9 +82,6 @@ enriched as (
 
     left join latest_conversation_contact 
         on latest_conversation_contact.conversation_id = latest_conversation.conversation_id
-
-    left join contact_history
-        on contact_history.contact_id = latest_conversation_contact.contact_id
 
     left join conversation_string_aggregates
         on conversation_string_aggregates.conversation_id = latest_conversation.conversation_id

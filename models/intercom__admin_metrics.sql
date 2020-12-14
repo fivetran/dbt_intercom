@@ -19,6 +19,7 @@ team as (
     from {{ ref('stg_intercom__team') }}
 ),
 
+--Aggregates admin specific metrics. The admin in question is the one who last closed the conversations.
 admin_metrics as (
     select
         last_close_by_admin_id,
@@ -30,6 +31,7 @@ admin_metrics as (
     group by 1
 ),
 
+--Generates the median values for admins who last closed conversations.
 median_metrics as (
     select
         last_close_by_admin_id,
@@ -41,6 +43,7 @@ median_metrics as (
     from conversation_metrics
 ),
 
+--Joins the aggregate, and median CTEs to the admin table with team enrichment. Distinct is necessary to keep grain with median values and aggregates.
 final as (
     select distinct
         admin_table.admin_id,

@@ -3,8 +3,8 @@ with conversation_part_history as (
   from {{ ref('stg_intercom__conversation_part_history') }}
 ),
 
+--Obtains the first and last values for conversations where the part type was closed and part was authored by an admin.
 conversation_admin_events as (
-
   select
     conversation_id,
     {{ fivetran_utils.first_value("author_id","conversation_id","created_at","asc") }} as first_assigned_to_admin_id,
@@ -17,8 +17,8 @@ conversation_admin_events as (
 
 ), 
 
+--Obtains the first and last values for conversations where the part type was authored by a contact (which is either a user or lead).
 conversation_contact_events as (
-
   select
     conversation_id,
     {{ fivetran_utils.first_value("author_id","conversation_id","created_at","asc") }} as first_contact_author_id,
@@ -29,6 +29,7 @@ conversation_contact_events as (
 
 ), 
 
+--Joins the above two CTEs with conversation part history. Distinct was necessary to ensure only one first/last value was returned for each individual conversation.
 final as (
     select distinct
         conversation_part_history.conversation_id,

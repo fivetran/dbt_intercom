@@ -26,6 +26,7 @@ tags as (
   from {{ ref('stg_intercom__tag') }}
 ),
 
+--Aggregates the tags associated with a single contact into an array.
 contact_tags_aggregate as (
   select
     contact_history.contact_id,
@@ -42,6 +43,7 @@ contact_tags_aggregate as (
 ),
 {% endif %}  
 
+--Joins the contact table with tags (if used) as well as the contact company (if used).
 final as (
   select
     contact_history.contact_id,
