@@ -37,9 +37,9 @@ median_metrics as (
         last_close_by_admin_id,
         round({{ fivetran_utils.percentile("conversation_metrics.count_reopens", "last_close_by_admin_id", "0.5") }}, 2) as median_conversations_reopened,
         round({{ fivetran_utils.percentile("conversation_metrics.count_assignments", "last_close_by_admin_id", "0.5") }}, 2) as median_conversation_assignments,
-        round({{ fivetran_utils.percentile("conversation_metrics.time_to_first_response", "last_close_by_admin_id", "0.5") }}, 2) as median_time_to_first_response_time,
-        round({{ fivetran_utils.percentile("conversation_metrics.time_to_first_close", "last_close_by_admin_id", "0.5") }}, 2) as median_time_to_first_close,
-        round({{ fivetran_utils.percentile("conversation_metrics.time_to_last_close", "last_close_by_admin_id", "0.5") }}, 2) as median_time_to_last_close
+        round({{ fivetran_utils.percentile("conversation_metrics.time_to_first_response_minutes", "last_close_by_admin_id", "0.5") }}, 2) as median_time_to_first_response_time_minutes,
+        round({{ fivetran_utils.percentile("conversation_metrics.time_to_first_close_minutes", "last_close_by_admin_id", "0.5") }}, 2) as median_time_to_first_close_minutes,
+        round({{ fivetran_utils.percentile("conversation_metrics.time_to_last_close_minutes", "last_close_by_admin_id", "0.5") }}, 2) as median_time_to_last_close_minutes
     from conversation_metrics
 ),
 
@@ -55,8 +55,8 @@ final as (
         admin_metrics.average_conversation_rating,
         median_metrics.median_conversations_reopened,
         median_metrics.median_conversation_assignments,
-        median_metrics.median_time_to_first_response_time,
-        median_metrics.median_time_to_last_close
+        median_metrics.median_time_to_first_response_time_minutes,
+        median_metrics.median_time_to_last_close_minutes
     from admin_table
 
     left join admin_metrics

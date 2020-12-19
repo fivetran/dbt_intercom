@@ -3,6 +3,8 @@ with contact_history as (
   from {{ ref('stg_intercom__contact_history') }}
 ),
 
+--If you use the contact company table this will be included, if not it will be ignored.
+{% if var('using_contact_company', True) %}
 contact_company_history as (
   select *
   from {{ ref('stg_intercom__contact_company_history') }}
@@ -12,6 +14,7 @@ company_history as (
   select *
   from {{ ref('stg_intercom__company_history') }}
 ),
+{% endif %}  
 
 --If you use contact tags this will be included, if not it will be ignored.
 {% if var('using_contact_tags', True) %}
@@ -41,7 +44,26 @@ contact_tags_aggregate as (
 
   group by 1  
 ),
-{% endif %}  
+{% endif %}
+
+--If you use the contact company table this will be included, if not it will be ignored.
+{% if var('using_contact_company', True) %}
+contact_company_array as (
+  select
+    contact_history.contact_id,
+    {{ fivetran_utils.string_agg('company_history.name', "', '" ) }} as all_contact_company_names
+
+  from contact_history
+  
+  left join contact_company_history
+    on contact_company_history.contact_id = contact_history.contact_id
+
+  left join company_history
+    on company_history.company_history_id = contact_company_history.company_id
+
+  group by 1
+),
+{% endif %}
 
 --Joins the contact table with tags (if used) as well as the contact company (if used).
 final as (
@@ -60,8 +82,12 @@ final as (
     contact_history.last_email_opened_at,
     contact_history.last_email_clicked_at,
     contact_history.last_replied_at,
-    contact_history.is_unsubscribed_from_emails,
-    company_history.company_history_id as company_id
+    contact_history.is_unsubscribed_from_emails
+
+    --If you use the contact company table this will be included, if not it will be ignored.
+    {% if var('using_contact_company', True) %}
+    ,contact_company_array.all_contact_company_names
+    {% endif %}
 
     --The below script allows for pass through columns.
     {% if var('contact_pass_through_columns') %}
@@ -71,13 +97,14 @@ final as (
     {% endif %}
 
   from contact_history
-  
-  left join contact_company_history
-    on contact_company_history.contact_id = contact_history.contact_id
 
-  left join company_history
-    on company_history.company_history_id = contact_company_history.company_id
+  --If you use the contact company table this will be included, if not it will be ignored.
+  {% if var('using_contact_company', True) %}
+  left join contact_company_array
+    on contact_company_array.contact_id = contact_history.contact_id
+  {% endif %}
 
+  --If you use the contact tags table this will be included, if not it will be ignored.
   {% if var('using_contact_tags', True) %}
   left join contact_tags_aggregate
       on contact_tags_aggregate.contact_id = contact_history.contact_id

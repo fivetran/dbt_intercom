@@ -18,6 +18,14 @@ conversation_part_events as (
     from {{ ref('int_intercom__conversation_part_events') }}
 ),
 
+--If you use the contact company table this will be included, if not it will be ignored.
+{% if var('using_contact_company', True) %}
+contact_enhanced as (
+    select *
+    from {{ ref('intercom__contact_enhanced') }}
+),
+{% endif %} 
+
 --If you use conversation tags this will be included, if not it will be ignored.
 {% if var('using_conversation_tags', True) %}
 conversation_tags as (
@@ -65,8 +73,8 @@ enriched as (
 
         latest_conversation.source_subject as conversation_subject,
         case when (latest_conversation.assignee_type is not null) then latest_conversation.assignee_type else 'unassigned' end as conversation_assignee_type,
-        case when (latest_conversation.source_author_type != 'admin') then 'contact' else 'admin' end as conversation_author_type,
-        conversation_part_events.first_assigned_to_admin_id,
+        latest_conversation.source_author_type as conversation_author_type,
+        conversation_part_events.first_close_by_admin_id,
         conversation_part_events.last_close_by_admin_id,
         conversation_part_events.first_contact_author_id,
         conversation_part_events.last_contact_author_id,
@@ -76,6 +84,11 @@ enriched as (
         latest_conversation.snoozed_until,
         conversation_string_aggregates.conversation_admins as all_conversation_admins,
         conversation_string_aggregates.conversation_contacts as all_conversation_contacts,
+
+        {% if var('using_contact_company', True) %}
+        contact_enhanced.all_contact_company_names,
+        {% endif %}
+
         latest_conversation.conversation_rating_value as conversation_rating,
         latest_conversation.conversation_rating_remark as conversation_remark
     from latest_conversation
@@ -88,6 +101,11 @@ enriched as (
 
     left join conversation_part_events
         on conversation_part_events.conversation_id = latest_conversation.conversation_id
+    
+    {% if var('using_contact_company', True) %}
+    left join contact_enhanced
+        on contact_enhanced.contact_id = conversation_part_events.first_contact_author_id
+    {% endif %}
 
     --If you use conversation tags this will be included, if not it will be ignored.
     {% if var('using_conversation_tags', True) %}

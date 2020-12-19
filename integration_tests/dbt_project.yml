@@ -85,6 +85,7 @@ seeds:
     conversation_part_history_data:
       +column_types:
         id: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
+        author_id: "{{ 'varchar(100)'  if target.name == 'redshift' else 'string'}}"
         created_at: timestamp
         conversation_updated_at: timestamp
         updated_at: timestamp

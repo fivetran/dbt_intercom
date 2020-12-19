@@ -7,11 +7,7 @@ with conversation_part_history as (
 admin_conversation_parts as (
     select distinct
         conversation_id,
-        {% if target.type == 'bigquery' %}
-        cast(author_id as string) as author_id
-        {% else %}
-        cast(author_id as varchar(25)) as author_id
-        {% endif %}
+        author_id
     from conversation_part_history
 
     where author_type = 'admin'
@@ -32,11 +28,7 @@ admin_conversation_aggregates as (
 contact_conversation_parts as (
     select distinct
         conversation_id,
-        {% if target.type == 'bigquery' %}
-        cast(author_id as string) as author_id
-        {% else %}
-        cast(author_id as varchar(25)) as author_id
-        {% endif %}
+        author_id
     from conversation_part_history
 
     where author_type in ('user', 'lead') 

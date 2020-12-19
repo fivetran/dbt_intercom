@@ -16,9 +16,9 @@ This package contains transformation models, designed to work simultaneously wit
 | **model**                | **description**                                                                                                                                |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | [intercom__admin_metrics](https://github.com/fivetran/dbt_intercom/blob/master/models/intercom__admin_metrics.sql)                                               | Each record represents an individual admin (employee), enriched with admin specific conversation aggregates. For example, the admin's total conversations, average rating, and median response times. |
-| [intercom__company_enhanced](https://github.com/fivetran/dbt_intercom/blob/master/models/intercom__company_enhanced.sql)                                         | Each record represents a single company, enriched with data related to the company industry, monthly_spend, and user_count. This model can be joined to intercom__contact_enhanced via the company_id for additional enrichment. |
+| [intercom__company_enhanced](https://github.com/fivetran/dbt_intercom/blob/master/models/intercom__company_enhanced.sql)                                         | Each record represents a single company, enriched with data related to the company industry, monthly_spend, and user_count. |
 | [intercom__company_metrics](https://github.com/fivetran/dbt_intercom/blob/master/models/intercom__company_metrics.sql)                                           | Each record represents a single row from intercom__company_enanced, enriched with aggregates which determine the total conversation count, average satisfaction rating, median time to first response, and median time to last close with contacts associated to a single company. |
-| [intercom__contact_enhanced](https://github.com/fivetran/dbt_intercom/blob/master/models/intercom__contact_enhanced.sql)                                         | Each record represents a single contact, enriched with data identifying the contacts role, if they have unsubscribed from the email list, last contacted information, and which company they belong to. This model can be joined to intercom__conversation_enhanced via the first_contact_author_id or last_contact_author_id. |
+| [intercom__contact_enhanced](https://github.com/fivetran/dbt_intercom/blob/master/models/intercom__contact_enhanced.sql)                                         | Each record represents a single contact, enriched with data identifying the contacts role, if they have unsubscribed from the email list, last contacted information, and which company they belong to. |
 | [intercom__conversation_enhanced](https://github.com/fivetran/dbt_intercom/blob/master/models/intercom__conversation_enhanced.sql)                               | Each record represents a single conversation, enriched with data from the multiple conversation parts. The conversation parts provide relevant information such as who was assigned to the conversation, which contact the conversation was with, the current conversation state, who closed the conversation, and the final conversation ratings from the contact. |
 | [intercom__conversation_metrics](https://github.com/fivetran/dbt_intercom/blob/master/models/intercom__conversation_metrics.sql)                                 | Each record represents a single row from intercom__conversation_enhanced, enriched with aggregates which determine time to first response, time to first close, and time to last close. |
 
@@ -55,6 +55,19 @@ vars:
   intercom_source:
     company_history_pass_through_columns: [company_custom_field_1, company_custom_field_2]
     contact_history_pass_through_columns: [contact_custom_column]
+```
+Additionally, this package includes company, contact, and conversation tag mapping tables as well as a company contact mapping table. We understand not every Intercom customer utilizes these tables. As such, if you do not use these tables you may add the below configuration (removing any configs for tables you use) to your `dbt_project.yml`. By default these variables are set to `True`:
+
+```yml
+# dbt_project.yml
+
+...
+vars:
+  intercom_source:
+    using_contact_company: False
+    using_company_tags: False
+    using_contact_tags: False
+    using_conversation_tags: False
 ```
 
 For additional configurations for the source models, such as the company and tag variables, visit the [Intercom source package](https://github.com/fivetran/dbt_intercom_source).

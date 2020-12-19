@@ -3,14 +3,14 @@ with conversation_part_history as (
   from {{ ref('stg_intercom__conversation_part_history') }}
 ),
 
---Obtains the first and last values for conversations where the part type was closed and part was authored by an admin.
+--Obtains the first and last values for conversations where the part type was close and part was authored by an admin.
 conversation_admin_events as (
   select
     conversation_id,
-    {{ fivetran_utils.first_value("author_id","conversation_id","created_at","asc") }} as first_assigned_to_admin_id,
-    {{ fivetran_utils.first_value("author_id","conversation_id","created_at","desc") }} as last_close_by_admin_id,
-    {{ fivetran_utils.first_value("created_at","conversation_id","created_at","asc") }} as last_close_at,
-    {{ fivetran_utils.first_value("created_at","conversation_id","created_at","desc") }} as first_close_at
+    first_value(author_id ignore nulls) over (partition by conversation_id order by created_at asc, conversation_id rows unbounded preceding) as first_close_by_admin_id,
+    first_value(author_id ignore nulls) over (partition by conversation_id order by created_at desc, conversation_id rows unbounded preceding) as last_close_by_admin_id,
+    first_value(created_at ignore nulls) over (partition by conversation_id order by created_at asc, conversation_id rows unbounded preceding) as first_close_at,
+    first_value(created_at ignore nulls) over (partition by conversation_id order by created_at desc, conversation_id rows unbounded preceding) as last_close_at
   from conversation_part_history
 
   where part_type = 'close' and author_type = 'admin'
@@ -21,8 +21,8 @@ conversation_admin_events as (
 conversation_contact_events as (
   select
     conversation_id,
-    {{ fivetran_utils.first_value("author_id","conversation_id","created_at","asc") }} as first_contact_author_id,
-    {{ fivetran_utils.first_value("author_id","conversation_id","created_at","desc") }} as last_contact_author_id
+    first_value(author_id ignore nulls) over (partition by conversation_id order by created_at asc, conversation_id rows unbounded preceding) as first_contact_author_id,
+    first_value(author_id ignore nulls) over (partition by conversation_id order by created_at desc, conversation_id rows unbounded preceding) as last_contact_author_id
   from conversation_part_history
 
   where author_type in ('user','lead')
@@ -33,21 +33,12 @@ conversation_contact_events as (
 final as (
     select distinct
         conversation_part_history.conversation_id,
-        
-        {% if target.type == 'bigquery' %}
-          cast(conversation_admin_events.first_assigned_to_admin_id as INT64) as first_assigned_to_admin_id,
-          cast(conversation_admin_events.last_close_by_admin_id as INT64) as last_close_by_admin_id,
-          cast(conversation_contact_events.first_contact_author_id as string) as first_contact_author_id,
-          cast(conversation_contact_events.last_contact_author_id as string) as last_contact_author_id,
-        {% else %}
-          cast(conversation_admin_events.first_assigned_to_admin_id as bigint) as first_assigned_to_admin_id,
-          cast(conversation_admin_events.last_close_by_admin_id as bigint) as last_close_by_admin_id,
-          cast(conversation_contact_events.first_contact_author_id as varchar(50)) as first_contact_author_id,
-          cast(conversation_contact_events.last_contact_author_id as varchar(50)) as last_contact_author_id,
-        {% endif %}
-
-        conversation_admin_events.last_close_at,
-        conversation_admin_events.first_close_at
+        cast(conversation_admin_events.first_close_by_admin_id as {{ dbt_utils.type_int() }}) as first_close_by_admin_id,
+        cast(conversation_admin_events.last_close_by_admin_id as {{ dbt_utils.type_int() }}) as last_close_by_admin_id,
+        cast(conversation_contact_events.first_contact_author_id as {{ dbt_utils.type_string() }}) as first_contact_author_id,
+        cast(conversation_contact_events.last_contact_author_id as {{ dbt_utils.type_string() }}) as last_contact_author_id,
+        conversation_admin_events.first_close_at,
+        conversation_admin_events.last_close_at
     from conversation_part_history
 
     left join conversation_admin_events

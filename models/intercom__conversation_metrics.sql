@@ -17,17 +17,17 @@ final as (
     conversation_part_aggregates.count_assignments,
     conversation_part_aggregates.first_contact_reply_at,
     conversation_part_aggregates.first_assignment_at,
-    round(({{ dbt_utils.datediff("conversation_enhanced.conversation_created_at", "conversation_part_aggregates.first_assignment_at", 'second') }} /60),2) as time_to_first_assignment,
+    round(({{ dbt_utils.datediff("conversation_enhanced.conversation_created_at", "conversation_part_aggregates.first_assignment_at", 'second') }} /60),2) as time_to_first_assignment_minutes,
     conversation_part_aggregates.first_admin_response_at,
-    round(({{ dbt_utils.datediff("conversation_enhanced.conversation_created_at", "conversation_part_aggregates.first_admin_response_at", 'second') }} /60),2) as time_to_first_response,
-    round(({{ dbt_utils.datediff("conversation_part_aggregates.first_contact_reply_at", "conversation_enhanced.first_close_at", 'second') }} /60),2) as time_to_first_close,
+    round(({{ dbt_utils.datediff("conversation_enhanced.conversation_created_at", "conversation_part_aggregates.first_admin_response_at", 'second') }} /60),2) as time_to_first_response_minutes,
+    round(({{ dbt_utils.datediff("conversation_part_aggregates.first_contact_reply_at", "conversation_enhanced.first_close_at", 'second') }} /60),2) as time_to_first_close_minutes,
     conversation_part_aggregates.first_reopen_at,
     conversation_part_aggregates.last_assignment_at,
-    round(({{ dbt_utils.datediff("conversation_part_aggregates.first_contact_reply_at", "conversation_part_aggregates.last_assignment_at", 'second') }} /60),2) as time_to_last_assignment,
+    round(({{ dbt_utils.datediff("conversation_part_aggregates.first_contact_reply_at", "conversation_part_aggregates.last_assignment_at", 'second') }} /60),2) as time_to_last_assignment_minutes,
     conversation_part_aggregates.last_contact_reply_at,
     conversation_part_aggregates.last_admin_response_at,
     conversation_part_aggregates.last_reopen_at,
-    round(({{ dbt_utils.datediff("conversation_part_aggregates.first_contact_reply_at", "conversation_enhanced.last_close_at", 'second') }} /60),2) as time_to_last_close
+    round(({{ dbt_utils.datediff("conversation_part_aggregates.first_contact_reply_at", "conversation_enhanced.last_close_at", 'second') }} /60),2) as time_to_last_close_minutes
   from conversation_part_aggregates
 
   left join conversation_enhanced

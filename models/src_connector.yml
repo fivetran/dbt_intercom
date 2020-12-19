@@ -3,7 +3,8 @@ version: 2
 models:
 
   - name: intercom__admin_metrics
-    description: Each record represents an Intercom admin with corresponding conversation closing metrics.
+    description: > 
+      Each record represents an individual admin (employee), enriched with admin specific conversation aggregates. For example, the admin's total conversations, average rating, and median response times.
     columns:
       - name: admin_id
         description: The unique identifier representing the admin.
@@ -26,16 +27,17 @@ models:
         description: The admins median value of times they reopened conversations.
       - name: median_conversation_assignments
         description: The admins median value of times they closed a conversation and had other assignees on the conversation.
-      - name: median_time_to_first_response_time
+      - name: median_time_to_first_response_time_minutes
         description: The admins median value of time it took for their first response on a conversation.
-      - name: median_time_to_last_close
+      - name: median_time_to_last_close_minutes
         description: The admins median value of time it took to the last closure of a conversation.
 
   - name: intercom__company_enhanced
-    description: Each record represents a company logged within Intercom along with enriched company information. Can be easily joined with intercom__contact_enhanced.
+    description: >
+      Each record represents a single company, enriched with data related to the company industry, monthly_spend, and user_count.
     columns:
       - name: company_id
-        description: The unique identifier representing the historical Intercom defined company. Can be used to join with intercom__contact_enhanced via the company_id.
+        description: The unique identifier representing the historical Intercom defined company.
         tests:
           - not_null
           - unique
@@ -59,7 +61,9 @@ models:
         description: The time the company was last updated at.
       
   - name: intercom__company_metrics
-    description: Each record represents a single company and corresponding metrics tied to the first contact associated with a conversation.
+    description: >
+      Each record represents a single row from intercom__company_enanced, enriched with aggregates which determine the total conversation count, average satisfaction rating, 
+      median time to first response, and median time to last close with contacts associated to a single company.
     columns:
       - name: total_conversations_closed
         description: The total closed conversations with contacts from that company.
@@ -69,12 +73,12 @@ models:
         description: The average rating given to conversations from contacts associated with a single company.
       - name: median_conversations_reopened
         description: The median value of times a conversation was reopened with contacts from a single company.
-      - name: median_time_to_first_response_time
+      - name: median_time_to_first_response_time_minutes
         description: The median value of time it took for contacts of a single company to receive their first response on a conversation.
-      - name: median_time_to_last_close
+      - name: median_time_to_last_close_minutes
         description: The median value of time it took for contacts of a single company to receive their last closure of a conversation.
       - name: company_id
-        description: The unique identifier representing the historical Intercom defined company. Can be used to join with intercom__contact_enhanced via the company_id.
+        description: The unique identifier representing the historical Intercom defined company. 
         tests:
           - not_null
           - unique
@@ -98,10 +102,12 @@ models:
         description: The time the company was last updated at.
 
   - name: intercom__contact_enhanced
-    description: Each record represents a contact logged within Intercom along with enriched contact information. Can be easily joined with intercom__conversation_metrics.
+    description: >
+      Each record represents a single contact, enriched with data identifying the contacts role, if they have unsubscribed from 
+      the email list, last contacted information, and which company they belong to.
     columns:
       - name: contact_id
-        description: The unique identifier for the contact which is given by Intercom. Can be used to join on intercom__conversation_metrics using first_contact_author_id or last_contact_author_id.
+        description: The unique identifier for the contact which is given by Intercom. 
         tests:
           - not_null
           - unique
@@ -123,11 +129,14 @@ models:
         description: The time when the contact last messaged in.
       - name: is_unsubscribed_from_emails
         description: Boolean indicating whether the contact has unsubscribed from emails.
-      - name: company_id
-        description: The company_id of the company the user is associated with. Can be used to join on intercom__company_enhanced using company_id.
+      - name: all_contact_company_names
+        description: String aggregation of all companies the contact is associated with.
 
   - name: intercom__conversation_enhanced
-    description: Each record represents a single conversation with enriched information from conversation parts.
+    description: >
+      Each record represents a single conversation, enriched with data from the multiple conversation parts. The conversation 
+      parts provide relevant information such as who was assigned to the conversation, which contact the conversation was with, 
+      the current conversation state, who closed the conversation, and the final conversation ratings from the contact.
     columns:
       - name: conversation_id
         description: The id representing the conversation.
@@ -150,7 +159,7 @@ models:
         description: The type of user the conversation is assigned to. If it is not assigned to a user it will return null.
       - name: conversation_author_type
         description: The type of individual who authored the first message. Will be either contact or admin.
-      - name: first_assigned_to_admin_id
+      - name: first_close_by_admin_id
         description: The admin_id of the admin who was first assigned to the conversation.
       - name: last_close_by_admin_id
         description: The admin_id of the admin who last closed the conversation.
@@ -174,13 +183,17 @@ models:
         description: The time of the first conversation part where part_type was 'close' indicating the conversation was closed.
       - name: last_close_at
         description: The time of the last conversation part where part_type was 'close' indicating the conversation was closed.
+      - name: all_contact_company_names
+        description: String aggregation of all companies the first_author_contact is associated with.
       - name: conversation_rating
         description: An optional field for the customer to rate the conversation which will be between 1 and 5.
       - name: conversation_remark
         description: An optional field to add a remark to correspond to the number rating.
 
   - name: intercom__conversation_metrics
-    description: Each record represents a single conversation with metrics aggregated from conversation parts.
+    description: >
+      Each record represents a single row from intercom__conversation_enhanced, enriched with aggregates which determine 
+      time to first response, time to first close, and time to last close.
     columns:
       - name: count_reopens
         description: The count of conversation parts where the part_type value was 'open'. Note, a conversation part_type must be manually opened by an admin.
@@ -192,21 +205,21 @@ models:
         description: The time when the conversation author of type user or lead commented in a conversation.
       - name: first_assignment_at
         description: The time when the first conversation assignment was made.
-      - name: time_to_first_assignment
+      - name: time_to_first_assignment_minutes
         description: The time difference (not factoring in business hours) between the conversation creation and the first_assignment_at.
       - name: first_admin_response_at
         description: The time when the conversation part author of type admin first commented in a conversation.
-      - name: time_to_first_response
+      - name: time_to_first_response_minutes
         description: The time difference (not factoring in business hours) between the conversation creation and the first_admin_response_at.
       - name: first_close_at
         description: The time of the first conversation part where part_type was 'close' indicating the conversation was closed.
-      - name: time_to_first_close
+      - name: time_to_first_close_minutes
         description: The time difference (not factoring in business hours) between the first_admin_response_at and the first_close_at.
       - name: first_reopen_at
         description: The time of the first conversation part where part_type was 'open' indicating the conversation was reopened.
       - name: last_assignment_at
         description: The time of the last conversation assignment.
-      - name: time_to_last_assignment
+      - name: time_to_last_assignment_minutes
         description: The time difference (not factoring in business hours) between the first_admin_response_at and the last_assignment_at.
       - name: last_contact_reply_at
         description: The time of the last contact response within the conversation.
@@ -216,7 +229,7 @@ models:
         description: The time of the last conversation part where part_type was 'open' indicating the conversation was reopened.
       - name: last_close_at
         description: The time of the last conversation part where part_type was 'close' indicating the conversation was closed.
-      - name: time_to_last_close
+      - name: time_to_last_close_minutes
         description: The time difference (not factoring in business hours) between the last_close_at and the first_contact_reply.
       - name: conversation_id
         description: The id representing the conversation.
@@ -239,7 +252,7 @@ models:
         description: The type of user the conversation is assigned to. If it is not assigned to a user it will return null.
       - name: conversation_author_type
         description: The type of individual who authored the first message. Will be either contact or admin.
-      - name: first_assigned_to_admin_id
+      - name: first_close_by_admin_id
         description: The admin_id of the admin who was first assigned to the conversation.
       - name: last_close_by_admin_id
         description: The admin_id of the admin who last closed the conversation.
@@ -259,6 +272,8 @@ models:
         description: String aggregate of all admins that contributed to the conversation.
       - name: all_conversation_contacts
         description: String aggregate of all contacts that contributed to the conversation.
+      - name: all_contact_company_names
+        description: String aggregation of all companies the first_author_contact is associated with.
       - name: conversation_rating
         description: An optional field for the customer to rate the conversation which will be between 1 and 5.
       - name: conversation_remark

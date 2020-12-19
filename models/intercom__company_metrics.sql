@@ -1,4 +1,4 @@
---This model will only run if the using_contact_company variable within your dbt_project.yml file is set to True.
+--To disable this model, set the using_contact_company variable within your dbt_project.yml file to False.
 {{ config(enabled=var('using_contact_company', True)) }}
 
 with conversation_metrics as (
@@ -9,6 +9,11 @@ with conversation_metrics as (
 company_enhanced as (
   select *
   from {{ ref('intercom__company_enhanced') }}
+),
+
+contact_company_history as (
+  select *
+  from {{ ref('stg_intercom__contact_company_history') }}
 ),
 
 contact_enhanced as (
@@ -28,8 +33,11 @@ company_metrics as (
     left join contact_enhanced
         on contact_enhanced.contact_id = conversation_metrics.first_contact_author_id
 
+    left join contact_company_history
+        on contact_company_history.contact_id = contact_enhanced.contact_id
+
     left join company_enhanced
-        on company_enhanced.company_id = contact_enhanced.company_id
+        on company_enhanced.company_id = contact_company_history.company_id
 
     group by 1
 ),
@@ -39,16 +47,19 @@ median_metrics as (
     select
         company_enhanced.company_id,
         round({{ fivetran_utils.percentile("conversation_metrics.count_reopens", "company_enhanced.company_id", "0.5") }}, 2) as median_conversations_reopened,
-        round({{ fivetran_utils.percentile("conversation_metrics.time_to_first_response", "company_enhanced.company_id", "0.5") }}, 2) as median_time_to_first_response_time,
-        round({{ fivetran_utils.percentile("conversation_metrics.time_to_first_close", "company_enhanced.company_id", "0.5") }}, 2) as median_time_to_first_close,
-        round({{ fivetran_utils.percentile("conversation_metrics.time_to_last_close", "company_enhanced.company_id", "0.5") }}, 2) as median_time_to_last_close
+        round({{ fivetran_utils.percentile("conversation_metrics.time_to_first_response_minutes", "company_enhanced.company_id", "0.5") }}, 2) as median_time_to_first_response_time_minutes,
+        round({{ fivetran_utils.percentile("conversation_metrics.time_to_first_close_minutes", "company_enhanced.company_id", "0.5") }}, 2) as median_time_to_first_close_minutes,
+        round({{ fivetran_utils.percentile("conversation_metrics.time_to_last_close_minutes", "company_enhanced.company_id", "0.5") }}, 2) as median_time_to_last_close_minutes
     from conversation_metrics
 
     left join contact_enhanced
         on contact_enhanced.contact_id = conversation_metrics.first_contact_author_id
 
+    left join contact_company_history
+        on contact_company_history.contact_id = contact_enhanced.contact_id
+
     left join company_enhanced
-        on company_enhanced.company_id = contact_enhanced.company_id
+        on company_enhanced.company_id = contact_company_history.company_id
 ),
 
 --Joins the aggregate, and median CTEs to the company_enhanced model. Distinct is necessary to keep grain with median values and aggregates.
@@ -59,8 +70,8 @@ final as (
         company_metrics.average_conversation_parts,
         company_metrics.average_conversation_rating,
         median_metrics.median_conversations_reopened,
-        median_metrics.median_time_to_first_response_time,
-        median_metrics.median_time_to_last_close
+        median_metrics.median_time_to_first_response_time_minutes,
+        median_metrics.median_time_to_last_close_minutes
     from company_enhanced
 
     left join company_metrics
