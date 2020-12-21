@@ -220,7 +220,7 @@ models:
       - name: last_assignment_at
         description: The time of the last conversation assignment.
       - name: time_to_last_assignment_minutes
-        description: The time difference (not factoring in business hours) between the first_admin_response_at and the last_assignment_at.
+        description: The time difference (not factoring in business hours) between the conversation creation and the last_assignment_at.
       - name: last_contact_reply_at
         description: The time of the last contact response within the conversation.
       - name: last_admin_response_at
