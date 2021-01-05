@@ -72,8 +72,7 @@ vars:
 For additional configurations for the source models, such as the company and tag variables, visit the [Intercom source package](https://github.com/fivetran/dbt_intercom_source).
 
 ## Limitations
-Currently, Intercom does not support API exposure to company defined business hours. As such, 
-all time_to metrics are calculated in their entirety without subtracting out business hours.
+Intercom V2.0 does not support API exposure to company-defined business hours. We therefore calculate all `time_to` metrics in their entirety without subtracting business hours.
 
 ## Database support
 This package has been tested on BigQuery, Snowflake, and Redshift.
