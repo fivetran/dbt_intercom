@@ -3,7 +3,11 @@
 
 This package models Intercom data from [Fivetran's connector](https://fivetran.com/docs/applications/intercom). It uses data in the format described by [this ERD](https://docs.google.com/presentation/d/1K3HTGqNQ-neUNeTtjJq42RHBV68_4FuXFp8X81zJ5Xo/edit#slide=id.p).
 
-This package enables you to better understand your responsiveness and effectiveness in customer conversations.
+This packages enables you to better understand the performance, responsiveness, and effectiveness of your team's conversations with customers via Intercom. It achieves this by:
+- Creating an enhanced conversations table to enable large-scale reporting on all current and closed conversations
+- Enriching conversation data with relevant contacts data
+- Aggregating your team's performance data across all conversations
+- Providing aggregate rating and timeliness metrics for customer conversations to enable company-level conversation performance reporting
 
 ## Models
 This package contains transformation models, designed to work simultaneously with our [Intercom source package](https://github.com/fivetran/dbt_intercom_source). A dependency on the source package is declared in this package's `packages.yml` file, so it will automatically download when you run `dbt deps`. The primary outputs of this package are described below. Intermediate models are used to create these output models.
