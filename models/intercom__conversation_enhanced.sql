@@ -82,6 +82,8 @@ enriched as (
         latest_conversation.is_read,
         latest_conversation.waiting_since,
         latest_conversation.snoozed_until,
+        latest_conversation.sla_name,
+        latest_conversation.sla_status,
         conversation_string_aggregates.conversation_admins as all_conversation_admins,
         conversation_string_aggregates.conversation_contacts as all_conversation_contacts,
 

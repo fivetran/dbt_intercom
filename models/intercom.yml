@@ -57,8 +57,14 @@ models:
         description: The total count of users associated with the company.
       - name: session_count
         description: The count of sessions the company has recorded.
+      - name: plan_id
+        description: Unique identifier representing the comapny plan.
+      - name: plan_name
+        description: The name of the plan you have associated with the company.
       - name: updated_at
         description: The time the company was last updated at.
+      - name: _fivetran_deleted
+        description: Boolean indicating whether the contact is deleted.
       
   - name: intercom__company_metrics
     description: >
@@ -98,8 +104,14 @@ models:
         description: The total count of users associated with the company.
       - name: session_count
         description: The count of sessions the company has recorded.
+      - name: plan_id
+        description: Unique identifier representing the comapny plan.
+      - name: plan_name
+        description: The name of the plan you have associated with the company.
       - name: updated_at
         description: The time the company was last updated at.
+      - name: _fivetran_deleted
+        description: Boolean indicating whether the contact is deleted.
 
   - name: intercom__contact_enhanced
     description: >
@@ -113,6 +125,14 @@ models:
           - unique
       - name: contact_name  
         description: The name of the contact.
+      - name: admin_id
+        description: The unique identifier representing the admin which has been assigned ownership of the contact.
+      - name: created_at
+        description: The time when the contact was created within Intercom.
+      - name: updated_at
+        description: The time when the contact was last updated.
+      - name: signed_up_at
+        description: The time the contact signed up.
       - name: all_contact_tags
         description: String aggregation of all tags associated with the contact.        
       - name: contact_role
@@ -175,6 +195,10 @@ models:
         description: The last time a contact responded to an admin. The time a customer started waiting for a response. Set to null if the last reply is from an admin.
       - name: snoozed_until
         description: If set this is the time in the future when this conversation will be marked as open.
+      - name: sla_name
+        description: The name of the SLA as given by the teammate when it was created.
+      - name: sla_status
+        description: One of “hit”, ”missed”, or “cancelled”.
       - name: all_conversation_admins
         description: String aggregate of all admins that contributed to the conversation.
       - name: all_conversation_contacts
@@ -268,6 +292,10 @@ models:
         description: The last time a contact responded to an admin. The time a customer started waiting for a response. Set to null if last reply is from an admin.
       - name: snoozed_until
         description: If set this is the time in the future when this conversation will be marked as open.
+      - name: sla_name
+        description: The name of the SLA as given by the teammate when it was created.
+      - name: sla_status
+        description: One of “hit”, ”missed”, or “cancelled”.
       - name: all_conversation_admins
         description: String aggregate of all admins that contributed to the conversation.
       - name: all_conversation_contacts

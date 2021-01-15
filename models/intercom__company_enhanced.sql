@@ -21,44 +21,28 @@ tags as (
 --Aggregates the tags associated with a single company into an array.
 company_tags_aggregate as (
   select
-    company_history.company_history_id,
+    company_history.company_id,
     {{ fivetran_utils.string_agg('tags.name', "', '" ) }} as all_company_tags
   from company_history
 
   left join company_tags
-      on company_tags.company_id = company_history.company_history_id
+      on company_tags.company_id = company_history.company_id
     
     left join tags
       on tags.tag_id = company_tags.tag_id
 
-  group by 1    
+  group by 1
 ),
 {% endif %}
 
 --Enriches the base company table with tag details (if company tags are used).
 enhanced as (
     select
-        company_history.company_history_id as company_id,
-        company_history.name as company_name,
-        company_history.created_at,
+        company_history.*
 
         --If you use company tags this will be included, if not it will be ignored.
         {% if var('using_company_tags', True) %}
-        company_tags_aggregate.all_company_tags,
-        {% endif %}
-
-        company_history.website,       
-        company_history.industry,
-        company_history.monthly_spend,
-        company_history.user_count,
-        company_history.session_count,
-        company_history.updated_at
-
-        --The below script allows for pass through columns.
-        {% if var('company_pass_through_columns') %}
-        ,
-        {{ var('company_pass_through_columns') | join (", ")}}
-
+        ,company_tags_aggregate.all_company_tags
         {% endif %}
 
     from company_history
@@ -66,7 +50,7 @@ enhanced as (
     --If you use company tags this will be included, if not it will be ignored.
     {% if var('using_company_tags', True) %}
     left join company_tags_aggregate
-      on company_tags_aggregate.company_history_id = company_history.company_history_id
+      on company_tags_aggregate.company_id = company_history.company_id
     {% endif %}
 )
 

@@ -23,7 +23,6 @@ contact_tags as (
   from {{ ref('stg_intercom__contact_tag_history') }}
 ),
  
-
 tags as (
   select *
   from {{ ref('stg_intercom__tag') }}
@@ -51,7 +50,7 @@ contact_tags_aggregate as (
 contact_company_array as (
   select
     contact_history.contact_id,
-    {{ fivetran_utils.string_agg('company_history.name', "', '" ) }} as all_contact_company_names
+    {{ fivetran_utils.string_agg('company_history.company_name', "', '" ) }} as all_contact_company_names
 
   from contact_history
   
@@ -59,7 +58,7 @@ contact_company_array as (
     on contact_company_history.contact_id = contact_history.contact_id
 
   left join company_history
-    on company_history.company_history_id = contact_company_history.company_id
+    on company_history.company_id = contact_company_history.company_id
 
   group by 1
 ),
@@ -68,32 +67,16 @@ contact_company_array as (
 --Joins the contact table with tags (if used) as well as the contact company (if used).
 final as (
   select
-    contact_history.contact_id,
-    contact_history.name as contact_name,
+    contact_history.*
         
     --If you use contact tags this will be included, if not it will be ignored.
     {% if var('using_contact_tags', True) %}
-    contact_tags_aggregate.all_contact_tags,  
+    ,contact_tags_aggregate.all_contact_tags
     {% endif %}
-
-    contact_history.role as contact_role,
-    contact_history.email as contact_email,
-    contact_history.last_contacted_at,
-    contact_history.last_email_opened_at,
-    contact_history.last_email_clicked_at,
-    contact_history.last_replied_at,
-    contact_history.is_unsubscribed_from_emails
 
     --If you use the contact company table this will be included, if not it will be ignored.
     {% if var('using_contact_company', True) %}
     ,contact_company_array.all_contact_company_names
-    {% endif %}
-
-    --The below script allows for pass through columns.
-    {% if var('contact_pass_through_columns') %}
-    ,
-    {{ var('contact_pass_through_columns') | join (", ")}}
-
     {% endif %}
 
   from contact_history
