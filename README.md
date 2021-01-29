@@ -1,7 +1,7 @@
 # Intercom ([docs](https://dbt-intercom.netlify.app/))
 > NOTE: Our Intercom [model](https://github.com/fivetran/dbt_intercom) and [source](https://github.com/fivetran/dbt_intercom_source) dbt packages only work with connectors that were [created in July 2020](https://fivetran.com/docs/applications/intercom/changelog) or later. If you created your connector before July 2020, you must set up a new Intercom connector to use these dbt packages.
 
-This package models Intercom data from [Fivetran's connector](https://fivetran.com/docs/applications/intercom). It uses data in the format described by [this ERD](https://docs.google.com/presentation/d/1K3HTGqNQ-neUNeTtjJq42RHBV68_4FuXFp8X81zJ5Xo/edit#slide=id.p).
+This package models Intercom data from [Fivetran's connector](https://fivetran.com/docs/applications/intercom). It uses data in the format described by [this ERD](https://fivetran.com/docs/applications/intercom#schemainformation).
 
 This packages enables you to better understand the performance, responsiveness, and effectiveness of your team's conversations with customers via Intercom. It achieves this by:
 - Creating an enhanced conversations table to enable large-scale reporting on all current and closed conversations
@@ -55,7 +55,7 @@ vars:
     company_history_pass_through_columns: [company_custom_field_1, company_custom_field_2]
     contact_history_pass_through_columns: [contact_custom_column]
 ```
-This package assumes that you use Intercom's `company tag`, `contact tag`, `contact company`, and `conversation tag` mapping tables. If you do not use these tables, add the configuration below to your `dbt_project.yml`. By default, these variables are set to `True`:
+This package assumes that you use Intercom's `company tag`, `contact tag`, `contact company`, and `conversation tag`, `team` and `team admin` mapping tables. If you do not use these tables, add the configuration below to your `dbt_project.yml`. By default, these variables are set to `True`:
 
 ```yml
 # dbt_project.yml
@@ -67,6 +67,7 @@ vars:
     using_company_tags: False
     using_contact_tags: False
     using_conversation_tags: False
+    using_team: False
 ```
 
 For additional configurations for the source models, such as the company and tag variables, visit the [Intercom source package](https://github.com/fivetran/dbt_intercom_source).
