@@ -9,6 +9,7 @@ admin_table as (
     from {{ ref('stg_intercom__admin') }}
 ),
 
+{% if var('using_team', True) %}
 team_admin as (
     select *
     from {{ ref('stg_intercom__team_admin') }}
@@ -18,6 +19,7 @@ team as (
     select *
     from {{ ref('stg_intercom__team') }}
 ),
+{% endif %}
 
 --Aggregates admin specific metrics. The admin in question is the one who last closed the conversations.
 admin_metrics as (
@@ -48,7 +50,11 @@ final as (
     select distinct
         admin_table.admin_id,
         admin_table.name as admin_name,
+
+        {% if var('using_team', True) %}
         team.name as team_name,
+        {% endif %}
+
         admin_table.job_title,
         admin_metrics.total_conversations_closed,
         admin_metrics.average_conversation_parts,
@@ -65,11 +71,13 @@ final as (
     left join median_metrics
         on median_metrics.last_close_by_admin_id = admin_table.admin_id
     
+    {% if var('using_team', True) %}
     left join team_admin
         on team_admin.admin_id = admin_table.admin_id
 
     left join team
         on team.team_id = team_admin.team_id
+    {% endif %}
 )
 
 select * 
