@@ -11,7 +11,7 @@ contact_latest as (
   * except (rank_latest_contact_update)
   from contact_history
   where rank_latest_contact_update = 1
-)
+),
 
 --If you use the contact company table this will be included, if not it will be ignored.
 {% if var('using_contact_company', True) %}
