@@ -1,16 +1,7 @@
 --take latest contact history to get the last update for the contact
-with contact_history as (
-  select
-  *,
-  row_number() over (partition by contact_id order by updated_at desc) as rank_latest_contact_update
-  from {{ ref('stg_intercom__contact_history') }}
-),
-
-contact_latest as (
-  select
-  * except (rank_latest_contact_update)
-  from contact_history
-  where rank_latest_contact_update = 1
+with contact_latest as (
+  select *
+  from {{ ref('int_intercom__latest_contact') }}
 ),
 
 --If you use the contact company table this will be included, if not it will be ignored.
@@ -62,10 +53,10 @@ contact_company_array as (
     contact_latest.contact_id,
     {{ fivetran_utils.string_agg('company_history.company_name', "', '" ) }} as all_contact_company_names
 
-  from contact_history
+  from contact_latest
   
   left join contact_company_history
-    on contact_company_history.contact_id = contact_history.contact_id
+    on contact_company_history.contact_id = contact_latest.contact_id
 
   left join company_history
     on company_history.company_id = contact_company_history.company_id

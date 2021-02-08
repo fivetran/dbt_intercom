@@ -1,3 +1,4 @@
 packages:
-  - package: fivetran/intercom_source
-    version: 0.1.1
+  # - package: fivetran/intercom_source
+  #   version: 0.1.1
+  - local: ../dbt_intercom_source
