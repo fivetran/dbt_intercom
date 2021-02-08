@@ -35,8 +35,8 @@ If this is not where your Intercom data is, add the configuration below to your 
 config-version: 2
 
 vars:
-    connector_database: your_database_name
-    connector_schema: your_schema_name
+    intercom_database: your_database_name
+    intercom_schema: your_schema_name
 ```
 
 If you'd like, you can also add additional columns to the `intercom__company_enhanced` and/or `intercom__contact_enhanced` tables. 
@@ -55,7 +55,7 @@ vars:
     company_history_pass_through_columns: [company_custom_field_1, company_custom_field_2]
     contact_history_pass_through_columns: [contact_custom_column]
 ```
-This package assumes that you use Intercom's `company tag`, `contact tag`, `contact company`, and `conversation tag`, `team` and `team admin` mapping tables. By default, all variables are assumed to be `true`. Add variables to your `dbt_project.yml` for only the tables you would like to disable:
+This package assumes that you use Intercom's `company tag`, `contact tag`, `contact company`, and `conversation tag`, `team` and `team admin` mapping tables. If you do not use these tables, add the configuration below to your `dbt_project.yml`. By default, these variables are set to `True`:
 
 ```yml
 # dbt_project.yml
