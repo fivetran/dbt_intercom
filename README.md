@@ -55,20 +55,20 @@ vars:
     company_history_pass_through_columns: [company_custom_field_1, company_custom_field_2]
     contact_history_pass_through_columns: [contact_custom_column]
 ```
-This package assumes that you use Intercom's `company tag`, `contact tag`, `contact company`, and `conversation tag`, `team` and `team admin` mapping tables. If you do not use these tables, add the configuration below to your `dbt_project.yml`. Since the Intercom package relies on the Intercom Source package, you  will need to  set the variables as False for both packages. By default, these variables are set to `True`:
+This package assumes that you use Intercom's `company tag`, `contact tag`, `contact company`, and `conversation tag`, `team` and `team admin` mapping tables. By default, all variables are assumed to be `true`. Add variables to your `dbt_project.yml` for only the tables you would like to disable:
 
 ```yml
 # dbt_project.yml
 
 ...
 vars:
-  intercom_source:
+  intercom:
     using_contact_company: False
     using_company_tags: False
     using_contact_tags: False
     using_conversation_tags: False
     using_team: False
-  intercom:
+  intercom_source:
     using_contact_company: False
     using_company_tags: False
     using_contact_tags: False

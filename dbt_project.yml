@@ -1,7 +1,7 @@
 config-version: 2
 
 name: 'intercom'
-version: '0.1.1'
+version: '0.1.2'
 
 require-dbt-version: [">=0.18.0", "<0.20.0"]
 
@@ -27,10 +27,16 @@ vars:
     team_admin: "{{ ref('stg_intercom__team_admin') }}"
     team: "{{ ref('stg_intercom__team') }}"
     
-    # Use to add more field to the opportunity enhanced table. 
-    # Note these columns must be present in the downstream account table or user table
-    company_pass_through_columns: []
-    contact_pass_through_columns: []
+    #Variables if your company utilizes the tags within your company, contact, and/or conversations.
+    using_contact_company: True
+    using_company_tags: True
+    using_contact_tags: True
+    using_conversation_tags: True
+    using_team: True
+    
+    #(Optional) Pass-through arrays.
+    company_history_pass_through_columns: []
+    contact_history_pass_through_columns: []
 
 clean-targets:
     - target
