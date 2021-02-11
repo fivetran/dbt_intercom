@@ -1,6 +1,7 @@
-with contact_history as (
+--take latest contact history to get the last update for the contact
+with contact_latest as (
   select *
-  from {{ ref('stg_intercom__contact_history') }}
+  from {{ ref('int_intercom__latest_contact') }}
 ),
 
 --If you use the contact company table this will be included, if not it will be ignored.
@@ -31,12 +32,12 @@ tags as (
 --Aggregates the tags associated with a single contact into an array.
 contact_tags_aggregate as (
   select
-    contact_history.contact_id,
+    contact_latest.contact_id,
     {{ fivetran_utils.string_agg('tags.name', "', '" ) }} as all_contact_tags
-  from contact_history
+  from contact_latest
 
   left join contact_tags
-      on contact_tags.contact_id = contact_history.contact_id
+      on contact_tags.contact_id = contact_latest.contact_id
     
     left join tags
       on tags.tag_id = contact_tags.tag_id
@@ -49,13 +50,13 @@ contact_tags_aggregate as (
 {% if var('using_contact_company', True) %}
 contact_company_array as (
   select
-    contact_history.contact_id,
+    contact_latest.contact_id,
     {{ fivetran_utils.string_agg('company_history.company_name', "', '" ) }} as all_contact_company_names
 
-  from contact_history
+  from contact_latest
   
   left join contact_company_history
-    on contact_company_history.contact_id = contact_history.contact_id
+    on contact_company_history.contact_id = contact_latest.contact_id
 
   left join company_history
     on company_history.company_id = contact_company_history.company_id
@@ -67,7 +68,7 @@ contact_company_array as (
 --Joins the contact table with tags (if used) as well as the contact company (if used).
 final as (
   select
-    contact_history.*
+    contact_latest.*
         
     --If you use contact tags this will be included, if not it will be ignored.
     {% if var('using_contact_tags', True) %}
@@ -79,18 +80,18 @@ final as (
     ,contact_company_array.all_contact_company_names
     {% endif %}
 
-  from contact_history
+  from contact_latest
 
   --If you use the contact company table this will be included, if not it will be ignored.
   {% if var('using_contact_company', True) %}
   left join contact_company_array
-    on contact_company_array.contact_id = contact_history.contact_id
+    on contact_company_array.contact_id = contact_latest.contact_id
   {% endif %}
 
   --If you use the contact tags table this will be included, if not it will be ignored.
   {% if var('using_contact_tags', True) %}
   left join contact_tags_aggregate
-      on contact_tags_aggregate.contact_id = contact_history.contact_id
+      on contact_tags_aggregate.contact_id = contact_latest.contact_id
   {% endif %}
 )
 

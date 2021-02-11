@@ -1,5 +1,5 @@
 name: 'intercom_integration_tests'
-version: '0.1.1'
+version: '0.1.2'
 profile: 'integration_tests'
 config-version: 2
 
@@ -46,7 +46,7 @@ seeds:
   intercom_integration_tests:
     admin_data:
       +column_types:
-        id: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
+        id: "{{ 'varchar(100)'  if target.type == 'redshift' else 'string'}}"
     company_history_data:
       +column_types:
         created_at: timestamp
@@ -54,7 +54,7 @@ seeds:
     company_tag_history_data:
       +column_types:
         company_updated_at: timestamp
-        tag_id: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
+        tag_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
     contact_company_history_data:
       +column_types:
         contact_updated_at: timestamp
@@ -69,14 +69,14 @@ seeds:
     contact_tag_history_data:
       +column_types:
         contact_updated_at: timestamp
-        tag_id: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
+        tag_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
     conversation_contact_history_data:
       +column_types:
-        conversation_id: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
+        conversation_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
         conversation_updated_at: timestamp 
     conversation_history_data:
       +column_types:
-        id: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
+        id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
         created_at: timestamp
         first_contact_reply_created_at: timestamp
         updated_at: timestamp
@@ -84,26 +84,26 @@ seeds:
         snoozed_until: timestamp
     conversation_part_history_data:
       +column_types:
-        id: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
-        author_id: "{{ 'varchar(100)'  if target.name == 'redshift' else 'string'}}"
+        id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        author_id: "{{ 'varchar(100)'  if target.type == 'redshift' else 'string'}}"
         created_at: timestamp
         conversation_updated_at: timestamp
         updated_at: timestamp
     conversation_tag_history_data:
       +column_types:
-        conversation_id: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
+        conversation_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
         conversation_updated_at: timestamp
-        tag_id: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
+        tag_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
     tag_data:
       +column_types:
-        id: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
+        id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
     team_admin_data:
       +column_types:
-        admin_id: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
-        team_id: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
+        admin_id: "{{ 'varchar(100)'  if target.type == 'redshift' else 'string'}}"
+        team_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
     team_data:
       +column_types:
-        id: "{{ 'int64' if target.name == 'bigquery' else 'bigint' }}"
+        id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
 
 clean-targets:
     - target

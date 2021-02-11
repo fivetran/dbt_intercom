@@ -35,8 +35,8 @@ If this is not where your Intercom data is, add the configuration below to your 
 config-version: 2
 
 vars:
-    connector_database: your_database_name
-    connector_schema: your_schema_name
+    intercom_database: your_database_name
+    intercom_schema: your_schema_name
 ```
 
 If you'd like, you can also add additional columns to the `intercom__company_enhanced` and/or `intercom__contact_enhanced` tables. 
@@ -62,6 +62,12 @@ This package assumes that you use Intercom's `company tag`, `contact tag`, `cont
 
 ...
 vars:
+  intercom:
+    using_contact_company: False
+    using_company_tags: False
+    using_contact_tags: False
+    using_conversation_tags: False
+    using_team: False
   intercom_source:
     using_contact_company: False
     using_company_tags: False
@@ -69,8 +75,6 @@ vars:
     using_conversation_tags: False
     using_team: False
 ```
-
-For additional configurations for the source models, such as the company and tag variables, visit the [Intercom source package](https://github.com/fivetran/dbt_intercom_source).
 
 ## Limitations
 Intercom V2.0 does not support API exposure to company-defined business hours. We therefore calculate all `time_to` metrics in their entirety without subtracting business hours.
