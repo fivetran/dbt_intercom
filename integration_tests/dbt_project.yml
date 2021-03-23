@@ -87,6 +87,7 @@ seeds:
         id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
         author_id: "{{ 'varchar(100)'  if target.type == 'redshift' else 'string'}}"
         created_at: timestamp
+        conversation_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
         conversation_updated_at: timestamp
         updated_at: timestamp
     conversation_tag_history_data:
