@@ -31,8 +31,9 @@ jobs:
             echo `pwd`
             cd integration_tests
             dbt deps
-            dbt seed --target redshift
+            dbt seed --target redshift --full-refresh
             dbt run --target redshift --full-refresh
+            dbt run --vars '{using_contact_company: false, using_company_tags: false, using_contact_tags: false, using_conversation_tags: false, using_team: false}' --target redshift
             dbt test --target redshift
       - run:
           name: "Run Tests - Snowflake"
@@ -41,8 +42,9 @@ jobs:
             echo `pwd`
             cd integration_tests
             dbt deps
-            dbt seed --target snowflake
+            dbt seed --target snowflake --full-refresh
             dbt run --target snowflake --full-refresh
+            dbt run --vars '{using_contact_company: false, using_company_tags: false, using_contact_tags: false, using_conversation_tags: false, using_team: false}' --target snowflake
             dbt test --target snowflake
       - run:
           name: "Run Tests - BigQuery"
@@ -54,8 +56,9 @@ jobs:
             echo `pwd`
             cd integration_tests
             dbt deps
-            dbt seed --target bigquery
+            dbt seed --target bigquery --full-refresh
             dbt run --target bigquery --full-refresh
+            dbt run --vars '{using_contact_company: false, using_company_tags: false, using_contact_tags: false, using_conversation_tags: false, using_team: false}' --target bigquery
             dbt test --target bigquery
       - save_cache:
           key: deps2-{{ .Branch }}
