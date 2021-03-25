@@ -1,5 +1,5 @@
---To disable this model, set the using_contact_company variable within your dbt_project.yml file to False.
-{{ config(enabled=var('using_contact_company', True)) }}
+--To disable this model, set the intercom__using_contact_company variable within your dbt_project.yml file to False.
+{{ config(enabled=var('intercom__using_contact_company', True)) }}
 
 with company_history as (
   select *
@@ -7,7 +7,7 @@ with company_history as (
 ),
 
 --If you use company tags this will be included, if not it will be ignored.
-{% if var('using_company_tags', True) %}
+{% if var('intercom__using_company_tags', True) %}
 company_tags as (
   select *
   from {{ ref('stg_intercom__company_tag_history') }}
@@ -41,14 +41,14 @@ enhanced as (
         company_history.*
 
         --If you use company tags this will be included, if not it will be ignored.
-        {% if var('using_company_tags', True) %}
+        {% if var('intercom__using_company_tags', True) %}
         ,company_tags_aggregate.all_company_tags
         {% endif %}
 
     from company_history
 
     --If you use company tags this will be included, if not it will be ignored.
-    {% if var('using_company_tags', True) %}
+    {% if var('intercom__using_company_tags', True) %}
     left join company_tags_aggregate
       on company_tags_aggregate.company_id = company_history.company_id
     {% endif %}

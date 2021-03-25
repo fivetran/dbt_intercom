@@ -29,15 +29,15 @@ vars:
     team:                         "{{ ref('stg_intercom__team') }}"
     
     #Variables if your company utilizes the tags within your company, contact, and/or conversations.
-    using_contact_company:    True
-    using_company_tags:       True
-    using_contact_tags:       True
-    using_conversation_tags:  True
-    using_team:               True
+    intercom__using_contact_company:    True
+    intercom__using_company_tags:       True
+    intercom__using_contact_tags:       True
+    intercom__using_conversation_tags:  True
+    intercom__using_team:               True
     
     #(Optional) Pass-through arrays.
-    company_history_pass_through_columns: []
-    contact_history_pass_through_columns: []
+    intercom__company_history_pass_through_columns: []
+    intercom__contact_history_pass_through_columns: []
 
 clean-targets:
     - target

@@ -19,7 +19,7 @@ conversation_part_events as (
 ),
 
 --If you use the contact company table this will be included, if not it will be ignored.
-{% if var('using_contact_company', True) %}
+{% if var('intercom__using_contact_company', True) %}
 contact_enhanced as (
     select *
     from {{ ref('intercom__contact_enhanced') }}
@@ -27,7 +27,7 @@ contact_enhanced as (
 {% endif %} 
 
 --If you use conversation tags this will be included, if not it will be ignored.
-{% if var('using_conversation_tags', True) %}
+{% if var('intercom__using_conversation_tags', True) %}
 conversation_tags as (
     select *
     from {{ ref('stg_intercom__conversation_tag_history') }}
@@ -67,7 +67,7 @@ enriched as (
         latest_conversation.source_delivered_as as conversation_initiated_type,
 
         --If you use conversation tags this will be included, if not it will be ignored.
-        {% if var('using_conversation_tags', True) %}
+        {% if var('intercom__using_conversation_tags', True) %}
         conversation_tags_aggregate.all_conversation_tags,
         {% endif %} 
 
@@ -87,7 +87,7 @@ enriched as (
         conversation_string_aggregates.conversation_admins as all_conversation_admins,
         conversation_string_aggregates.conversation_contacts as all_conversation_contacts,
 
-        {% if var('using_contact_company', True) %}
+        {% if var('intercom__using_contact_company', True) %}
         contact_enhanced.all_contact_company_names,
         {% endif %}
 
@@ -104,13 +104,13 @@ enriched as (
     left join conversation_part_events
         on conversation_part_events.conversation_id = latest_conversation.conversation_id
     
-    {% if var('using_contact_company', True) %}
+    {% if var('intercom__using_contact_company', True) %}
     left join contact_enhanced
         on contact_enhanced.contact_id = conversation_part_events.first_contact_author_id
     {% endif %}
 
     --If you use conversation tags this will be included, if not it will be ignored.
-    {% if var('using_conversation_tags', True) %}
+    {% if var('intercom__using_conversation_tags', True) %}
     left join conversation_tags_aggregate
       on conversation_tags_aggregate.conversation_id = latest_conversation.conversation_id
     {% endif %} 
