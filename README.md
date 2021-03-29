@@ -48,12 +48,8 @@ below for an example of how to configure the passthrough columns in your `dbt_pr
 
 ...
 vars:
-  intercom:
-    company_pass_through_columns: [company_custom_field_1, company_custom_field_2]
-    contact_pass_through_columns: [contact_custom_column]
-  intercom_source:
-    company_history_pass_through_columns: [company_custom_field_1, company_custom_field_2]
-    contact_history_pass_through_columns: [contact_custom_column]
+  intercom__company_history_pass_through_columns: [company_custom_field_1, company_custom_field_2]
+  intercom__contact_history_pass_through_columns: [contact_custom_column]
 ```
 This package assumes that you use Intercom's `company tag`, `contact tag`, `contact company`, and `conversation tag`, `team` and `team admin` mapping tables. If you do not use these tables, add the configuration below to your `dbt_project.yml`. By default, these variables are set to `True`:
 
@@ -62,18 +58,25 @@ This package assumes that you use Intercom's `company tag`, `contact tag`, `cont
 
 ...
 vars:
+  intercom__using_contact_company: False
+  intercom__using_company_tags: False
+  intercom__using_contact_tags: False
+  intercom__using_conversation_tags: False
+  intercom__using_team: False
+```
+
+### Changing the Build Schema
+By default this package will build the Intercom staging models within a schema titled (<target_schema> + `_stg_intercom`) and the Intercom final models with a schema titled (<target_schema> + `_intercom`) in your target database. If this is not where you would like your modeled Intercom data to be written to, add the following configuration to your `dbt_project.yml` file:
+
+```yml
+# dbt_project.yml
+
+...
+models:
   intercom:
-    using_contact_company: False
-    using_company_tags: False
-    using_contact_tags: False
-    using_conversation_tags: False
-    using_team: False
+    +schema: my_new_schema_name # leave blank for just the target_schema
   intercom_source:
-    using_contact_company: False
-    using_company_tags: False
-    using_contact_tags: False
-    using_conversation_tags: False
-    using_team: False
+    +schema: my_new_schema_name # leave blank for just the target_schema
 ```
 
 ## Limitations

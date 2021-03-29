@@ -1,5 +1,5 @@
 name: 'intercom_integration_tests'
-version: '0.1.2'
+version: '0.2.0'
 profile: 'integration_tests'
 config-version: 2
 
@@ -11,35 +11,35 @@ models:
 
 vars:
   intercom:
-    admin: "{{ ref('stg_intercom__admin') }}"
-    company_history: "{{ ref('stg_intercom__company_history') }}"
-    company_tag_history: "{{ ref('stg_intercom__company_tag_history') }}"
-    contact_company_history: "{{ ref('stg_intercom__contact_company_history') }}"
-    contact_history: "{{ ref('stg_intercom__contact_history') }}"
-    contact_tag_history: "{{ ref('stg_intercom__contact_tag_history') }}"
+    intercom_schema:              intercom_integration_tests
+    admin:                        "{{ ref('stg_intercom__admin') }}"
+    company_history:              "{{ ref('stg_intercom__company_history') }}"
+    company_tag_history:          "{{ ref('stg_intercom__company_tag_history') }}"
+    contact_company_history:      "{{ ref('stg_intercom__contact_company_history') }}"
+    contact_history:              "{{ ref('stg_intercom__contact_history') }}"
+    contact_tag_history:          "{{ ref('stg_intercom__contact_tag_history') }}"
     conversation_contact_history: "{{ ref('stg_intercom__conversation_contact_history') }}"
-    conversation_history: "{{ ref('stg_intercom__conversation_history') }}"
-    conversation_part_history: "{{ ref('stg_intercom__conversation_part_history') }}"
-    conversation_tag_history: "{{ ref('stg_intercom__conversation_tag_history') }}"
-    tag: "{{ ref('stg_intercom__tag') }}"
-    team_admin: "{{ ref('stg_intercom__team_admin') }}"
-    team: "{{ ref('stg_intercom__team') }}"
-    intercom_schema: intercom_intergration_tests
+    conversation_history:         "{{ ref('stg_intercom__conversation_history') }}"
+    conversation_part_history:    "{{ ref('stg_intercom__conversation_part_history') }}"
+    conversation_tag_history:     "{{ ref('stg_intercom__conversation_tag_history') }}"
+    tag:                          "{{ ref('stg_intercom__tag') }}"
+    team_admin:                   "{{ ref('stg_intercom__team_admin') }}"
+    team:                         "{{ ref('stg_intercom__team') }}"
 
   intercom_source:
-    admin: "{{ ref('admin_data') }}"
-    company_history: "{{ ref('company_history_data') }}"
-    company_tag_history: "{{ ref('company_tag_history_data') }}"
-    contact_company_history: "{{ ref('contact_company_history_data') }}"
-    contact_history: "{{ ref('contact_history_data') }}"
-    contact_tag_history: "{{ ref('contact_tag_history_data') }}"
+    admin:                        "{{ ref('admin_data') }}"
+    company_history:              "{{ ref('company_history_data') }}"
+    company_tag_history:          "{{ ref('company_tag_history_data') }}"
+    contact_company_history:      "{{ ref('contact_company_history_data') }}"
+    contact_history:              "{{ ref('contact_history_data') }}"
+    contact_tag_history:          "{{ ref('contact_tag_history_data') }}"
     conversation_contact_history: "{{ ref('conversation_contact_history_data') }}"
-    conversation_history: "{{ ref('conversation_history_data') }}"
-    conversation_part_history: "{{ ref('conversation_part_history_data') }}"
-    conversation_tag_history: "{{ ref('conversation_tag_history_data') }}"
-    tag: "{{ ref('tag_data') }}"
-    team_admin: "{{ ref('team_admin_data') }}"
-    team: "{{ ref('team_data') }}"
+    conversation_history:         "{{ ref('conversation_history_data') }}"
+    conversation_part_history:    "{{ ref('conversation_part_history_data') }}"
+    conversation_tag_history:     "{{ ref('conversation_tag_history_data') }}"
+    tag:                          "{{ ref('tag_data') }}"
+    team_admin:                   "{{ ref('team_admin_data') }}"
+    team:                         "{{ ref('team_data') }}"
 
 seeds:
   +quote_columns: "{{ true if target.type == 'redshift' else false }}"
@@ -87,6 +87,7 @@ seeds:
         id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
         author_id: "{{ 'varchar(100)'  if target.type == 'redshift' else 'string'}}"
         created_at: timestamp
+        conversation_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
         conversation_updated_at: timestamp
         updated_at: timestamp
     conversation_tag_history_data:

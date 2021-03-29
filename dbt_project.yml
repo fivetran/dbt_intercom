@@ -1,42 +1,43 @@
 config-version: 2
 
 name: 'intercom'
-version: '0.1.2'
+version: '0.2.0'
 
 require-dbt-version: [">=0.18.0", "<0.20.0"]
 
 models:
   intercom:
+    +schema: intercom
     materialized: table
     intermediate:
       materialized: ephemeral
 
 vars:
   intercom:
-    admin: "{{ ref('stg_intercom__admin') }}"
-    company_history: "{{ ref('stg_intercom__company_history') }}"
-    company_tag_history: "{{ ref('stg_intercom__company_tag_history') }}"
-    contact_company_history: "{{ ref('stg_intercom__contact_company_history') }}"
-    contact_history: "{{ ref('stg_intercom__contact_history') }}"
-    contact_tag_history: "{{ ref('stg_intercom__contact_tag_history') }}"
+    admin:                        "{{ ref('stg_intercom__admin') }}"
+    company_history:              "{{ ref('stg_intercom__company_history') }}"
+    company_tag_history:          "{{ ref('stg_intercom__company_tag_history') }}"
+    contact_company_history:      "{{ ref('stg_intercom__contact_company_history') }}"
+    contact_history:              "{{ ref('stg_intercom__contact_history') }}"
+    contact_tag_history:          "{{ ref('stg_intercom__contact_tag_history') }}"
     conversation_contact_history: "{{ ref('stg_intercom__conversation_contact_history') }}"
-    conversation_history: "{{ ref('stg_intercom__conversation_history') }}"
-    conversation_part_history: "{{ ref('stg_intercom__conversation_part_history') }}"
-    conversation_tag_history: "{{ ref('stg_intercom__conversation_tag_history') }}"
-    tag: "{{ ref('stg_intercom__tag') }}"
-    team_admin: "{{ ref('stg_intercom__team_admin') }}"
-    team: "{{ ref('stg_intercom__team') }}"
+    conversation_history:         "{{ ref('stg_intercom__conversation_history') }}"
+    conversation_part_history:    "{{ ref('stg_intercom__conversation_part_history') }}"
+    conversation_tag_history:     "{{ ref('stg_intercom__conversation_tag_history') }}"
+    tag:                          "{{ ref('stg_intercom__tag') }}"
+    team_admin:                   "{{ ref('stg_intercom__team_admin') }}"
+    team:                         "{{ ref('stg_intercom__team') }}"
     
     #Variables if your company utilizes the tags within your company, contact, and/or conversations.
-    using_contact_company: True
-    using_company_tags: True
-    using_contact_tags: True
-    using_conversation_tags: True
-    using_team: True
+    intercom__using_contact_company:    True
+    intercom__using_company_tags:       True
+    intercom__using_contact_tags:       True
+    intercom__using_conversation_tags:  True
+    intercom__using_team:               True
     
     #(Optional) Pass-through arrays.
-    company_history_pass_through_columns: []
-    contact_history_pass_through_columns: []
+    intercom__company_history_pass_through_columns: []
+    intercom__contact_history_pass_through_columns: []
 
 clean-targets:
     - target

@@ -5,7 +5,7 @@ with contact_latest as (
 ),
 
 --If you use the contact company table this will be included, if not it will be ignored.
-{% if var('using_contact_company', True) %}
+{% if var('intercom__using_contact_company', True) %}
 contact_company_history as (
   select *
   from {{ ref('stg_intercom__contact_company_history') }}
@@ -18,7 +18,7 @@ company_history as (
 {% endif %}  
 
 --If you use contact tags this will be included, if not it will be ignored.
-{% if var('using_contact_tags', True) %}
+{% if var('intercom__using_contact_tags', True) %}
 contact_tags as (
   select *
   from {{ ref('stg_intercom__contact_tag_history') }}
@@ -47,7 +47,7 @@ contact_tags_aggregate as (
 {% endif %}
 
 --If you use the contact company table this will be included, if not it will be ignored.
-{% if var('using_contact_company', True) %}
+{% if var('intercom__using_contact_company', True) %}
 contact_company_array as (
   select
     contact_latest.contact_id,
@@ -71,25 +71,25 @@ final as (
     contact_latest.*
         
     --If you use contact tags this will be included, if not it will be ignored.
-    {% if var('using_contact_tags', True) %}
+    {% if var('intercom__using_contact_tags', True) %}
     ,contact_tags_aggregate.all_contact_tags
     {% endif %}
 
     --If you use the contact company table this will be included, if not it will be ignored.
-    {% if var('using_contact_company', True) %}
+    {% if var('intercom__using_contact_company', True) %}
     ,contact_company_array.all_contact_company_names
     {% endif %}
 
   from contact_latest
 
   --If you use the contact company table this will be included, if not it will be ignored.
-  {% if var('using_contact_company', True) %}
+  {% if var('intercom__using_contact_company', True) %}
   left join contact_company_array
     on contact_company_array.contact_id = contact_latest.contact_id
   {% endif %}
 
   --If you use the contact tags table this will be included, if not it will be ignored.
-  {% if var('using_contact_tags', True) %}
+  {% if var('intercom__using_contact_tags', True) %}
   left join contact_tags_aggregate
       on contact_tags_aggregate.contact_id = contact_latest.contact_id
   {% endif %}

@@ -9,7 +9,7 @@ admin_table as (
     from {{ ref('stg_intercom__admin') }}
 ),
 
-{% if var('using_team', True) %}
+{% if var('intercom__using_team', True) %}
 team_admin as (
     select *
     from {{ ref('stg_intercom__team_admin') }}
@@ -51,7 +51,7 @@ final as (
         admin_table.admin_id,
         admin_table.name as admin_name,
 
-        {% if var('using_team', True) %}
+        {% if var('intercom__using_team', True) %}
         team.name as team_name,
         {% endif %}
 
@@ -71,7 +71,7 @@ final as (
     left join median_metrics
         on median_metrics.last_close_by_admin_id = admin_table.admin_id
     
-    {% if var('using_team', True) %}
+    {% if var('intercom__using_team', True) %}
     left join team_admin
         on team_admin.admin_id = admin_table.admin_id
 
