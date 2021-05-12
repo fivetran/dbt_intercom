@@ -51,7 +51,7 @@ contact_tags_aggregate as (
 contact_company_array as (
   select
     contact_latest.contact_id,
-    {{ fivetran_utils.string_agg('company_history.company_name', "', '" ) }} as all_contact_company_names
+    {{ fivetran_utils.string_agg('distinct company_history.company_name', "', '" ) }} as all_contact_company_names
 
   from contact_latest
   
