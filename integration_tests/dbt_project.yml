@@ -7,7 +7,7 @@ models:
   intercom:
     materialized: table
     intermediate:
-      materialized: view
+      materialized: ephemeral
 
 vars:
   intercom:
