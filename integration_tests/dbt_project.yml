@@ -1,5 +1,5 @@
 name: 'intercom_integration_tests'
-version: '0.2.0'
+version: '0.2.1'
 profile: 'integration_tests'
 config-version: 2
 
@@ -7,7 +7,7 @@ models:
   intercom:
     materialized: table
     intermediate:
-      materialized: view
+      materialized: ephemeral
 
 vars:
   intercom:
