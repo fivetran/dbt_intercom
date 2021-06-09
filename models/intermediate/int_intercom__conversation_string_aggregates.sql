@@ -18,7 +18,7 @@ admin_conversation_parts as (
 admin_conversation_aggregates as (
     select 
         conversation_id,
-        {{ fivetran_utils.string_agg('author_id', "', '" ) }} as conversation_admins
+        {{ fivetran_utils.string_agg('distinct author_id', "', '" ) }} as conversation_admins
     from admin_conversation_parts
     
     group by 1
@@ -39,7 +39,7 @@ contact_conversation_parts as (
 contact_conversation_aggregates as (
     select 
         conversation_id,
-        {{ fivetran_utils.string_agg('author_id', "', '" ) }} as conversation_contacts
+        {{ fivetran_utils.string_agg('distinct author_id', "', '" ) }} as conversation_contacts
     from contact_conversation_parts
 
     group by 1
