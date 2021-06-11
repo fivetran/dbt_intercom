@@ -22,7 +22,7 @@ tags as (
 company_tags_aggregate as (
   select
     company_history.company_id,
-    {{ fivetran_utils.string_agg('tags.name', "', '" ) }} as all_company_tags
+    {{ fivetran_utils.string_agg('distinct tags.name', "', '" ) }} as all_company_tags
   from company_history
 
   left join company_tags

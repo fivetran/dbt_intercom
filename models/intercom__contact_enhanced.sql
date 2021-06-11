@@ -33,7 +33,7 @@ tags as (
 contact_tags_aggregate as (
   select
     contact_latest.contact_id,
-    {{ fivetran_utils.string_agg('tags.name', "', '" ) }} as all_contact_tags
+    {{ fivetran_utils.string_agg('distinct tags.name', "', '" ) }} as all_contact_tags
   from contact_latest
 
   left join contact_tags
