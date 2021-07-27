@@ -1,5 +1,5 @@
 name: 'intercom_integration_tests'
-version: '0.2.2'
+version: '0.3.0'
 profile: 'integration_tests'
 config-version: 2
 
@@ -42,8 +42,8 @@ vars:
     team:                         "{{ ref('team_data') }}"
 
 seeds:
-  +quote_columns: "{{ true if target.type == 'redshift' else false }}"
   intercom_integration_tests:
+    +quote_columns: "{{ true if target.type == 'redshift' else false }}"
     admin_data:
       +column_types:
         id: "{{ 'varchar(100)'  if target.type == 'redshift' else 'string'}}"
