@@ -213,6 +213,10 @@ models:
         description: An optional field for the customer to rate the conversation which will be between 1 and 5.
       - name: conversation_remark
         description: An optional field to add a remark to correspond to the number rating.
+      - name: team_assignee_id
+        description: Assignee ID of the conversation if it is assigned to a team.
+      - name: admin_assignee_id
+        description: Assignee ID of the conversation if it is assigned to an individual admin.
 
   - name: intercom__conversation_metrics
     description: >
