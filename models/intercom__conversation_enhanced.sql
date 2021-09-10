@@ -73,6 +73,8 @@ enriched as (
 
         latest_conversation.source_subject as conversation_subject,
         case when (latest_conversation.assignee_type is not null) then latest_conversation.assignee_type else 'unassigned' end as conversation_assignee_type,
+        case when (coalesce(lower(latest_conversation.assignee_type), '') = 'team') then latest_conversation.assignee_id else null end as team_assignee_id,
+        case when (coalesce(lower(latest_conversation.assignee_type), '') = 'admin') then latest_conversation.assignee_id else null end as admin_assignee_id,
         latest_conversation.source_author_type as conversation_author_type,
         conversation_part_events.first_close_by_admin_id,
         conversation_part_events.last_close_by_admin_id,
@@ -112,7 +114,7 @@ enriched as (
     --If you use conversation tags this will be included, if not it will be ignored.
     {% if var('intercom__using_conversation_tags', True) %}
     left join conversation_tags_aggregate
-      on conversation_tags_aggregate.conversation_id = latest_conversation.conversation_id
+        on conversation_tags_aggregate.conversation_id = latest_conversation.conversation_id
     {% endif %} 
 
 )
