@@ -29,6 +29,17 @@ conversation_contact_events as (
 
 ), 
 
+--Obtains the first and last values for conversations where the part type was authored by a team
+conversation_team_events as (
+  select
+    conversation_id,
+    first_value(author_id ignore nulls) over (partition by conversation_id order by created_at asc, conversation_id rows unbounded preceding) as first_team_id,
+    first_value(author_id ignore nulls) over (partition by conversation_id order by created_at desc, conversation_id rows unbounded preceding) as last_team_id
+  from conversation_part_history
+
+  where author_type = 'team'
+),
+
 --Joins the above two CTEs with conversation part history. Distinct was necessary to ensure only one first/last value was returned for each individual conversation.
 final as (
     select distinct
@@ -37,6 +48,8 @@ final as (
         cast(conversation_admin_events.last_close_by_admin_id as {{ dbt_utils.type_string() }}) as last_close_by_admin_id,
         cast(conversation_contact_events.first_contact_author_id as {{ dbt_utils.type_string() }}) as first_contact_author_id,
         cast(conversation_contact_events.last_contact_author_id as {{ dbt_utils.type_string() }}) as last_contact_author_id,
+        cast(conversation_team_events.first_team_id as {{ dbt_utils.type_string() }}) as first_team_id,
+        cast(conversation_team_events.last_team_id as {{ dbt_utils.type_string() }}) as last_team_id,
         conversation_admin_events.first_close_at,
         conversation_admin_events.last_close_at
     from conversation_part_history
@@ -46,6 +59,9 @@ final as (
 
     left join conversation_contact_events
         on conversation_contact_events.conversation_id = conversation_part_history.conversation_id
+
+    left join conversation_team_events
+        on conversation_team_events.conversation_id = conversation_part_history.conversation_id
 )
 
 select *
