@@ -8,12 +8,12 @@ with contact_latest as (
 {% if var('intercom__using_contact_company', True) %}
 contact_company_history as (
   select *
-  from {{ ref('stg_intercom__contact_company_history') }}
+  from {{ var('contact_company_history') }}
 ),
 
 company_history as (
   select *
-  from {{ ref('stg_intercom__company_history') }}
+  from {{ var('company_history') }}
 ),
 {% endif %}  
 
@@ -21,12 +21,12 @@ company_history as (
 {% if var('intercom__using_contact_tags', True) %}
 contact_tags as (
   select *
-  from {{ ref('stg_intercom__contact_tag_history') }}
+  from {{ var('contact_tag_history') }}
 ),
- 
+
 tags as (
   select *
-  from {{ ref('stg_intercom__tag') }}
+  from {{ var('tag') }}
 ),
 
 --Aggregates the tags associated with a single contact into an array.

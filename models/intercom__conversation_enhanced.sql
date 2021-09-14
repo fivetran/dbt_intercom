@@ -30,12 +30,12 @@ contact_enhanced as (
 {% if var('intercom__using_conversation_tags', True) %}
 conversation_tags as (
     select *
-    from {{ ref('stg_intercom__conversation_tag_history') }}
+    from {{ var('conversation_tag_history') }}
 ),
 
 tags as (
     select *
-    from {{ ref('stg_intercom__tag') }}
+    from {{ var('tag') }}
 ),
 
 --Aggregates the tags associated with a single conversation into an array.

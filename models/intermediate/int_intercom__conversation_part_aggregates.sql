@@ -1,6 +1,6 @@
 with conversation_part_history as (
   select *
-  from {{ ref('stg_intercom__conversation_part_history') }}
+  from {{ var('conversation_part_history') }}
 ),
 
 latest_conversation as (

@@ -1,6 +1,6 @@
 with conversation_part_history as (
   select *
-  from {{ ref('stg_intercom__conversation_part_history') }}
+  from {{ var('conversation_part_history') }}
 ),
 
 --Obtains the first and last values for conversations where the part type was close and part was authored by an admin.
