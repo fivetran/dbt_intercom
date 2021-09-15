@@ -33,11 +33,11 @@ conversation_contact_events as (
 conversation_team_events as (
   select
     conversation_id,
-    first_value(author_id ignore nulls) over (partition by conversation_id order by created_at asc, conversation_id rows unbounded preceding) as first_team_id,
-    first_value(author_id ignore nulls) over (partition by conversation_id order by created_at desc, conversation_id rows unbounded preceding) as last_team_id
+    first_value(assigned_to_id ignore nulls) over (partition by conversation_id order by created_at asc, conversation_id rows unbounded preceding) as first_team_id,
+    first_value(assigned_to_id ignore nulls) over (partition by conversation_id order by created_at desc, conversation_id rows unbounded preceding) as last_team_id
   from conversation_part_history
 
-  where author_type = 'team'
+  where assigned_to_type = 'team'
 ),
 
 --Joins the above two CTEs with conversation part history. Distinct was necessary to ensure only one first/last value was returned for each individual conversation.
