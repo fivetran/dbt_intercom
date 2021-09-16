@@ -30,12 +30,12 @@ contact_enhanced as (
 {% if var('intercom__using_conversation_tags', True) %}
 conversation_tags as (
     select *
-    from {{ ref('stg_intercom__conversation_tag_history') }}
+    from {{ var('conversation_tag_history') }}
 ),
 
 tags as (
     select *
-    from {{ ref('stg_intercom__tag') }}
+    from {{ var('tag') }}
 ),
 
 --Aggregates the tags associated with a single conversation into an array.
@@ -54,6 +54,14 @@ conversation_tags_aggregate as (
     group by 1    
 ),
 {% endif %}  
+
+--If you use the team table this will be included, if not it will be ignored.
+{% if var('intercom__using_team', True) %}
+team as (
+    select *
+    from {{ var('team') }}
+),
+{% endif %}
 
 --Enriches the latest conversation model with data from conversation_part_events, conversation_string_aggregates, and conversation_tags_aggregate
 enriched as ( 
@@ -78,6 +86,14 @@ enriched as (
         conversation_part_events.last_close_by_admin_id,
         conversation_part_events.first_contact_author_id,
         conversation_part_events.last_contact_author_id,
+        conversation_part_events.first_team_id,
+        conversation_part_events.last_team_id,
+
+        {% if var('intercom__using_team', True) %}
+        first_team.name as first_team_name,
+        last_team.name as last_team_name,
+        {% endif %}
+
         latest_conversation.state as conversation_state,
         latest_conversation.is_read,
         latest_conversation.waiting_since,
@@ -112,8 +128,16 @@ enriched as (
     --If you use conversation tags this will be included, if not it will be ignored.
     {% if var('intercom__using_conversation_tags', True) %}
     left join conversation_tags_aggregate
-      on conversation_tags_aggregate.conversation_id = latest_conversation.conversation_id
+        on conversation_tags_aggregate.conversation_id = latest_conversation.conversation_id
     {% endif %} 
+
+    {% if var('intercom__using_team', True) %}
+    left join team as first_team
+        on cast(first_team.team_id as {{ dbt_utils.type_string() }}) = conversation_part_events.first_team_id
+
+    left join team as last_team
+        on cast(last_team.team_id as {{ dbt_utils.type_string() }}) = conversation_part_events.last_team_id
+    {% endif %}
 
 )
 select * 

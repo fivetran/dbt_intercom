@@ -1,23 +1,23 @@
 with conversation_metrics as (
-  select *
-  from {{ ref('intercom__conversation_metrics') }}
-  where conversation_assignee_type = 'admin'
+    select *
+    from {{ ref('intercom__conversation_metrics') }}
+    where conversation_assignee_type = 'admin'
 ),
 
 admin_table as (
     select *
-    from {{ ref('stg_intercom__admin') }}
+    from {{ var('admin') }}
 ),
 
 {% if var('intercom__using_team', True) %}
 team_admin as (
     select *
-    from {{ ref('stg_intercom__team_admin') }}
+    from {{ var('team_admin') }}
 ),
 
 team as (
     select *
-    from {{ ref('stg_intercom__team') }}
+    from {{ var('team') }}
 ),
 {% endif %}
 

@@ -2,23 +2,23 @@
 {{ config(enabled=var('intercom__using_contact_company', True)) }}
 
 with conversation_metrics as (
-  select *
-  from {{ ref('intercom__conversation_metrics') }}
+    select *
+    from {{ ref('intercom__conversation_metrics') }}
 ),
 
 company_enhanced as (
-  select *
-  from {{ ref('intercom__company_enhanced') }}
+    select *
+    from {{ ref('intercom__company_enhanced') }}
 ),
 
 contact_company_history as (
-  select *
-  from {{ ref('stg_intercom__contact_company_history') }}
+    select *
+    from {{ var('contact_company_history') }}
 ),
 
 contact_enhanced as (
-  select *
-  from {{ ref('intercom__contact_enhanced') }}
+    select *
+    from {{ ref('intercom__contact_enhanced') }}
 ),
 
 --Aggregates company specific metrics for companies where a contact from that company was attached to the conversation.

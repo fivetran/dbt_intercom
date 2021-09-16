@@ -213,7 +213,15 @@ models:
         description: An optional field for the customer to rate the conversation which will be between 1 and 5.
       - name: conversation_remark
         description: An optional field to add a remark to correspond to the number rating.
-
+      - name: first_team_id
+        description: ID of the team that was first assigned to the conversation.
+      - name: last_team_id
+        description: ID of the team that was last assigned to the conversation.
+      - name: first_team_name
+        description: Name of the team that was first assigned to the conversation.
+      - name: last_team_name
+        description: Name of the team that was last assigned to the conversation.
+        
   - name: intercom__conversation_metrics
     description: >
       Each record represents a single row from intercom__conversation_enhanced, enriched with aggregates which determine 

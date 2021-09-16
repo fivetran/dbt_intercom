@@ -1,6 +1,6 @@
 with conversation_history as (
   select *
-  from {{ ref('stg_intercom__conversation_history') }}
+  from {{ var('conversation_history') }}
 ),
 
 --Returns the most recent conversation record by creating a row number ordered by the conversation_updated_at date, then filtering to only return the #1 row per conversation.
