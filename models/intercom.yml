@@ -214,13 +214,13 @@ models:
       - name: conversation_remark
         description: An optional field to add a remark to correspond to the number rating.
       - name: first_team_id
-        description: ID of the team that first contributed to the conversation.
+        description: ID of the team that was first assigned to the conversation.
       - name: last_team_id
-        description: ID of the team that last contributed to the conversation.
+        description: ID of the team that was last assigned to the conversation.
       - name: first_team_name
-        description: Name of the team that first contributed to the conversation.
+        description: Name of the team that was first assigned to the conversation.
       - name: last_team_name
-        description: Name of the team that last contributed to the conversation.
+        description: Name of the team that was last assigned to the conversation.
         
   - name: intercom__conversation_metrics
     description: >
