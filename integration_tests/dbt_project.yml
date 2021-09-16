@@ -90,6 +90,7 @@ seeds:
         conversation_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
         conversation_updated_at: timestamp
         updated_at: timestamp
+        assigned_to_type: "{{ 'varchar(100)'  if target.type == 'redshift' else 'string'}}"
     conversation_tag_history_data:
       +column_types:
         conversation_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
