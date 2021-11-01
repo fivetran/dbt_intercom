@@ -95,7 +95,7 @@ Intercom V2.0 does not support API exposure to company-defined business hours. W
 This package has been tested on BigQuery, Snowflake, and Redshift.
 
 ## Contributions
-Additional contributions to this package are very welcome! Please create issues or open PRs against `master`. Check out [this post](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657) 
+Additional contributions to this package are very welcome! Please create issues or open PRs against `main`. Check out [this post](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657) 
 on the best workflow for contributing to a package.
 
 ## Resources:
