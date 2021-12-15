@@ -1,7 +1,7 @@
 config-version: 2
 name: 'intercom'
-version: '0.3.1'
-require-dbt-version: [">=0.20.0"]
+version: '0.4.0'
+require-dbt-version: [">=1.0.0", "<2.0.0"]
 models:
   intercom:
     +schema: intercom
@@ -33,3 +33,4 @@ vars:
 clean-targets:
 - target
 - dbt_modules
+- dbt_packages
