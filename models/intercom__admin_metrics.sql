@@ -52,6 +52,7 @@ final as (
         admin_table.name as admin_name,
 
         {% if var('intercom__using_team', True) %}
+        team.team_id as team_id,
         team.name as team_name,
         {% endif %}
 
