@@ -4,7 +4,7 @@ models:
 
   - name: intercom__admin_metrics
     description: > 
-      Each record represents an individual admin (employee) and a unique team they are assigned on, enriched with admin specific conversation aggregates. For example, the admin's total conversations, average rating, and median response times.
+      Each record represents an individual admin (employee) and a unique team they are assigned on, enriched with admin specific conversation aggregates. For example, the admin's total conversations, average rating, and median response times by specific team.
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns: "{{ ['admin_id', 'team_id'] if var('intercom__using_team', true) else ['admin_id'] }}"
