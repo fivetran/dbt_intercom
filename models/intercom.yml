@@ -7,6 +7,9 @@ models:
       Each record represents an individual admin (employee) and a unique team they are assigned on, enriched with admin specific conversation aggregates. For example, the admin's total conversations, average rating, and median response times by specific team.
     tests:
       - dbt_utils.unique_combination_of_columns:
+          # team_id is only included as a column in this model if intercom__using_team is true
+          # however, because admins can belong to multiple teams, this model must be at the grain of team-admin
+          # so we dynamically include team_id as part of the model's primary key. if teams are not enabled, just use admin_id
           combination_of_columns: "{{ ['admin_id', 'team_id'] if var('intercom__using_team', true) else ['admin_id'] }}"
     columns:
       - name: admin_id
