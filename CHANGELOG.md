@@ -1,3 +1,9 @@
+# dbt_intercom v0.4.1
+
+## Bug Fixes
+- Adjusts the uniqueness tests on `intercom__admin_metrics` to run on a combination of `admin_id` and `team_id` if `intercom__using_team` is enabled. If `intercom__using_team` is disabled, `admin_id` is the sole column forming the model's primary key (https://github.com/fivetran/dbt_intercom/issues/21).
+- Adds `team_id` to the `intercom__admin_metrics` model. Originally, this model only contained `team_name`. 
+
 # dbt_intercom v0.4.0
 🎉 dbt v1.0.0 Compatibility 🎉
 ## 🚨 Breaking Changes 🚨
