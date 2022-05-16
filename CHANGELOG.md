@@ -1,5 +1,9 @@
-# dbt_intercom v0.4.1
+# dbt_intercom v0.5.0
+## 🎉 Documentation and Feature Updates
+- Updated README documentation updates for easier navigation and setup of the dbt package
+- Included `intercom_[source_table_name]_identifier` variable within the Intercom source package for additional flexibility within the package when source tables are named differently.
 
+# dbt_intercom v0.4.1
 ## Bug Fixes
 - Adjusts the uniqueness tests on `intercom__admin_metrics` to run on a combination of `admin_id` and `team_id` if `intercom__using_team` is enabled. If `intercom__using_team` is disabled, `admin_id` is the sole column forming the model's primary key (https://github.com/fivetran/dbt_intercom/issues/21).
 - Adds `team_id` to the `intercom__admin_metrics` model. Originally, this model only contained `team_name`. 
