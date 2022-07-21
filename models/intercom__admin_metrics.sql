@@ -37,12 +37,13 @@ admin_metrics as (
 median_metrics as (
     select
         last_close_by_admin_id,
-        round({{ fivetran_utils.percentile("conversation_metrics.count_reopens", "last_close_by_admin_id", "0.5") }}, 2) as median_conversations_reopened,
-        round({{ fivetran_utils.percentile("conversation_metrics.count_assignments", "last_close_by_admin_id", "0.5") }}, 2) as median_conversation_assignments,
-        round({{ fivetran_utils.percentile("conversation_metrics.time_to_first_response_minutes", "last_close_by_admin_id", "0.5") }}, 2) as median_time_to_first_response_time_minutes,
-        round({{ fivetran_utils.percentile("conversation_metrics.time_to_first_close_minutes", "last_close_by_admin_id", "0.5") }}, 2) as median_time_to_first_close_minutes,
-        round({{ fivetran_utils.percentile("conversation_metrics.time_to_last_close_minutes", "last_close_by_admin_id", "0.5") }}, 2) as median_time_to_last_close_minutes
+        round(cast({{ fivetran_utils.percentile("conversation_metrics.count_reopens", "last_close_by_admin_id", "0.5") }} as numeric), 2) as median_conversations_reopened,
+        round(cast({{ fivetran_utils.percentile("conversation_metrics.count_assignments", "last_close_by_admin_id", "0.5") }} as numeric), 2) as median_conversation_assignments,
+        round(cast({{ fivetran_utils.percentile("conversation_metrics.time_to_first_response_minutes", "last_close_by_admin_id", "0.5") }} as numeric), 2) as median_time_to_first_response_time_minutes,
+        round(cast({{ fivetran_utils.percentile("conversation_metrics.time_to_first_close_minutes", "last_close_by_admin_id", "0.5") }} as numeric), 2) as median_time_to_first_close_minutes,
+        round(cast({{ fivetran_utils.percentile("conversation_metrics.time_to_last_close_minutes", "last_close_by_admin_id", "0.5") }} as numeric), 2) as median_time_to_last_close_minutes
     from conversation_metrics
+    group by 1
 ),
 
 --Joins the aggregate, and median CTEs to the admin table with team enrichment. Distinct is necessary to keep grain with median values and aggregates.

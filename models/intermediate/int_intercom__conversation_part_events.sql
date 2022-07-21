@@ -7,10 +7,11 @@ with conversation_part_history as (
 conversation_admin_events as (
   select
     conversation_id,
-    first_value(author_id ignore nulls) over (partition by conversation_id order by created_at asc, conversation_id rows unbounded preceding) as first_close_by_admin_id,
-    first_value(author_id ignore nulls) over (partition by conversation_id order by created_at desc, conversation_id rows unbounded preceding) as last_close_by_admin_id,
-    first_value(created_at ignore nulls) over (partition by conversation_id order by created_at asc, conversation_id rows unbounded preceding) as first_close_at,
-    first_value(created_at ignore nulls) over (partition by conversation_id order by created_at desc, conversation_id rows unbounded preceding) as last_close_at
+--Removed ignore nulls since author_type conditionals should ensure author_ids exist, and created_at SHOULD exist for all Intercom conversations.
+    first_value(author_id) over (partition by conversation_id order by created_at asc, conversation_id rows unbounded preceding) as first_close_by_admin_id,
+    first_value(author_id) over (partition by conversation_id order by created_at desc, conversation_id rows unbounded preceding) as last_close_by_admin_id,
+    first_value(created_at) over (partition by conversation_id order by created_at asc, conversation_id rows unbounded preceding) as first_close_at,
+    first_value(created_at) over (partition by conversation_id order by created_at desc, conversation_id rows unbounded preceding) as last_close_at
   from conversation_part_history
 
   where part_type = 'close' and author_type = 'admin'
@@ -19,10 +20,11 @@ conversation_admin_events as (
 
 --Obtains the first and last values for conversations where the part type was authored by a contact (which is either a user or lead).
 conversation_contact_events as (
+--Removed ignore nulls since author_type conditionals should ensure author_ids exist
   select
     conversation_id,
-    first_value(author_id ignore nulls) over (partition by conversation_id order by created_at asc, conversation_id rows unbounded preceding) as first_contact_author_id,
-    first_value(author_id ignore nulls) over (partition by conversation_id order by created_at desc, conversation_id rows unbounded preceding) as last_contact_author_id
+    first_value(author_id) over (partition by conversation_id order by created_at asc, conversation_id rows unbounded preceding) as first_contact_author_id,
+    first_value(author_id) over (partition by conversation_id order by created_at desc, conversation_id rows unbounded preceding) as last_contact_author_id
   from conversation_part_history
 
   where author_type in ('user','lead')
@@ -31,10 +33,12 @@ conversation_contact_events as (
 
 --Obtains the first and last values for conversations where the part type was authored by a team
 conversation_team_events as (
+
+--Removed ignore nulls since assigned_to_type conditionals should ensure assigned_to_ids exist
   select
     conversation_id,
-    first_value(assigned_to_id ignore nulls) over (partition by conversation_id order by created_at asc, conversation_id rows unbounded preceding) as first_team_id,
-    first_value(assigned_to_id ignore nulls) over (partition by conversation_id order by created_at desc, conversation_id rows unbounded preceding) as last_team_id
+    first_value(assigned_to_id) over (partition by conversation_id order by created_at asc, conversation_id rows unbounded preceding) as first_team_id,
+    first_value(assigned_to_id) over (partition by conversation_id order by created_at desc, conversation_id rows unbounded preceding) as last_team_id
   from conversation_part_history
 
   where assigned_to_type = 'team'
