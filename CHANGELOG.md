@@ -1,8 +1,8 @@
 # dbt_intercom v0.4.2
 ## Features 
-- 🎉 Postgres Compatibility 🎉
+- 🎉 Postgres Compatibility 🎉 ([#25](https://github.com/fivetran/dbt_intercom/pull/25))
 ## Under the Hood
-- We have added the below feature enhancements to this package in this PR: 
+- We have added the below feature enhancements to this package in this PR ([#25](https://github.com/fivetran/dbt_intercom/pull/25)): 
 - Added `{{ dbt_utils.type_timestamp() }}` casting to timestamp fields for safe casting across warehouses.
 - Added varcar casts in `integration_tests/dbt_project.yml` for postgres db since string doesn't exist in postgres.
 - Added numeric casts for `intercom__admin_metrics` and `intercom__company_metrics` and group bys to provide postgres compatibility.
