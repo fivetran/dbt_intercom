@@ -1,3 +1,14 @@
+# dbt_intercom v0.4.2
+## Features 
+- 🎉 Postgres Compatibility 🎉
+## Under the Hood
+- We have added the below feature enhancements to this package in this PR: 
+- Added `{{ dbt_utils.type_timestamp() }}` casting to timestamp fields for safe casting across warehouses.
+- Added varcar casts in `integration_tests/dbt_project.yml` for postgres db since string doesn't exist in postgres.
+- Added numeric casts for `intercom__admin_metrics` and `intercom__company_metrics` and group bys to provide postgres compatibility.
+- Removed extraneous `ignore nulls` logic in `int_intercom__conversation_part_events`, utilizing new tests in `intercom_source` package to capture data quality issues. 
+- Created new `int_intercom__latest_conversation_part` model to segment out potential duplicate rows, refactored `int_intercom__conversation_part_aggregates` as a result.
+
 # dbt_intercom v0.4.1
 
 ## Bug Fixes

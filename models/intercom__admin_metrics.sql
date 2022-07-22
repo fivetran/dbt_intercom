@@ -42,8 +42,11 @@ median_metrics as (
         round(cast({{ fivetran_utils.percentile("conversation_metrics.time_to_first_response_minutes", "last_close_by_admin_id", "0.5") }} as numeric), 2) as median_time_to_first_response_time_minutes,
         round(cast({{ fivetran_utils.percentile("conversation_metrics.time_to_first_close_minutes", "last_close_by_admin_id", "0.5") }} as numeric), 2) as median_time_to_first_close_minutes,
         round(cast({{ fivetran_utils.percentile("conversation_metrics.time_to_last_close_minutes", "last_close_by_admin_id", "0.5") }} as numeric), 2) as median_time_to_last_close_minutes
-    from conversation_metrics
+    from conversation_metrics 
+    
+    {% if target.type == 'postgres' %} 
     group by 1
+    {% endif %}
 ),
 
 --Joins the aggregate, and median CTEs to the admin table with team enrichment. Distinct is necessary to keep grain with median values and aggregates.

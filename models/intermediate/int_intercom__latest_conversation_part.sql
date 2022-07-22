@@ -3,7 +3,7 @@ with conversation_part_history as (
   from {{ var('conversation_part_history') }}
 ),
 
---Returns the most recent conversation record by creating a row number ordered by the conversation_updated_at date, then filtering to only return the #1 row per conversation.
+--Returns the most recent conversation part record by creating a row number ordered by the conversation_updated_at date, then filtering to only return the #1 row per conversation.
 latest_conversation_part as (
     select
       *,

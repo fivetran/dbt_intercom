@@ -61,7 +61,9 @@ median_metrics as (
     left join company_enhanced
         on company_enhanced.company_id = contact_company_history.company_id
 
+    {% if target.type == 'postgres' %} 
     group by 1
+    {% endif %}
 ),
 
 --Joins the aggregate, and median CTEs to the company_enhanced model. Distinct is necessary to keep grain with median values and aggregates.
