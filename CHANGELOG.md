@@ -1,4 +1,7 @@
-# dbt_intercom v0.4.2
+# dbt_intercom v0.5.0
+## 🚨 Breaking Changes 🚨
+- Added dbt_expectations packages to the intercom source package to more easily setup more complex data validation tests.
+- Added not null tests to the intercom source package for both author and assigned_to fields, conditional on author_type and assigned_to_type not being null.
 ## Features 
 - 🎉 Postgres Compatibility 🎉 ([#25](https://github.com/fivetran/dbt_intercom/pull/25))
 ## Under the Hood
@@ -8,7 +11,8 @@
 - Added numeric casts for `intercom__admin_metrics` and `intercom__company_metrics` and group bys to provide postgres compatibility.
 - Removed extraneous `ignore nulls` logic in `int_intercom__conversation_part_events`, utilizing new tests in `intercom_source` package to capture data quality issues. 
 - Created new `int_intercom__latest_conversation_part` model to segment out potential duplicate rows, refactored `int_intercom__conversation_part_aggregates` as a result.
-
+## Contributors 
+- [@matiasjofre](https://github.com/matiasjofre) ([#25](https://github.com/fivetran/dbt_intercom/pull/25))
 # dbt_intercom v0.4.1
 
 ## Bug Fixes
