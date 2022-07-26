@@ -1,5 +1,6 @@
 # dbt_intercom v0.5.0
 ## 🚨 Breaking Changes 🚨
+- In this PR ([#25](https://github.com/fivetran/dbt_intercom/pull/25)), we've added:
 - Added dbt_expectations packages to the intercom source package to more easily setup more complex data validation tests.
 - Added not null tests to the intercom source package for both author and assigned_to fields, conditional on author_type and assigned_to_type not being null.
 ## Features 

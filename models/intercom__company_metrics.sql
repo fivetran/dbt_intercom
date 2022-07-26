@@ -61,6 +61,7 @@ median_metrics as (
     left join company_enhanced
         on company_enhanced.company_id = contact_company_history.company_id
 
+--The Postgres warehouse does not allow for a group by argument within the `percentile` function. As such, we will apply the group by for all statements at the end of the query for Postgres only.
     {% if target.type == 'postgres' %} 
     group by 1
     {% endif %}
