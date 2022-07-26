@@ -39,7 +39,7 @@ company_metrics as (
     left join company_enhanced
         on company_enhanced.company_id = contact_company_history.company_id
 
-    group by company_enhanced.company_id
+    group by 1
 ),
 
 --Generates the median values for companies where a contact from that company was attached to the conversation.
