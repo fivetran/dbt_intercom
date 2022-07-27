@@ -26,7 +26,7 @@ company_metrics as (
     select
         company_enhanced.company_id,
         sum(case when conversation_metrics.conversation_state = 'closed' then 1 else 0 end) as total_conversations_closed,
-        round(avg(conversation_metrics.count_total_parts),2) as average_conversation_parts,
+        round(cast(avg(conversation_metrics.count_total_parts) as numeric),2) as average_conversation_parts,
         avg(conversation_metrics.conversation_rating) as average_conversation_rating
     from conversation_metrics
 
@@ -46,10 +46,10 @@ company_metrics as (
 median_metrics as (
     select
         company_enhanced.company_id,
-        round({{ fivetran_utils.percentile("conversation_metrics.count_reopens", "company_enhanced.company_id", "0.5") }}, 2) as median_conversations_reopened,
-        round({{ fivetran_utils.percentile("conversation_metrics.time_to_first_response_minutes", "company_enhanced.company_id", "0.5") }}, 2) as median_time_to_first_response_time_minutes,
-        round({{ fivetran_utils.percentile("conversation_metrics.time_to_first_close_minutes", "company_enhanced.company_id", "0.5") }}, 2) as median_time_to_first_close_minutes,
-        round({{ fivetran_utils.percentile("conversation_metrics.time_to_last_close_minutes", "company_enhanced.company_id", "0.5") }}, 2) as median_time_to_last_close_minutes
+        round(cast({{ fivetran_utils.percentile("conversation_metrics.count_reopens", "company_enhanced.company_id", "0.5") }} as numeric), 2) as median_conversations_reopened,
+        round(cast({{ fivetran_utils.percentile("conversation_metrics.time_to_first_response_minutes", "company_enhanced.company_id", "0.5") }} as numeric), 2) as median_time_to_first_response_time_minutes,
+        round(cast({{ fivetran_utils.percentile("conversation_metrics.time_to_first_close_minutes", "company_enhanced.company_id", "0.5") }} as numeric), 2) as median_time_to_first_close_minutes,
+        round(cast({{ fivetran_utils.percentile("conversation_metrics.time_to_last_close_minutes", "company_enhanced.company_id", "0.5") }} as numeric), 2) as median_time_to_last_close_minutes
     from conversation_metrics
 
     left join contact_enhanced
@@ -60,6 +60,11 @@ median_metrics as (
 
     left join company_enhanced
         on company_enhanced.company_id = contact_company_history.company_id
+
+--The Postgres warehouse does not allow for a group by argument within the `percentile` function. As such, we will apply the group by for all statements at the end of the query for Postgres only.
+    {% if target.type == 'postgres' %} 
+    group by 1
+    {% endif %}
 ),
 
 --Joins the aggregate, and median CTEs to the company_enhanced model. Distinct is necessary to keep grain with median values and aggregates.
