@@ -92,7 +92,7 @@ models:
 Intercom V2.0 does not support API exposure to company-defined business hours. We therefore calculate all `time_to` metrics in their entirety without subtracting business hours.
 
 ## Database support
-This package has been tested on BigQuery, Snowflake, and Redshift.
+This package has been tested on BigQuery, Snowflake, Postgres, and Redshift.
 
 ## Contributions
 Additional contributions to this package are very welcome! Please create issues or open PRs against `main`. Check out [this post](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657) 
