@@ -17,7 +17,5 @@ dbt deps
 dbt seed --target "$db" --full-refresh
 dbt run --target "$db" --full-refresh
 dbt test --target "$db"
-## UPDATE FOR VARS HERE, IF NO VARS, PLEASE REMOVE
-dbt run --vars '{apple_search_ads__using_search_terms: True}' --target "$db" --full-refresh
-dbt test --target "$db"
-### END VARS CHUNK, REMOVE IF NOT USING
+dbt run --vars '{intercom__using_contact_company: false, intercom__using_company_tags: false, intercom__using_contact_tags: false, intercom__using_conversation_tags: false, intercom__using_team: false}' --target "$db"
+dbt test --target "$db" --vars '{intercom__using_contact_company: false, intercom__using_company_tags: false, intercom__using_contact_tags: false, intercom__using_conversation_tags: false, intercom__using_team: false}'
