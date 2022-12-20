@@ -44,12 +44,12 @@ conversation_team_events as (
 final as (
     select distinct
         conversation_part_history.conversation_id,
-        cast(conversation_admin_events.first_close_by_admin_id as {{ dbt_utils.type_string() }}) as first_close_by_admin_id,
-        cast(conversation_admin_events.last_close_by_admin_id as {{ dbt_utils.type_string() }}) as last_close_by_admin_id,
-        cast(conversation_contact_events.first_contact_author_id as {{ dbt_utils.type_string() }}) as first_contact_author_id,
-        cast(conversation_contact_events.last_contact_author_id as {{ dbt_utils.type_string() }}) as last_contact_author_id,
-        cast(conversation_team_events.first_team_id as {{ dbt_utils.type_string() }}) as first_team_id,
-        cast(conversation_team_events.last_team_id as {{ dbt_utils.type_string() }}) as last_team_id,
+        cast(conversation_admin_events.first_close_by_admin_id as {{ dbt.type_string() }}) as first_close_by_admin_id,
+        cast(conversation_admin_events.last_close_by_admin_id as {{ dbt.type_string() }}) as last_close_by_admin_id,
+        cast(conversation_contact_events.first_contact_author_id as {{ dbt.type_string() }}) as first_contact_author_id,
+        cast(conversation_contact_events.last_contact_author_id as {{ dbt.type_string() }}) as last_contact_author_id,
+        cast(conversation_team_events.first_team_id as {{ dbt.type_string() }}) as first_team_id,
+        cast(conversation_team_events.last_team_id as {{ dbt.type_string() }}) as last_team_id,
         conversation_admin_events.first_close_at,
         conversation_admin_events.last_close_at
     from conversation_part_history
