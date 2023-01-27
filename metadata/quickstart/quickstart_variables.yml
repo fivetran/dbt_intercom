@@ -1,0 +1,17 @@
+variables:
+  required:
+    database: intercom_database
+    schema: intercom_schema
+    enabled_configs:
+      intercom__using_contact_company:
+        - contact_company_history
+        - company_history
+      intercom__using_company_tags:
+        - company_tag_history
+      intercom__using_contact_tags:
+        - contact_tag_history
+      intercom__using_conversation_tags:
+        - conversation_tag_history
+      intercom__using_team:
+        - team_admin
+        - team
