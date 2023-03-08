@@ -8,6 +8,9 @@
         <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" /></a>
     <a alt="PRs">
         <img src="https://img.shields.io/badge/Contributions-welcome-blueviolet" /></a>
+    <a alt="Fivetran Quickstart Compatibile"
+        href="https://fivetran.com/docs/transformations/dbt/quickstart">
+        <img src="https://img.shields.io/badge/Fivetran_Quickstart_Compatibile%3F-yes-green.svg" /></a>
 </p>
 
 
@@ -21,6 +24,7 @@
   - Aggregating your team's performance data across all conversations
   - Providing aggregate rating and timeliness metrics for customer conversations to enable company-level conversation performance reporting
 
+<!--section="intercom_transformation_model"-->
 The following table provides a detailed list of all models materialized within this package by default. 
 
 | **Model**                | **Description**                                                                                                                            |
@@ -31,6 +35,7 @@ The following table provides a detailed list of all models materialized within t
 | [intercom__contact_enhanced](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__contact_enhanced.sql)                                         | Each record represents a single contact, enriched with data like the contact's role, company, last contacted information, and email list subscription status. |
 | [intercom__conversation_enhanced](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__conversation_enhanced.sql)                               | Each record represents a single conversation, enriched with conversation part data like who was assigned to the conversation, which contact the conversation was with, the current conversation state, who closed the conversation, and the final conversation ratings from the contact. |
 | [intercom__conversation_metrics](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__conversation_metrics.sql)                                 | Each record represents a single row from `intercom__conversation_enhanced`, enriched with data like time to first response, time to first close, and time to last close. |
+<!--section-end-->
 
 # 🎯 How do I use the dbt package?
 
@@ -145,4 +150,4 @@ We highly encourage and welcome contributions to this package. Check out [this d
 # 🏪 Are there any resources available?
 - If you have questions or want to reach out for help, please refer to the [GitHub Issue](https://github.com/fivetran/dbt_intercom/issues/new/choose) section to find the right avenue of support for you.
 - If you would like to provide feedback to the dbt package team at Fivetran or would like to request a new dbt package, fill out our [Feedback Form](https://www.surveymonkey.com/r/DQ7K7WW).
-- Have questions or want to just say hi? Book a time during our office hours [on Calendly](https://calendly.com/fivetran-solutions-team/fivetran-solutions-team-office-hours) or email us at solutions@fivetran.com.
+- Have questions or want to be part of the community discourse? Create a post in the [Fivetran community](https://community.fivetran.com/t5/user-group-for-dbt/gh-p/dbt-user-group) and our team along with the community can join in on the discussion!
