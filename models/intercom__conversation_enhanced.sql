@@ -111,7 +111,7 @@ enriched as (
         latest_conversation.conversation_rating_remark as conversation_remark
 
         --Fill pass through columns.
-        {{ fivetran_utils.fill_pass_through_columns('intercom__conversation_history_pass_through_columns') }}
+        {{ fivetran_utils.persist_pass_through_columns('intercom__conversation_history_pass_through_columns', 'latest_conversation') }}
 
     from latest_conversation
 

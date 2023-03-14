@@ -66,17 +66,15 @@ vars:
 <details><summary>Expand for configurations</summary>
 
 ### Adding passthrough metrics
-If you'd like, you can also add additional columns to the `intercom__company_enhanced` and/or `intercom__contact_enhanced` tables. 
-Any columns you pass must be present in the downstream source contact and/or company tables. See 
+You can add additional columns to the `intercom__company_enhanced`, `intercom__contact_enhanced`, and `intercom__conversation_enhanced` tables. 
+Any columns you pass must be present in the upstream source contact, company, or conversation tables. See 
 below for an example of how to configure the passthrough columns in your `dbt_project.yml` file.
 
 ```yml
-# dbt_project.yml
-
-...
 vars:
   intercom__company_history_pass_through_columns: [company_custom_field_1, company_custom_field_2]
   intercom__contact_history_pass_through_columns: [contact_custom_column]
+  intercom__conversation_history_pass_through_columns: [another_custom_field, another_custom_field_2]
 ```
 This package assumes that you use Intercom's `company tag`, `contact tag`, `contact company`, and `conversation tag`, `team` and `team admin` mapping tables. If you do not use these tables, add the configuration below to your `dbt_project.yml`. By default, these variables are set to `True`:
 
@@ -96,9 +94,6 @@ vars:
 By default this package will build the Intercom staging models within a schema titled (<target_schema> + `_stg_intercom`) and the Intercom final models with a schema titled (<target_schema> + `_intercom`) in your target database. If this is not where you would like your modeled Intercom data to be written to, add the following configuration to your `dbt_project.yml` file:
 
 ```yml
-# dbt_project.yml
-
-...
 models:
   intercom:
     +schema: my_new_schema_name # leave blank for just the target_schema

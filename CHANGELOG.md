@@ -1,3 +1,8 @@
+# dbt_intercom v0.6.1
+## ⭐ Features ⭐
+- Custom columns from source table `conversation_history` can now be persisted through to downstream models `intercom__conversation_enhanced` and `intercom__conversation_metrics`. ([#37](https://github.com/fivetran/dbt_intercom/pull/37))
+- Updated [README](https://github.com/fivetran/dbt_intercom#passthrough-columns) for this new passthrough capability. ([#37](https://github.com/fivetran/dbt_intercom/pull/37))
+
 # dbt_intercom v0.6.0
 
 ## 🚨 Breaking Changes 🚨:
