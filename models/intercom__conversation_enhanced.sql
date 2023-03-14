@@ -109,6 +109,10 @@ enriched as (
 
         latest_conversation.conversation_rating_value as conversation_rating,
         latest_conversation.conversation_rating_remark as conversation_remark
+
+        --Fill pass through columns.
+        {{ fivetran_utils.fill_pass_through_columns('intercom__conversation_history_pass_through_columns') }}
+
     from latest_conversation
 
     left join latest_conversation_contact 
