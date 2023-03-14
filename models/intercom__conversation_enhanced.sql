@@ -137,10 +137,10 @@ enriched as (
 
     {% if var('intercom__using_team', True) %}
     left join team as first_team
-        on cast(first_team.team_id as {{ dbt_utils.type_string() }}) = conversation_part_events.first_team_id
+        on cast(first_team.team_id as {{ dbt.type_string() }}) = conversation_part_events.first_team_id
 
     left join team as last_team
-        on cast(last_team.team_id as {{ dbt_utils.type_string() }}) = conversation_part_events.last_team_id
+        on cast(last_team.team_id as {{ dbt.type_string() }}) = conversation_part_events.last_team_id
     {% endif %}
 
 )
