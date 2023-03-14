@@ -30,6 +30,7 @@ vars:
     intercom__using_team: true
     intercom__company_history_pass_through_columns: []
     intercom__contact_history_pass_through_columns: []
+    intercom__conversation_history_pass_through_columns: []
 clean-targets:
 - target
 - dbt_modules
