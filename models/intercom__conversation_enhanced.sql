@@ -80,7 +80,7 @@ latest_conversation_enriched as (
         sla_name,
         sla_status,
         conversation_rating_value as conversation_rating,
-        conversation_rating_remark as conversation_remark
+        conversation_rating_remark as conversation_remark,
 
         {{ fivetran_utils.fill_pass_through_columns('intercom__conversation_history_pass_through_columns') }}
 
