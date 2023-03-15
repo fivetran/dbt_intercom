@@ -41,12 +41,12 @@ tags as (
 --Aggregates the tags associated with a single conversation into an array.
 conversation_tags_aggregate as (
     select
-        latest_conversation.conversation_id,
+        latest_conversation_enriched.conversation_id,
         {{ fivetran_utils.string_agg('distinct tags.name', "', '" ) }} as all_conversation_tags
     from latest_conversation
 
     left join conversation_tags
-        on conversation_tags.conversation_id = latest_conversation.conversation_id
+        on conversation_tags.conversation_id = latest_conversation_enriched.conversation_id
         
     left join tags
         on tags.tag_id = conversation_tags.tag_id
@@ -122,13 +122,13 @@ enriched_final as (
     from latest_conversation_enriched
 
     left join latest_conversation_contact 
-        on latest_conversation_contact.conversation_id = latest_conversation.conversation_id
+        on latest_conversation_contact.conversation_id = latest_conversation_enriched.conversation_id
 
     left join conversation_string_aggregates
-        on conversation_string_aggregates.conversation_id = latest_conversation.conversation_id
+        on conversation_string_aggregates.conversation_id = latest_conversation_enriched.conversation_id
 
     left join conversation_part_events
-        on conversation_part_events.conversation_id = latest_conversation.conversation_id
+        on conversation_part_events.conversation_id = latest_conversation_enriched.conversation_id
     
     {% if var('intercom__using_contact_company', True) %}
     left join contact_enhanced
@@ -138,7 +138,7 @@ enriched_final as (
     --If you use conversation tags this will be included, if not it will be ignored.
     {% if var('intercom__using_conversation_tags', True) %}
     left join conversation_tags_aggregate
-        on conversation_tags_aggregate.conversation_id = latest_conversation.conversation_id
+        on conversation_tags_aggregate.conversation_id = latest_conversation_enriched.conversation_id
     {% endif %} 
 
     {% if var('intercom__using_team', True) %}
