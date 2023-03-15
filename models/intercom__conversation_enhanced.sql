@@ -116,7 +116,7 @@ enriched_final as (
         conversation_string_aggregates.conversation_contacts as all_conversation_contacts,
 
         {% if var('intercom__using_contact_company', True) %}
-        contact_enhanced.all_contact_company_names,
+        contact_enhanced.all_contact_company_names
         {% endif %}
 
     from latest_conversation_enriched
