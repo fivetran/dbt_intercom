@@ -1,4 +1,7 @@
 packages:
-- package: fivetran/intercom_source
-  version: [">=0.6.0", "<0.7.0"]
+# - package: fivetran/intercom_source
+#   version: [">=0.6.0", "<0.7.0"]
+  - git: https://github.com/fivetran/dbt_intercom_source.git
+    revision: bugfix/first-admin-response
+    warn-unpinned: false 
 

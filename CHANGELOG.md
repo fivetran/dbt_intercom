@@ -1,3 +1,7 @@
+# dbt_intercom v0.6.1
+## Bug Fixes
+- Adjusted the `first_admin_response_at` and `last_admin_response_at` logic within `int_intercom__conversation_part_aggregates` to take into account that admin replies may sometimes exist within assignment parts. This is differentiated from normal assignments by also checking to determine if the body of the part is populated. If it is, then it is safe to assume this is a true admin reply and should be counted as such.
+
 # dbt_intercom v0.6.0
 
 ## 🚨 Breaking Changes 🚨:
