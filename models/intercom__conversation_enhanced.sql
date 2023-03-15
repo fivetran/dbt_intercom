@@ -90,7 +90,7 @@ latest_conversation_enriched as (
 --Enriches the latest conversation model with data from conversation_part_events, conversation_string_aggregates, and conversation_tags_aggregate
 enriched_final as ( 
     select
-        latest_conversation_enriched.*
+        latest_conversation_enriched.*,
 
         conversation_part_events.first_close_at,
         conversation_part_events.last_close_at,
