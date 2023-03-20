@@ -1,6 +1,12 @@
 # dbt_intercom v0.6.1
-## Bug Fixes
+
+## 🐛 Bug Fixes 🐛
 - Adjusted the `first_admin_response_at` and `last_admin_response_at` logic within `int_intercom__conversation_part_aggregates` to take into account that admin replies may sometimes exist within assignment parts. This is differentiated from normal assignments by also checking to determine if the body of the part is populated. If it is, then it is safe to assume this is a true admin reply and should be counted as such.
+
+## ⭐ Features ⭐
+- Passthrough columns variables can now be configured with an alias and a transform. Refer to [Passthrough Columns](https://github.com/fivetran/dbt_intercom_source#passthrough-columns) of the README for more information. ([#37](https://github.com/fivetran/dbt_intercom/pull/37))
+- Custom columns from source table `conversation_history` can now be persisted through to downstream models `intercom__conversation_enhanced` and `intercom__conversation_metrics`. ([#37](https://github.com/fivetran/dbt_intercom/pull/37))
+
 
 # dbt_intercom v0.6.0
 
