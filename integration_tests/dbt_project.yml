@@ -88,6 +88,3 @@ seeds:
     team_data:
       +column_types:
         id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
-clean-targets:
-- target
-- dbt_modules
