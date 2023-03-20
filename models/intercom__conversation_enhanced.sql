@@ -63,25 +63,43 @@ team as (
 ),
 {% endif %}
 
+latest_conversation_enriched as (
+    select 
+        conversation_id,
+        created_at as conversation_created_at,
+        updated_at as conversation_last_updated_at,
+        source_type as conversation_type,
+        source_delivered_as as conversation_initiated_type,
+        source_subject as conversation_subject,
+        case when (assignee_type is not null) then assignee_type else 'unassigned' end as conversation_assignee_type,
+        source_author_type as conversation_author_type,
+        state as conversation_state,
+        is_read,
+        waiting_since,
+        snoozed_until,
+        sla_name,
+        sla_status,
+        conversation_rating_value as conversation_rating,
+        conversation_rating_remark as conversation_remark
+
+        {{ fivetran_utils.fill_pass_through_columns('intercom__conversation_history_pass_through_columns') }}
+
+    from latest_conversation
+),
+
 --Enriches the latest conversation model with data from conversation_part_events, conversation_string_aggregates, and conversation_tags_aggregate
-enriched as ( 
+enriched_final as ( 
     select
-        latest_conversation.conversation_id,
-        latest_conversation.created_at as conversation_created_at,
-        latest_conversation.updated_at as conversation_last_updated_at,
+        latest_conversation_enriched.*,
+
         conversation_part_events.first_close_at,
         conversation_part_events.last_close_at,
-        latest_conversation.source_type as conversation_type,
-        latest_conversation.source_delivered_as as conversation_initiated_type,
 
         --If you use conversation tags this will be included, if not it will be ignored.
         {% if var('intercom__using_conversation_tags', True) %}
         conversation_tags_aggregate.all_conversation_tags,
         {% endif %} 
 
-        latest_conversation.source_subject as conversation_subject,
-        case when (latest_conversation.assignee_type is not null) then latest_conversation.assignee_type else 'unassigned' end as conversation_assignee_type,
-        latest_conversation.source_author_type as conversation_author_type,
         conversation_part_events.first_close_by_admin_id,
         conversation_part_events.last_close_by_admin_id,
         conversation_part_events.first_contact_author_id,
@@ -94,31 +112,23 @@ enriched as (
         last_team.name as last_team_name,
         {% endif %}
 
-        latest_conversation.state as conversation_state,
-        latest_conversation.is_read,
-        latest_conversation.waiting_since,
-        latest_conversation.snoozed_until,
-        latest_conversation.sla_name,
-        latest_conversation.sla_status,
-        conversation_string_aggregates.conversation_admins as all_conversation_admins,
-        conversation_string_aggregates.conversation_contacts as all_conversation_contacts,
-
         {% if var('intercom__using_contact_company', True) %}
         contact_enhanced.all_contact_company_names,
         {% endif %}
 
-        latest_conversation.conversation_rating_value as conversation_rating,
-        latest_conversation.conversation_rating_remark as conversation_remark
-    from latest_conversation
+        conversation_string_aggregates.conversation_admins as all_conversation_admins,
+        conversation_string_aggregates.conversation_contacts as all_conversation_contacts
+
+    from latest_conversation_enriched
 
     left join latest_conversation_contact 
-        on latest_conversation_contact.conversation_id = latest_conversation.conversation_id
+        on latest_conversation_contact.conversation_id = latest_conversation_enriched.conversation_id
 
     left join conversation_string_aggregates
-        on conversation_string_aggregates.conversation_id = latest_conversation.conversation_id
+        on conversation_string_aggregates.conversation_id = latest_conversation_enriched.conversation_id
 
     left join conversation_part_events
-        on conversation_part_events.conversation_id = latest_conversation.conversation_id
+        on conversation_part_events.conversation_id = latest_conversation_enriched.conversation_id
     
     {% if var('intercom__using_contact_company', True) %}
     left join contact_enhanced
@@ -128,7 +138,7 @@ enriched as (
     --If you use conversation tags this will be included, if not it will be ignored.
     {% if var('intercom__using_conversation_tags', True) %}
     left join conversation_tags_aggregate
-        on conversation_tags_aggregate.conversation_id = latest_conversation.conversation_id
+        on conversation_tags_aggregate.conversation_id = latest_conversation_enriched.conversation_id
     {% endif %} 
 
     {% if var('intercom__using_team', True) %}
@@ -141,4 +151,4 @@ enriched as (
 
 )
 select * 
-from enriched
+from enriched_final
