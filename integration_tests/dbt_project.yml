@@ -1,5 +1,5 @@
 name: 'intercom_integration_tests'
-version: '0.6.0'
+version: '0.6.1'
 profile: 'integration_tests'
 config-version: 2
 models:
@@ -88,6 +88,3 @@ seeds:
     team_data:
       +column_types:
         id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
-clean-targets:
-- target
-- dbt_modules
