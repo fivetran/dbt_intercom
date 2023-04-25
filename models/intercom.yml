@@ -189,9 +189,9 @@ models:
       - name: last_close_by_admin_id
         description: The admin_id of the admin who last closed the conversation.
       - name: first_close_by_author_id
-        description: The author_id of the author (admin, bot, user, etc.) who was first closed to the conversation.
+        description: The author_id of the author (of author_type admin, bot, user, etc.) who was first closed to the conversation.
       - name: last_close_by_author_id
-        description: The author_id of the author (admin, bot, user, etc.) who was last closed to the conversation.
+        description: The author_id of the author (of author_type admin, bot, user, etc.) who was last closed to the conversation.
       - name: first_contact_author_id
         description: The contact_id of the contact who was first associated with the conversation.
       - name: last_contact_author_id
@@ -217,9 +217,9 @@ models:
       - name: last_admin_close_at
         description: The time of the last conversation part where part_type was 'close' by an admin indicating the conversation was closed.
       - name: first_close_at
-        description: The time of the first conversation part where part_type was 'close' by any author indicating the conversation was closed.
+        description: The time of the first conversation part where part_type was 'close' by any author type indicating the conversation was closed.
       - name: last_close_at
-        description: The time of the last conversation part where part_type was 'close' by any author indicating the conversation was closed.
+        description: The time of the last conversation part where part_type was 'close' by any author type indicating the conversation was closed.
       - name: all_contact_company_names
         description: String aggregation of all companies the first_author_contact is associated with.
       - name: conversation_rating
@@ -259,7 +259,7 @@ models:
       - name: first_admin_close_at
         description: The time of the first conversation part where part_type was 'close' by an admin indicating the conversation was closed.
       - name: first_close_at
-        description: The time of the first conversation part where part_type was 'close' by any author indicating the conversation was closed.
+        description: The time of the first conversation part where part_type was 'close' by any author type indicating the conversation was closed.
       - name: time_to_admin_first_close_minutes
         description: The time difference (not factoring in business hours) between the first_admin_response_at and the first_admin_close_at.
       - name: time_to_first_close_minutes
@@ -279,7 +279,7 @@ models:
       - name: last_admin_close_at
         description: The time of the last conversation part where part_type was 'close' by an admin indicating the conversation was closed.
       - name: last_close_at
-        description: The time of the last conversation part where part_type was 'close' by any author indicating the conversation was closed.
+        description: The time of the last conversation part where part_type was 'close' by any author type indicating the conversation was closed.
       - name: time_to_admin_last_close_minutes
         description: The time difference (not factoring in business hours) between the last_admin_close_at and the first_contact_reply.
       - name: time_to_last_close_minutes
@@ -310,9 +310,9 @@ models:
       - name: last_close_by_admin_id
         description: The admin_id of the admin who last closed the conversation.
       - name: first_close_by_author_id
-        description: The author_id of the author (admin, bot, user, etc.) who was first closed to the conversation.
+        description: The author_id of the author (of author_type admin, bot, user, etc.) who was first closed to the conversation.
       - name: last_close_by_author_id
-        description: The author_id of the author (admin, bot, user, etc.) who was last closed to the conversation.
+        description: The author_id of the author (of author_type admin, bot, user, etc.) who was last closed to the conversation.
       - name: first_contact_author_id
         description: The contact_id of the contact who was first associated with the conversation.
       - name: last_contact_author_id
