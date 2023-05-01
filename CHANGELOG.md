@@ -16,6 +16,11 @@ As discussed within [Issue #40](https://github.com/fivetran/dbt_intercom/issues/
 | intercom__conversation_metrics | time_to_first_close_minutes | Previously leveraged first_close_at which only took into account admin close parts. | The time difference (not factoring in business hours) between the first_contact_reply_at and the first_close_at. |
 | intercom__conversation_metrics | time_to_admin_first_close_minutes | N/A this is a new field. | The time difference (not factoring in business hours) between the first_contact_reply_at and the first_admin_close_at.|
 | intercom__conversation_metrics | time_to_admin_last_close_minutes | N/A this is a new field. | The time difference (not factoring in business hours) between the first_contact_reply and the last_admin_close_at.| 
+
+## Under the Hood:
+- Incorporated the new `fivetran_utils.drop_schemas_automation` macro into the end of each Buildkite integration test job. ([#42](https://github.com/fivetran/dbt_intercom/pull/42))
+- Updated the pull request [templates](/.github). ([#42](https://github.com/fivetran/dbt_intercom/pull/42))
+
 # dbt_intercom v0.6.1
 
 ## 🐛 Bug Fixes 🐛
