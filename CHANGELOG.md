@@ -14,8 +14,8 @@ As discussed within [Issue #40](https://github.com/fivetran/dbt_intercom/issues/
 |intercom__conversation_enhanced / intercom__conversation_metrics | last_close_by_author_id | N/A this is a new field | The author_id of the author (admin, bot, user, etc.) who was last closed to the conversation. |
 | intercom__conversation_metrics | time_to_last_close_minutes | Previously leveraged last_close_at which only took into account admin close parts. | The time difference (not factoring in business hours) between the last_close_at and the first_contact_reply. |
 | intercom__conversation_metrics | time_to_first_close_minutes | Previously leveraged first_close_at which only took into account admin close parts. | The time difference (not factoring in business hours) between the first_admin_response_at and the first_close_at. |
-| intercom__conversation_metrics | time_to_admin_first_close_minutes | N/A this is a new field. | The time difference (not factoring in business hours) between the first_admin_response_at and the first_admin_close_at.|
-| intercom__conversation_metrics | time_to_admin_last_close_minutes | N/A this is a new field. | The time difference (not factoring in business hours) between the first_admin_response_at and the last_admin_close_at.| 
+| intercom__conversation_metrics | time_to_admin_first_close_minutes | N/A this is a new field. | The time difference (not factoring in business hours) between the first_contact_reply_at and the first_admin_close_at.|
+| intercom__conversation_metrics | time_to_admin_last_close_minutes | N/A this is a new field. | The time difference (not factoring in business hours) between the first_contact_reply and the last_admin_close_at.| 
 # dbt_intercom v0.6.1
 
 ## 🐛 Bug Fixes 🐛

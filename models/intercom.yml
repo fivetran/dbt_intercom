@@ -261,7 +261,7 @@ models:
       - name: first_close_at
         description: The time of the first conversation part where part_type was 'close' by any author type indicating the conversation was closed.
       - name: time_to_admin_first_close_minutes
-        description: The time difference (not factoring in business hours) between the first_admin_response_at and the first_admin_close_at.
+        description: The time difference (not factoring in business hours) between the first_contact_reply_at and the first_admin_close_at.
       - name: time_to_first_close_minutes
         description: The time difference (not factoring in business hours) between the first_contact_reply_at and the first_close_at.
       - name: first_reopen_at
