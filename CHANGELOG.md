@@ -1,3 +1,26 @@
+# dbt_intercom v0.7.0
+## 🚨 Breaking Changes 🚨:
+As discussed within [Issue #40](https://github.com/fivetran/dbt_intercom/issues/40) it became apparent that the `first_close_*` and `last_close_*` metrics in the `intercom__conversation_enhanced` and `intercom__conversation_metrics` models was not entirely accurate if an Intercom user is leveraging bots to help auto  close conversations. As such, the following changed/new fields have been applied in this release. ([#41](https://github.com/fivetran/dbt_intercom/pull/41/))
+
+> **Note**: If you are leveraging any of the following metrics I highly encourage understanding the new description in case you need to adjust any downstream references or visualizations.
+
+| model | field_name | previous_description | new_description |
+|-------|------------|-----------------|-----------------|
+|intercom__conversation_enhanced / intercom__conversation_metrics | first_close_at | The time of the first conversation part where part_type was 'close' indicating the conversation was closed. | The time of the first conversation part where part_type was 'close' by any author indicating the conversation was closed. |
+|intercom__conversation_enhanced / intercom__conversation_metrics | last_close_at | The time of the last conversation part where part_type was 'close' indicating the conversation was closed. | The time of the last conversation part where part_type was 'close' by any author indicating the conversation was closed. |
+|intercom__conversation_enhanced / intercom__conversation_metrics | first_admin_close_at | N/A this is a new field, but was the previous first_close_at value | The time of the first conversation part where part_type was 'close' by an admin indicating the conversation was closed. |
+|intercom__conversation_enhanced / intercom__conversation_metrics | last_admin_close_at | N/A this is a new field, but was the previous last_close_at value | The time of the last conversation part where part_type was 'close' by an admin indicating the conversation was closed. |
+|intercom__conversation_enhanced / intercom__conversation_metrics | first_close_by_author_id | N/A this is a new field | The author_id of the author (admin, bot, user, etc.) who was first closed to the conversation. |
+|intercom__conversation_enhanced / intercom__conversation_metrics | last_close_by_author_id | N/A this is a new field | The author_id of the author (admin, bot, user, etc.) who was last closed to the conversation. |
+| intercom__conversation_metrics | time_to_last_close_minutes | Previously leveraged last_close_at which only took into account admin close parts. | The time difference (not factoring in business hours) between the last_close_at and the first_contact_reply. |
+| intercom__conversation_metrics | time_to_first_close_minutes | Previously leveraged first_close_at which only took into account admin close parts. | The time difference (not factoring in business hours) between the first_contact_reply_at and the first_close_at. |
+| intercom__conversation_metrics | time_to_admin_first_close_minutes | N/A this is a new field. | The time difference (not factoring in business hours) between the first_contact_reply_at and the first_admin_close_at.|
+| intercom__conversation_metrics | time_to_admin_last_close_minutes | N/A this is a new field. | The time difference (not factoring in business hours) between the first_contact_reply and the last_admin_close_at.| 
+
+## Under the Hood:
+- Incorporated the new `fivetran_utils.drop_schemas_automation` macro into the end of each Buildkite integration test job. ([#42](https://github.com/fivetran/dbt_intercom/pull/42))
+- Updated the pull request [templates](/.github). ([#42](https://github.com/fivetran/dbt_intercom/pull/42))
+
 # dbt_intercom v0.6.1
 
 ## 🐛 Bug Fixes 🐛

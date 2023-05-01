@@ -94,6 +94,8 @@ enriched_final as (
 
         conversation_part_events.first_close_at,
         conversation_part_events.last_close_at,
+        conversation_part_events.first_admin_close_at,
+        conversation_part_events.last_admin_close_at,
 
         --If you use conversation tags this will be included, if not it will be ignored.
         {% if var('intercom__using_conversation_tags', True) %}
@@ -102,6 +104,8 @@ enriched_final as (
 
         conversation_part_events.first_close_by_admin_id,
         conversation_part_events.last_close_by_admin_id,
+        conversation_part_events.first_close_by_author_id,
+        conversation_part_events.last_close_by_author_id,
         conversation_part_events.first_contact_author_id,
         conversation_part_events.last_contact_author_id,
         conversation_part_events.first_team_id,
