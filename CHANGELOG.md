@@ -1,3 +1,7 @@
+# dbt_intercom v0.8.0
+## 🎉 Feature Update 🎉
+- Databricks compatibility! ([#44](https://github.com/fivetran/dbt_intercom/pull/44))
+
 # dbt_intercom v0.7.0
 ## 🚨 Breaking Changes 🚨:
 As discussed within [Issue #40](https://github.com/fivetran/dbt_intercom/issues/40) it became apparent that the `first_close_*` and `last_close_*` metrics in the `intercom__conversation_enhanced` and `intercom__conversation_metrics` models was not entirely accurate if an Intercom user is leveraging bots to help auto  close conversations. As such, the following changed/new fields have been applied in this release. ([#41](https://github.com/fivetran/dbt_intercom/pull/41/))
