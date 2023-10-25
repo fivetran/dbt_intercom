@@ -1,3 +1,6 @@
 packages:
-  - package: fivetran/intercom_source
-    version: [">=0.7.0", "<0.8.0"]
+  # - package: fivetran/intercom_source
+  #   version: [">=0.7.0", "<0.8.0"]
+  - git: https://github.com/fivetran/dbt_intercom_source.git
+    revision: test/calogica_version_update
+    warn-unpinned: false
