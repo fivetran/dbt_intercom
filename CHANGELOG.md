@@ -1,6 +1,6 @@
 # dbt_intercom v0.9.0
 ## 🚨 Breaking Changes 🚨
-- In [October 2023 the Intercom API upgraded from 2.9 to 2.10](https://fivetran.com/docs/applications/intercom/changelog#october2023) which resulted in the the connector schema receiving updates. These updates have downstream impacts on the data models within this package. The following changes are a result of the Intercom API and connector upgrades:
+- In [October 2023 the Intercom API upgraded from 2.9 to 2.10](https://fivetran.com/docs/applications/intercom/changelog#october2023) which resulted in the connector schema receiving updates. These updates have downstream impacts on the data models within this package. The following changes are a result of the Intercom API and connector upgrades:
   - Breaking changes within the dbt_intercom_source package. Please refer to the relevant [Intercom Source release notes](ttps://github.com/fivetran/dbt_intercom_source/releases/tag/v0.8.0) for more details around the source package breaking changes.
   - Removal of the `_fivetran_deleted` field within the following end models:
     - `intercom__company_enhanced`
