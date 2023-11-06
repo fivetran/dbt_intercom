@@ -1,11 +1,13 @@
 with latest_conversation_part as (
   select *
-  from {{ ref('int_intercom__latest_conversation_part') }}
+  from {{ var('conversation_part_history') }}
+  where _fivetran_active
 ),
 
 latest_conversation as (
   select *
-  from {{ ref('int_intercom__latest_conversation') }}
+  from {{ var('conversation_history') }}
+  where _fivetran_active
 ),
 
 --Aggregates conversation part data related to a single conversation from the int_intercom__latest_conversation model. See below for specific aggregates.

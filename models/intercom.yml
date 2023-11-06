@@ -68,8 +68,12 @@ models:
         description: The name of the plan you have associated with the company.
       - name: updated_at
         description: The time the company was last updated at.
-      - name: _fivetran_deleted
-        description: Boolean indicating whether the contact is deleted.
+      - name: _fivetran_active
+        description: Boolean to identify an active record.
+      - name: _fivetran_start
+        description: Timestamp to record the time that a record is ingested by Fivetran. This value may not be identical to the time the record was created in the source system.
+      - name: _fivetran_end
+        description: Timestamp to record the time when a record became inactive in the source system.
       
   - name: intercom__company_metrics
     description: >
@@ -115,8 +119,12 @@ models:
         description: The name of the plan you have associated with the company.
       - name: updated_at
         description: The time the company was last updated at.
-      - name: _fivetran_deleted
-        description: Boolean indicating whether the contact is deleted.
+      - name: _fivetran_active
+        description: Boolean to identify an active record.
+      - name: _fivetran_start
+        description: Timestamp to record the time that a record is ingested by Fivetran. This value may not be identical to the time the record was created in the source system.
+      - name: _fivetran_end
+        description: Timestamp to record the time when a record became inactive in the source system.
 
   - name: intercom__contact_enhanced
     description: >
@@ -156,6 +164,12 @@ models:
         description: Boolean indicating whether the contact has unsubscribed from emails.
       - name: all_contact_company_names
         description: String aggregation of all companies the contact is associated with.
+      - name: _fivetran_active
+        description: Boolean to identify an active record.
+      - name: _fivetran_start
+        description: Timestamp to record the time that a record is ingested by Fivetran. This value may not be identical to the time the record was created in the source system.
+      - name: _fivetran_end
+        description: Timestamp to record the time when a record became inactive in the source system.
 
   - name: intercom__conversation_enhanced
     description: >

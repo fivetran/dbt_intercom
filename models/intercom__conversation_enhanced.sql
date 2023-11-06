@@ -1,11 +1,13 @@
 with latest_conversation as (
     select *
-    from {{ ref('int_intercom__latest_conversation') }}
+    from {{ var('conversation_history') }}
+    where _fivetran_active
 ),
 
 latest_conversation_contact as (
     select *
-    from {{ ref('int_intercom__latest_conversation_contact') }}
+    from {{ var('conversation_contact_history') }}
+    where _fivetran_active
 ),
 
 conversation_string_aggregates as (

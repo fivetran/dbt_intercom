@@ -1,3 +1,26 @@
+# dbt_intercom v0.9.0
+## 🚨 Breaking Changes 🚨
+- In [October 2023 the Intercom API upgraded from 2.9 to 2.10](https://fivetran.com/docs/applications/intercom/changelog#october2023) which resulted in the the connector schema receiving updates. These updates have downstream impacts on the data models within this package. The following changes are a result of the Intercom API and connector upgrades:
+  - Breaking changes within the dbt_intercom_source package. Please refer to the relevant [Intercom Source release notes](ttps://github.com/fivetran/dbt_intercom_source/releases/tag/v0.8.0) for more details around the source package breaking changes.
+  - Removal of the `_fivetran_deleted` field within the following end models:
+    - `intercom__company_enhanced`
+    - `intercom__company_metrics`
+    - `intercom__contact_enhanced`
+  - Removal of the following intermediate models as filtering on the new `_fivetran_active` field achieves the same result:
+    - `int_intercom__latest_contact`
+    - `int_intercom__latest_conversation`
+    - `int_intercom__latest_conversation_contact`
+    - `int_intercom__latest_conversation_part`
+
+## Feature Updates
+- The `_fivetran_active`, `_fivetran_start`, and `_fivetran_end` fields have been added to all `*_history` staging models as well as the following end models to replace the deprecated `_fivetran_deleted` field:
+  - `intercom__company_enhanced`
+  - `intercom__company_metrics`
+  - `intercom__contact_enhanced`
+
+## Dependency Updates
+- Removal of the dbt_expectations dependency.
+
 # dbt_intercom v0.8.0
 ## 🎉 Feature Update 🎉
 - Databricks compatibility! ([#44](https://github.com/fivetran/dbt_intercom/pull/44))
