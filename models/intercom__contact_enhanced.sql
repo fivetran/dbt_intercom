@@ -1,7 +1,8 @@
 --take latest contact history to get the last update for the contact
 with contact_latest as (
   select *
-  from {{ ref('int_intercom__latest_contact') }}
+  from {{ var('contact_history') }}
+  where coalesce(_fivetran_active, true)
 ),
 
 --If you use the contact company table this will be included, if not it will be ignored.
