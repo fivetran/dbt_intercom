@@ -21,7 +21,7 @@
   - `intercom__contact_enhanced`
 
 ## Dependency Updates
-- Removal of the dbt_expectations dependency.
+- Removal of the dbt_expectations dependency. These removal was applied in the upstream dbt_intercom_source [PR #36](https://github.com/fivetran/dbt_intercom_source/pull/36)
 
 # dbt_intercom v0.8.0
 ## 🎉 Feature Update 🎉
