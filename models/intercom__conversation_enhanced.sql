@@ -7,7 +7,7 @@ with latest_conversation as (
 latest_conversation_contact as (
     select *
     from {{ var('conversation_contact_history') }}
-    where _fivetran_active
+    where coalesce(_fivetran_active, true)
 ),
 
 conversation_string_aggregates as (
