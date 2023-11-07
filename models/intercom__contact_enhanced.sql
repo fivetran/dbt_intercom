@@ -2,7 +2,7 @@
 with contact_latest as (
   select *
   from {{ var('contact_history') }}
-  where _fivetran_active
+  where coalesce(_fivetran_active, true)
 ),
 
 --If you use the contact company table this will be included, if not it will be ignored.
