@@ -1,0 +1,28 @@
+database_key: intercom_database
+schema_key: intercom_schema
+
+dbt_versions: [">=1.3.0", "<2.0.0"]
+
+table_variables:
+  - intercom__using_contact_company:
+    - company_history
+    - contact_company_history
+  - intercom__using_company_tags:
+    - company_tag_history
+  - intercom__using_contact_tags:
+    - contact_tag_history
+  - intercom__using_conversation_tags:
+    - conversation_tag_history
+  - intercom__using_team:
+    - team
+    - team_admin
+
+destination_configurations:
+  - databricks:
+    - dispatch:
+      - macro_namespace: dbt_utils
+        search_order: ['spark_utils', 'dbt_utils']
+  - bigquery
+  - snowflake
+  - postgres
+  - redshift
