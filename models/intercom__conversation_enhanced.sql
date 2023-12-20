@@ -4,12 +4,6 @@ with latest_conversation as (
     where coalesce(_fivetran_active, true)
 ),
 
-latest_conversation_contact as (
-    select *
-    from {{ var('conversation_contact_history') }}
-    where coalesce(_fivetran_active, true)
-),
-
 conversation_string_aggregates as (
     select *
     from {{ ref('int_intercom__conversation_string_aggregates') }}
@@ -126,9 +120,6 @@ enriched_final as (
         conversation_string_aggregates.conversation_contacts as all_conversation_contacts
 
     from latest_conversation_enriched
-
-    left join latest_conversation_contact 
-        on latest_conversation_contact.conversation_id = latest_conversation_enriched.conversation_id
 
     left join conversation_string_aggregates
         on conversation_string_aggregates.conversation_id = latest_conversation_enriched.conversation_id
