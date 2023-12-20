@@ -23,3 +23,7 @@ Before marking this PR as "ready for review" the following have been applied:
 ### Detailed Validation
 Please share any and all of your validation steps:
 <!--- Provide the steps you took to validate your changes below. -->
+
+### If you had to summarize this PR in an emoji, which would it be?
+<!--- For a complete list of markdown compatible emojis check our this git repo (https://gist.github.com/rxaviers/7360908)  --> 
+:dancer:

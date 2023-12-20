@@ -1,10 +1,12 @@
 # dbt_intercom v0.9.1
 
+[PR #50](https://github.com/fivetran/dbt_intercom/pull/50) includes the following updates:
 ## Bug Fixes
 - Removed the reference and join to the `latest_conversation_contact` cte within the [intercom__conversation_enhanced](https://github.com/fivetran/dbt_intercom/blob/3a814beed12a4c3950ddc4cb97d0eb20ddc009bf/models/intercom__conversation_enhanced.sql) model as it was not being leveraged.
 
 ## Under the Hood
 - Included auto-releaser GitHub Actions workflow to automate future releases.
+- Updated the maintainer PR template to resemble the most up to date format.
 
 # dbt_intercom v0.9.0
 
