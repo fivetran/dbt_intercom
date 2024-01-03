@@ -1,7 +1,7 @@
 # dbt_intercom v0.NEXT.RELEASE
 
 ## Under the Hood
-- Included a `quickstart.yml` file to allow for automated Quickstart data model deployments.
+- Updated the `quickstart.yml` file to allow for automated Quickstart data model deployments.
 
 # dbt_intercom v0.9.1
 
