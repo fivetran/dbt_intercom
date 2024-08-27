@@ -19,15 +19,15 @@
 - Produces modeled tables that leverage Intercom data from [Fivetran's connector](https://fivetran.com/docs/applications/intercom) in the format described by [this ERD](https://fivetran.com/docs/applications/intercom#schemainformation) and builds off the output of our [Intercom source package](https://github.com/fivetran/dbt_intercom_source).
 
 - Enables you to better understand the performance, responsiveness, and effectiveness of your team's conversations with customers via Intercom. It achieves this by:
-- Creating an enhanced conversations table to enable large-scale reporting on all current and closed conversations
-- Enriching conversation data with relevant contacts data
-- Aggregating your team's performance data across all conversations
-- Providing aggregate rating and timeliness metrics for customer conversations to enable company-level conversation performance reporting
+  - Creating an enhanced conversations table to enable large-scale reporting on all current and closed conversations
+  - Enriching conversation data with relevant contacts data
+  - Aggregating your team's performance data across all conversations
+  - Providing aggregate rating and timeliness metrics for customer conversations to enable company-level conversation performance reporting
 
 <!--section="intercom_transformation_model"-->
-The following table provides a detailed list of all models materialized within this package by default.
+The following table provides a detailed list of all tables materialized within this package by default.
 
-| **Model**                | **Description**                                                                                                                            |
+| **Table**                | **Description**                                                                                                                            |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | [intercom__admin_metrics](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__admin_metrics.sql)                                               | Each record represents an individual admin (employee) and a unique team they are assigned on, enriched with admin-specific conversation data like total conversations, average rating, and median response times by specific team. |
 | [intercom__company_enhanced](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__company_enhanced.sql)                                         | Each record represents a single company, enriched with data related to the company industry, monthly spend, and user count. |
