@@ -22,3 +22,12 @@ destination_configurations:
     dispatch:
       - macro_namespace: dbt_utils
         search_order: [ 'spark_utils', 'dbt_utils' ]
+
+public_models: [
+  "intercom__admin_metrics",
+  "intercom__conversation_metrics",
+  "intercom__company_metrics",
+  "intercom__contact_enhanced",
+  "intercom__company_enhanced",
+  "intercom__conversation_enhanced"
+]
