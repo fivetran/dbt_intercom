@@ -11,7 +11,7 @@
 ### Basic Validation
 Please acknowledge that you have successfully performed the following commands locally:
 - [ ] dbt run –full-refresh && dbt test
-- [ ] dbt run (if incremental models are present)
+- [ ] dbt run (if incremental models are present) && dbt test
 
 Before marking this PR as "ready for review" the following have been applied:
 - [ ] The appropriate issue has been linked, tagged, and properly assigned
