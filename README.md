@@ -35,6 +35,8 @@ The following table provides a detailed list of all tables materialized within t
 | [intercom__contact_enhanced](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__contact_enhanced.sql)                                         | Each record represents a single contact, enriched with data like the contact's role, company, last contacted information, and email list subscription status. |
 | [intercom__conversation_enhanced](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__conversation_enhanced.sql)                               | Each record represents a single conversation, enriched with conversation part data like who was assigned to the conversation, which contact the conversation was with, the current conversation state, who closed the conversation, and the final conversation ratings from the contact. |
 | [intercom__conversation_metrics](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__conversation_metrics.sql)                                 | Each record represents a single row from `intercom__conversation_enhanced`, enriched with data like time to first response, time to first close, and time to last close. |
+### Materialized Models
+Each Quickstart transformation job run materializes 32 models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
 <!--section-end-->
 
 ## How do I use the dbt package?
@@ -42,7 +44,7 @@ The following table provides a detailed list of all tables materialized within t
 ### Step 1: Prerequisites
 To use this dbt package, you must have the following:
 
-- At least one Fivetran Intercom connector syncing data into your destination.
+- At least one Fivetran Intercom connection syncing data into your destination.
 - A **BigQuery**, **Snowflake**, **Redshift** or **PostgreSQL** destination.
 
 ### Step 2: Install the package

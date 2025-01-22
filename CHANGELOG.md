@@ -1,3 +1,9 @@
+# dbt_intercom version.version
+
+## Documentation
+- Added Quickstart model counts to README. ([#55](https://github.com/fivetran/dbt_intercom/pull/55))
+- Corrected references to connectors and connections in the README. ([#55](https://github.com/fivetran/dbt_intercom/pull/55))
+
 # dbt_intercom NEXT.RELEASE
 
 ## Under the Hood
