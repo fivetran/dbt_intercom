@@ -5,9 +5,9 @@ require-dbt-version: [">=1.3.0", "<2.0.0"]
 models:
   intercom:
     +schema: intercom
-    materialized: table
+    +materialized: table
     intermediate:
-      materialized: ephemeral
+      +materialized: ephemeral
 vars:
   intercom:
     admin: "{{ ref('stg_intercom__admin') }}"
