@@ -1,4 +1,6 @@
-<p align="center">
+# Intercom Transformation dbt Package ([Docs](https://fivetran.github.io/dbt_intercom/))
+
+<p align="left">
     <a alt="License"
         href="https://github.com/fivetran/dbt_intercom/blob/main/LICENSE">
         <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" /></a>
@@ -13,8 +15,6 @@
         <img src="https://img.shields.io/badge/Fivetran_Quickstart_Compatible%3F-yes-green.svg" /></a>
 </p>
 
-
-# Intercom Transformation dbt Package ([Docs](https://fivetran.github.io/dbt_intercom/))
 ## What does this dbt package do?
 - Produces modeled tables that leverage Intercom data from [Fivetran's connector](https://fivetran.com/docs/applications/intercom) in the format described by [this ERD](https://fivetran.com/docs/applications/intercom#schemainformation) and builds off the output of our [Intercom source package](https://github.com/fivetran/dbt_intercom_source).
 
