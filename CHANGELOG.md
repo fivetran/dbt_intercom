@@ -1,13 +1,16 @@
-# dbt_intercom version.version
+# dbt_intercom v0.9.2
 
 ## Documentation
 - Added Quickstart model counts to README. ([#55](https://github.com/fivetran/dbt_intercom/pull/55))
 - Corrected references to connectors and connections in the README. ([#55](https://github.com/fivetran/dbt_intercom/pull/55))
 
-# dbt_intercom NEXT.RELEASE
-
 ## Under the Hood
 - Updated the `quickstart.yml` file to allow for automated Quickstart data model deployments. ([PR #51](https://github.com/fivetran/dbt_intercom/pull/51))
+- Prepends `materialized` configs in the package's `dbt_project.yml` file with `+` to improve compatibility with the newer versions of dbt-core starting with v1.10.0. ([PR #57](https://github.com/fivetran/dbt_intercom/pull/57))
+- Updates the package maintainer pull request template. ([PR #58](https://github.com/fivetran/dbt_intercom/pull/58))
+
+## Contributors
+- [@b-per](https://github.com/b-per) ([PR #57](https://github.com/fivetran/dbt_intercom/pull/57))
 
 # dbt_intercom v0.9.1
 
