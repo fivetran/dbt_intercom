@@ -57,7 +57,7 @@ assignee_conversation_parts as (
 assignee_conversation_aggregates as (
     select 
         conversation_id,
-        STRING_AGG(distinct assigned_to_type, ', ') as assigne_types_conversation
+        STRING_AGG(distinct assigned_to_type, ', ') as assignee_types_conversation
     from assignee_conversation_parts
     group by 1
 ),
@@ -68,7 +68,7 @@ final as (
         admin_conversation_aggregates.conversation_id,
         admin_conversation_aggregates.conversation_admins,
         contact_conversation_aggregates.conversation_contacts,
-        assignee_conversation_aggregates.assigne_types_conversation
+        assignee_conversation_aggregates.assignee_types_conversation
     from admin_conversation_aggregates
 
     left join contact_conversation_aggregates
