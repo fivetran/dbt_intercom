@@ -3,14 +3,14 @@ with conversation_part_history as (
     from {{ var('conversation_part_history') }}
 ),
 
---Returns each distinct admin author(s) that were associated with a single conversation.
+--Returns each distinct admin or bot author(s) that were associated with a single conversation.
 admin_conversation_parts as (
     select distinct
         conversation_id,
         author_id
     from conversation_part_history
 
-    where author_type = 'admin'
+    where author_type in ('admin','bot')
 
 ),
 
@@ -45,16 +45,37 @@ contact_conversation_aggregates as (
     group by 1
 ),
 
+-- Returns each distinct assignee type (lead, user or bot) associated with a single conversation
+assignee_conversation_parts as (
+    select distinct
+        conversation_id,
+        assigned_to_type
+    from conversation_part_history
+),
+
+-- Aggregates assigned_to_types into a single array
+assignee_conversation_aggregates as (
+    select 
+        conversation_id,
+        STRING_AGG(distinct assigned_to_type, ', ') as assignee_types_conversation
+    from assignee_conversation_parts
+    group by 1
+),
+
 --Joins the admin and contact author aggregate CTEs on the conversation_id.
 final as (
     select
         admin_conversation_aggregates.conversation_id,
         admin_conversation_aggregates.conversation_admins,
-        contact_conversation_aggregates.conversation_contacts
+        contact_conversation_aggregates.conversation_contacts,
+        assignee_conversation_aggregates.assignee_types_conversation
     from admin_conversation_aggregates
 
     left join contact_conversation_aggregates
-        on contact_conversation_aggregates.conversation_id = admin_conversation_aggregates.conversation_id
+        on admin_conversation_aggregates.conversation_id = contact_conversation_aggregates.conversation_id
+    left join assignee_conversation_aggregates
+        on
+            admin_conversation_aggregates.conversation_id = assignee_conversation_aggregates.conversation_id
 )
 
 select *

@@ -1,3 +1,6 @@
+# dbt_intercom v0.9.3
+- Added breakdown for platform type for user when they opened a ticket
+- Added Support for aggregations for when fin ai is used
 # dbt_intercom v0.9.2
 
 ## Documentation
