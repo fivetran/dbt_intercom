@@ -1,6 +1,6 @@
 # dbt_intercom v0.10.0
 
-[PR #59](https://github.com/fivetran/dbt_intercom/pull/59) includes the following updates:
+[PR #63](https://github.com/fivetran/dbt_intercom/pull/63) includes the following updates:
 
 ## Breaking Change for dbt Core < 1.9.6
 
