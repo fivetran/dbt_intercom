@@ -1,3 +1,30 @@
+# dbt_intercom v0.10.0
+
+[PR #63](https://github.com/fivetran/dbt_intercom/pull/63) includes the following updates:
+
+## Breaking Change for dbt Core < 1.9.6
+
+> *Note: This is not relevant to Fivetran Quickstart users.*
+
+Migrated `freshness` from a top-level source property to a source `config` in alignment with [recent updates](https://github.com/dbt-labs/dbt-core/issues/11506) from dbt Core ([Intercom Source v0.9.0](https://github.com/fivetran/dbt_intercom_source/releases/tag/v0.9.0)). This will resolve the following deprecation warning that users running dbt >= 1.9.6 may have received:
+
+```
+[WARNING]: Deprecated functionality
+Found `freshness` as a top-level property of `intercom` in file
+`models/src_intercom.yml`. The `freshness` top-level property should be moved
+into the `config` of `intercom`.
+```
+
+**IMPORTANT:** Users running dbt Core < 1.9.6 will not be able to utilize freshness tests in this release or any subsequent releases, as older versions of dbt will not recognize freshness as a source `config` and therefore not run the tests.
+
+If you are using dbt Core < 1.9.6 and want to continue running Intercom freshness tests, please elect **one** of the following options:
+  1. (Recommended) Upgrade to dbt Core >= 1.9.6
+  2. Do not upgrade your installed version of the `intercom` package. Pin your dependency on v0.9.2 in your `packages.yml` file.
+  3. Utilize a dbt [override](https://docs.getdbt.com/reference/resource-properties/overrides) to overwrite the package's `intercom` source and apply freshness via the previous release top-level property route. This will require you to copy and paste the entirety of the previous release `src_intercom.yml` file and add an `overrides: intercom_source` property.
+
+## Under the Hood
+- Updates to ensure integration tests use latest version of dbt.
+
 # dbt_intercom v0.9.2
 
 ## Documentation
