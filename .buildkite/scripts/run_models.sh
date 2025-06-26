@@ -17,6 +17,7 @@ echo `pwd`
 cd integration_tests
 dbt deps
 dbt seed --target "$db" --full-refresh
+dbt source freshness --target "$db" || echo "...Only verifying freshness runs…"
 dbt run --target "$db" --full-refresh
 dbt test --target "$db"
 dbt run --vars '{intercom__using_contact_company: false, intercom__using_company_tags: false, intercom__using_contact_tags: false, intercom__using_conversation_tags: false, intercom__using_team: false}' --target "$db"
