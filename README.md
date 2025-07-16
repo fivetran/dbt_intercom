@@ -127,7 +127,7 @@ Intercom V2.0 does not support API exposure to company-defined business hours. W
 ## Does this package have dependencies?
 This dbt package is dependent on the following dbt packages. These dependencies are installed by default within this package. For more information on the following packages, refer to the [dbt hub](https://hub.getdbt.com/) site.
 > IMPORTANT: If you have any of these dependent packages in your own `packages.yml` file, we highly recommend that you remove them from your root `packages.yml` to avoid package version conflicts.
-    
+
 ```yml
 packages:
     - package: fivetran/intercom_source
