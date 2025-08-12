@@ -3,19 +3,19 @@
 
 with company_history as (
   select *
-  from {{ var('company_history') }}
+  from {{ ref('stg_intercom__company_history') }}
 ),
 
 --If you use company tags this will be included, if not it will be ignored.
 {% if var('intercom__using_company_tags', True) %}
 company_tags as (
   select *
-  from {{ var('company_tag_history') }}
+  from {{ ref('stg_intercom__company_tag_history') }}
 ),
 
 tags as (
   select *
-  from {{ var('tag') }}
+  from {{ ref('stg_intercom__tag') }}
 ),
 
 --Aggregates the tags associated with a single company into an array.

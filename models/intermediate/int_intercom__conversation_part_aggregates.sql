@@ -1,12 +1,12 @@
 with latest_conversation_part as (
   select *
-  from {{ var('conversation_part_history') }}
+  from {{ ref('stg_intercom__conversation_part_history') }}
   where coalesce(_fivetran_active, true)
 ),
 
 latest_conversation as (
   select *
-  from {{ var('conversation_history') }}
+  from {{ ref('stg_intercom__conversation_history') }}
   where coalesce(_fivetran_active, true)
 ),
 
