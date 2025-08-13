@@ -1,6 +1,6 @@
 config-version: 2
 name: 'intercom'
-version: '0.10.0'
+version: '1.0.0'
 require-dbt-version: [">=1.3.0", "<2.0.0"]
 models:
   intercom:
@@ -8,26 +8,26 @@ models:
     +materialized: table
     intermediate:
       +materialized: ephemeral
+    staging:
+      +schema: stg_intercom
+      +materialized: table
+      tmp:
+        +materialized: view
 vars:
   intercom:
-    admin: "{{ ref('stg_intercom__admin') }}"
-    company_history: "{{ ref('stg_intercom__company_history') }}"
-    company_tag_history: "{{ ref('stg_intercom__company_tag_history') }}"
-    contact_company_history: "{{ ref('stg_intercom__contact_company_history') }}"
-    contact_history: "{{ ref('stg_intercom__contact_history') }}"
-    contact_tag_history: "{{ ref('stg_intercom__contact_tag_history') }}"
-    conversation_contact_history: "{{ ref('stg_intercom__conversation_contact_history') }}"
-    conversation_history: "{{ ref('stg_intercom__conversation_history') }}"
-    conversation_part_history: "{{ ref('stg_intercom__conversation_part_history') }}"
-    conversation_tag_history: "{{ ref('stg_intercom__conversation_tag_history') }}"
-    tag: "{{ ref('stg_intercom__tag') }}"
-    team_admin: "{{ ref('stg_intercom__team_admin') }}"
-    team: "{{ ref('stg_intercom__team') }}"
-    intercom__using_contact_company: true
-    intercom__using_company_tags: true
-    intercom__using_contact_tags: true
-    intercom__using_conversation_tags: true
-    intercom__using_team: true
+    admin: "{{ source('intercom', 'admin') }}"
+    company_history: "{{ source('intercom', 'company_history') }}"
+    company_tag_history: "{{ source('intercom', 'company_tag_history') }}"
+    contact_company_history: "{{ source('intercom', 'contact_company_history') }}"
+    contact_history: "{{ source('intercom', 'contact_history') }}"
+    contact_tag_history: "{{ source('intercom', 'contact_tag_history') }}"
+    conversation_contact_history: "{{ source('intercom', 'conversation_contact_history') }}"
+    conversation_history: "{{ source('intercom', 'conversation_history') }}"
+    conversation_part_history: "{{ source('intercom', 'conversation_part_history') }}"
+    conversation_tag_history: "{{ source('intercom', 'conversation_tag_history') }}"
+    tag: "{{ source('intercom', 'tag') }}"
+    team_admin: "{{ source('intercom', 'team_admin') }}"
+    team: "{{ source('intercom', 'team') }}"
     intercom__company_history_pass_through_columns: []
     intercom__contact_history_pass_through_columns: []
     intercom__conversation_history_pass_through_columns: []

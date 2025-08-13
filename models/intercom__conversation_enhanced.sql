@@ -1,6 +1,6 @@
 with latest_conversation as (
     select *
-    from {{ var('conversation_history') }}
+    from {{ ref('stg_intercom__conversation_history') }}
     where coalesce(_fivetran_active, true)
 ),
 
@@ -26,12 +26,12 @@ contact_enhanced as (
 {% if var('intercom__using_conversation_tags', True) %}
 conversation_tags as (
     select *
-    from {{ var('conversation_tag_history') }}
+    from {{ ref('stg_intercom__conversation_tag_history') }}
 ),
 
 tags as (
     select *
-    from {{ var('tag') }}
+    from {{ ref('stg_intercom__tag') }}
 ),
 
 --Aggregates the tags associated with a single conversation into an array.
@@ -55,7 +55,7 @@ conversation_tags_aggregate as (
 {% if var('intercom__using_team', True) %}
 team as (
     select *
-    from {{ var('team') }}
+    from {{ ref('stg_intercom__team') }}
 ),
 {% endif %}
 

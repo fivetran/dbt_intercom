@@ -1,7 +1,7 @@
 --take latest contact history to get the last update for the contact
 with contact_latest as (
   select *
-  from {{ var('contact_history') }}
+  from {{ ref('stg_intercom__contact_history') }}
   where coalesce(_fivetran_active, true)
 ),
 
@@ -9,12 +9,12 @@ with contact_latest as (
 {% if var('intercom__using_contact_company', True) %}
 contact_company_history as (
   select *
-  from {{ var('contact_company_history') }}
+  from {{ ref('stg_intercom__contact_company_history') }}
 ),
 
 company_history as (
   select *
-  from {{ var('company_history') }}
+  from {{ ref('stg_intercom__company_history') }}
 ),
 {% endif %}  
 
@@ -22,12 +22,12 @@ company_history as (
 {% if var('intercom__using_contact_tags', True) %}
 contact_tags as (
   select *
-  from {{ var('contact_tag_history') }}
+  from {{ ref('stg_intercom__contact_tag_history') }}
 ),
 
 tags as (
   select *
-  from {{ var('tag') }}
+  from {{ ref('stg_intercom__tag') }}
 ),
 
 --Aggregates the tags associated with a single contact into an array.

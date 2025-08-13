@@ -6,18 +6,18 @@ with conversation_metrics as (
 
 admin_table as (
     select *
-    from {{ var('admin') }}
+    from {{ ref('stg_intercom__admin') }}
 ),
 
 {% if var('intercom__using_team', True) %}
 team_admin as (
     select *
-    from {{ var('team_admin') }}
+    from {{ ref('stg_intercom__team_admin') }}
 ),
 
 team as (
     select *
-    from {{ var('team') }}
+    from {{ ref('stg_intercom__team') }}
 ),
 {% endif %}
 
