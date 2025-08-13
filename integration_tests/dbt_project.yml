@@ -2,17 +2,13 @@ name: 'intercom_integration_tests'
 version: '1.0.0'
 profile: 'integration_tests'
 config-version: 2
+
 models:
-  intercom:
-    +materialized: table
-    intermediate:
-      +materialized: ephemeral
-    staging:
-      +schema: intercom_source
-      +materialized: view
+  +schema: "intercom_{{ var('directed_schema','dev') }}"
+
 vars:
   intercom_schema: intercom_integration_tests
-  intercom_source:
+  intercom:
     intercom_admin_identifier: "admin_data"
     intercom_company_history_identifier: "company_history_data"
     intercom_company_tag_history_identifier: "company_tag_history_data"
@@ -26,6 +22,7 @@ vars:
     intercom_tag_identifier: "tag_data"
     intercom_team_admin_identifier: "team_admin_data"
     intercom_team_identifier: "team_data"
+
 seeds:
   +docs:
     show: False
@@ -105,5 +102,4 @@ dispatch:
 
 flags:
   send_anonymous_usage_stats: False
-
   use_colors: True

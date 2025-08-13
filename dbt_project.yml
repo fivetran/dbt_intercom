@@ -9,8 +9,10 @@ models:
     intermediate:
       +materialized: ephemeral
     staging:
-      +schema: intercom_source
-      +materialized: view
+      +schema: stg_intercom
+      +materialized: table
+      tmp:
+        +materialized: view
 vars:
   intercom:
     admin: "{{ source('intercom', 'admin') }}"
@@ -26,11 +28,6 @@ vars:
     tag: "{{ source('intercom', 'tag') }}"
     team_admin: "{{ source('intercom', 'team_admin') }}"
     team: "{{ source('intercom', 'team') }}"
-    intercom__using_contact_company: true
-    intercom__using_company_tags: true
-    intercom__using_contact_tags: true
-    intercom__using_conversation_tags: true
-    intercom__using_team: true
     intercom__company_history_pass_through_columns: []
     intercom__contact_history_pass_through_columns: []
     intercom__conversation_history_pass_through_columns: []
