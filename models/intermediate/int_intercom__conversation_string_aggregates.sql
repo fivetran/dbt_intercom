@@ -1,6 +1,6 @@
 with conversation_part_history as (
     select *
-    from {{ var('conversation_part_history') }}
+    from {{ ref('stg_intercom__conversation_part_history') }}
 ),
 
 --Returns each distinct admin author(s) that were associated with a single conversation.

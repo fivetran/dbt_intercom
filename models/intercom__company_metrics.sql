@@ -13,7 +13,7 @@ company_enhanced as (
 
 contact_company_history as (
     select *
-    from {{ var('contact_company_history') }}
+    from {{ ref('stg_intercom__contact_company_history') }}
 ),
 
 contact_enhanced as (
