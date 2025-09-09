@@ -5,11 +5,11 @@
 
 | Data Model                                                                                                                                               | Change Type | Old Behavior                     | New Behavior                                             | Notes                                                                                    |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ---------------------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| `int_intercom__conversation_part_aggregates`             | Updated materialization  |  Ephemeral |   Table    |  Reduce compute load of `intercom__conversation_enhanced`.  |
+| `int_intercom__conversation_part_events`             | Updated materialization  |  Ephemeral |   Table    |  Reduce compute load of `intercom__conversation_enhanced`.  |
 |  `int_intercom__conversation_string_aggregates`                                | Updated materialization | Ephemeral  |  Table   |    Reduce compute load of `intercom__conversation_enhanced`.  |
 |  `int_intercom__conversation_part_aggregates`                                | Updated materialization | Ephemeral  |  Table   |    Reduce compute load of `intercom__conversation_metrics`.  |
 
-## Bug Fixes (`--full-refresh` needed)
+## Breaking Changes (`--full-refresh` needed for dbt Core users)
 - Change materialization of intermediate Intercom conversation models to tables, as the ephemeral materialization was causing downstream Intercom models to time out on their runs. 
 
 # dbt_intercom v1.0.0
