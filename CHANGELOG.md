@@ -1,3 +1,13 @@
+# dbt_intercom v1.1.0-a2
+[PR #68](https://github.com/fivetran/dbt_intercom/pull/67) is a pre-release that includes the following updates:
+
+## Bug Fixes
+- Consolidated CTEs and joins to reduce the compute load of `int_intercom__conversation_part_events` for customers with large `intercom__conversation_part_history` source tables. 
+- Corrected `last_close_by_author_id` logic that was incorrectly referencing` first_close_by_author_id` value.
+
+## Under the Hood
+- Created consistency test for `intercom__conversation_enhanced` to validate that the above changes do not impact end model values. 
+
 # dbt_intercom v1.1.0-a1
 [PR #67](https://github.com/fivetran/dbt_intercom/pull/67) is a pre-release that includes the following updates:
 
