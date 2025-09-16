@@ -1,3 +1,14 @@
+# dbt_intercom v1.1.0-a1
+[PR #67](https://github.com/fivetran/dbt_intercom/pull/67) is a pre-release that includes the following updates:
+
+## Schema Updates (`--full-refresh` needed for dbt Core users)
+
+| Data Model                                                                                                                                               | Change Type | Old Behavior                     | New Behavior                                             | Notes                                                                                    |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ---------------------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `int_intercom__conversation_part_events`             | Updated materialization  |  Ephemeral |   Table    |  Reduces compute load of `intercom__conversation_enhanced` to prevent timeout run issues.  |
+| `int_intercom__conversation_string_aggregates`                                | Updated materialization | Ephemeral  |  Table   |    Reduces compute load of `intercom__conversation_enhanced` to prevent timeout run issues.  |
+| `int_intercom__conversation_part_aggregates`                                | Updated materialization | Ephemeral  |  Table   |    Reduces compute load of `intercom__conversation_metrics` to prevent timeout run issues.  |
+
 # dbt_intercom v1.0.0
 
 [PR #66](https://github.com/fivetran/dbt_intercom/pull/66) includes the following updates:
