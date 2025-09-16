@@ -1,9 +1,11 @@
 with conversation_part_history as (
+  
   select *
   from {{ ref('stg_intercom__conversation_part_history') }}
 ),
 
 conversation_events as (
+
   select distinct
     conversation_id,
     --Obtains the first and last values for conversations where the part type was close and part was authored by an admin.
@@ -39,7 +41,6 @@ conversation_events as (
     first_value(case when author_type in ('user','lead') then author_id end)
       over (partition by conversation_id order by case when author_type in ('user','lead') then 0 else 1 end,
         created_at desc rows between unbounded preceding and unbounded following) as last_contact_author_id,
-
     --Obtains the first and last values for conversations where the part type was authored by a team
     first_value(case when assigned_to_type = 'team' then assigned_to_id end)
       over (partition by conversation_id order by case when assigned_to_type = 'team' then 0 else 1 end, 
