@@ -11,7 +11,7 @@
 # dbt_intercom v1.1.0-a1
 [PR #67](https://github.com/fivetran/dbt_intercom/pull/67) is a pre-release that includes the following updates:
 
-## Schema Updates (`--full-refresh` encouraged after upgrading)
+## Schema Updates (`--full-refresh` needed for dbt Core users)
 
 | Data Model                                                                                                                                               | Change Type | Old Behavior                     | New Behavior                                             | Notes                                                                                    |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ---------------------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------- |
