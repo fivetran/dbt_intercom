@@ -37,7 +37,7 @@ The following table provides a detailed list of all tables materialized within t
 | [intercom__conversation_metrics](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__conversation_metrics.sql)                                 | Each record represents a single row from `intercom__conversation_enhanced`, enriched with data like time to first response, time to first close, and time to last close. |
 
 ### Materialized Models
-Each Quickstart transformation job run materializes 32 models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
+Each Quickstart transformation job run materializes 35 models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
 <!--section-end-->
 
 ## How do I use the dbt package?
@@ -54,7 +54,7 @@ Include the following intercom package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/intercom
-    version: [">=1.0.0", "<1.1.0"]
+    version: 1.1.0-a2
 ```
 ### Step 3: Define database and schema variables
 By default, this package runs using your destination and the `intercom` schema. If this is not where your Intercom data is (for example, if your Intercom schema is named `intercom_fivetran`), add the following configuration to your root `dbt_project.yml` file:

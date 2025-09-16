@@ -1,5 +1,5 @@
 name: 'intercom_integration_tests'
-version: '1.0.0'
+version: '1.1.0'
 profile: 'integration_tests'
 config-version: 2
 
@@ -7,7 +7,7 @@ models:
   +schema: "intercom_{{ var('directed_schema','dev') }}"
 
 vars:
-  intercom_schema: intercom_integration_tests
+  intercom_schema: intercom_integration_tests_2
   intercom:
     intercom_admin_identifier: "admin_data"
     intercom_company_history_identifier: "company_history_data"
