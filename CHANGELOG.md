@@ -1,5 +1,5 @@
 # dbt_intercom v1.1.0
-[PR #68](https://github.com/fivetran/dbt_intercom/pull/68) includes the following updates:
+[PR #69](https://github.com/fivetran/dbt_intercom/pull/69) includes the following updates:
 
 ## Bug Fixes
 - Consolidated CTEs and joins to reduce the compute load of `int_intercom__conversation_part_events` for customers with large `intercom__conversation_part_history` source tables. 
