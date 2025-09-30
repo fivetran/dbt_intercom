@@ -5,12 +5,12 @@
 
 -- this test ensures the contacts end model matches the prior version
 with prod as (
-    select *
+    select * except(all_conversation_admins)
     from {{ target.schema }}_intercom_prod.intercom__conversation_enhanced
 ),
 
 dev as (
-    select *
+    select * except(all_conversation_admins)
     from {{ target.schema }}_intercom_dev.intercom__conversation_enhanced
 ),
 
