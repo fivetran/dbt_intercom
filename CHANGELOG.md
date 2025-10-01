@@ -9,7 +9,7 @@
 - **Data accuracy fix**: Corrected the `last_close_by_author_id` window function logic that was incorrectly using ascending order instead of descending order, causing it to return the same value as `first_close_by_author_id`. The fix ensures proper chronological ordering to capture the actual last close event author.
 
 ## Under the Hood
-- Created consistency test for `intercom__conversation_enhanced` to validate that the above changes do not impact end model values. 
+- Created consistency and integrity tests for `intercom__conversation_enhanced` to validate that the above changes do not impact end model values. 
 
 # dbt_intercom v1.1.0-a2
 [PR #68](https://github.com/fivetran/dbt_intercom/pull/68) is a pre-release that includes the following updates:
