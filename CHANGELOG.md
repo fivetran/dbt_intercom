@@ -1,3 +1,37 @@
+# dbt_intercom v1.1.0
+[PR #69](https://github.com/fivetran/dbt_intercom/pull/69) includes the following updates:
+
+## Bug Fixes
+- **Performance optimization**: Refactored `int_intercom__conversation_part_events` for customers with large `intercom__conversation_part_history` source tables:
+  - Consolidated redundant CTEs and eliminated unnecessary joins to reduce compute load and memory usage for larger source tables.
+  - Implemented single window function pass instead of multiple subqueries. 
+  - Replicate IGNORE NULLS logic with `first_value()` window functions using custom ordering (`case when condition then 0 else 1 end`) to prioritize relevant events and naturally skip null values.
+- **Data accuracy fix**: Corrected the `last_close_by_author_id` window function logic that was incorrectly using ascending order instead of descending order, causing it to return the same value as `first_close_by_author_id`. The fix ensures proper chronological ordering to capture the actual last close event author.
+
+## Under the Hood
+- Created consistency and integrity tests for `intercom__conversation_enhanced` to validate that the above changes do not impact end model values. 
+
+# dbt_intercom v1.1.0-a2
+[PR #68](https://github.com/fivetran/dbt_intercom/pull/68) is a pre-release that includes the following updates:
+
+## Bug Fixes
+- Consolidated CTEs and joins to reduce the compute load of `int_intercom__conversation_part_events` for customers with large `intercom__conversation_part_history` source tables. 
+- Corrected `last_close_by_author_id` logic that was incorrectly referencing` first_close_by_author_id` values.
+
+## Under the Hood
+- Created consistency test for `intercom__conversation_enhanced` to validate that the above changes do not impact end model values. 
+
+# dbt_intercom v1.1.0-a1
+[PR #67](https://github.com/fivetran/dbt_intercom/pull/67) is a pre-release that includes the following updates:
+
+## Schema Updates (`--full-refresh` encouraged after upgrading)
+
+| Data Model                                                                                                                                               | Change Type | Old Behavior                     | New Behavior                                             | Notes                                                                                    |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ---------------------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `int_intercom__conversation_part_events`             | Updated materialization  |  Ephemeral |   Table    |  Reduces compute load of `intercom__conversation_enhanced` to prevent timeout run issues.  |
+| `int_intercom__conversation_string_aggregates`                                | Updated materialization | Ephemeral  |  Table   |    Reduces compute load of `intercom__conversation_enhanced` to prevent timeout run issues.  |
+| `int_intercom__conversation_part_aggregates`                                | Updated materialization | Ephemeral  |  Table   |    Reduces compute load of `intercom__conversation_metrics` to prevent timeout run issues.  |
+
 # dbt_intercom v1.0.0
 
 [PR #66](https://github.com/fivetran/dbt_intercom/pull/66) includes the following updates:
