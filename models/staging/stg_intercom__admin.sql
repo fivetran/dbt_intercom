@@ -21,12 +21,14 @@ fields as (
                 staging_columns=get_admin_columns()
             )
         }}
+        {{ intercom.apply_source_relation() }}
     from base
 ),
 
 final as (
-    
-    select 
+
+    select
+        source_relation,
         cast(id as {{ dbt.type_string() }}) as admin_id, 
         name,
         job_title,

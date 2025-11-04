@@ -21,17 +21,20 @@ tags as (
 --Aggregates the tags associated with a single company into an array.
 company_tags_aggregate as (
   select
+    company_history.source_relation,
     company_history.company_id,
     {{ fivetran_utils.string_agg('distinct tags.name', "', '" ) }} as all_company_tags
   from company_history
 
   left join company_tags
       on company_tags.company_id = company_history.company_id
-    
+      and company_tags.source_relation = company_history.source_relation
+
     left join tags
       on tags.tag_id = company_tags.tag_id
+      and tags.source_relation = company_history.source_relation
 
-  group by 1
+  group by 1, 2
 ),
 {% endif %}
 
@@ -51,6 +54,7 @@ enhanced as (
     {% if var('intercom__using_company_tags', True) %}
     left join company_tags_aggregate
       on company_tags_aggregate.company_id = company_history.company_id
+      and company_tags_aggregate.source_relation = company_history.source_relation
     {% endif %}
 )
 

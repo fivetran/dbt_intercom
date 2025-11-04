@@ -33,17 +33,20 @@ tags as (
 --Aggregates the tags associated with a single contact into an array.
 contact_tags_aggregate as (
   select
+    contact_latest.source_relation,
     contact_latest.contact_id,
     {{ fivetran_utils.string_agg('distinct tags.name', "', '" ) }} as all_contact_tags
   from contact_latest
 
   left join contact_tags
       on contact_tags.contact_id = contact_latest.contact_id
-    
+      and contact_tags.source_relation = contact_latest.source_relation
+
     left join tags
       on tags.tag_id = contact_tags.tag_id
+      and tags.source_relation = contact_latest.source_relation
 
-  group by 1  
+  group by 1, 2
 ),
 {% endif %}
 
@@ -51,18 +54,21 @@ contact_tags_aggregate as (
 {% if var('intercom__using_contact_company', True) %}
 contact_company_array as (
   select
+    contact_latest.source_relation,
     contact_latest.contact_id,
     {{ fivetran_utils.string_agg('distinct company_history.company_name', "', '" ) }} as all_contact_company_names
 
   from contact_latest
-  
+
   left join contact_company_history
     on contact_company_history.contact_id = contact_latest.contact_id
+    and contact_company_history.source_relation = contact_latest.source_relation
 
   left join company_history
     on company_history.company_id = contact_company_history.company_id
+    and company_history.source_relation = contact_latest.source_relation
 
-  group by 1
+  group by 1, 2
 ),
 {% endif %}
 
@@ -87,12 +93,14 @@ final as (
   {% if var('intercom__using_contact_company', True) %}
   left join contact_company_array
     on contact_company_array.contact_id = contact_latest.contact_id
+    and contact_company_array.source_relation = contact_latest.source_relation
   {% endif %}
 
   --If you use the contact tags table this will be included, if not it will be ignored.
   {% if var('intercom__using_contact_tags', True) %}
   left join contact_tags_aggregate
       on contact_tags_aggregate.contact_id = contact_latest.contact_id
+      and contact_tags_aggregate.source_relation = contact_latest.source_relation
   {% endif %}
 )
 

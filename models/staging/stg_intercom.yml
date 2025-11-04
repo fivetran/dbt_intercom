@@ -4,11 +4,12 @@ models:
   - name: stg_intercom__admin
     description: Table containing information related to admins. Admins are the teammate accounts that have access to a workspace.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: admin_id
         description: The unique identifier representing the admin.
         tests:
           - not_null
-          - unique
       - name: job_title
         description: The admin job title.
       - name: name
@@ -19,6 +20,8 @@ models:
   - name: stg_intercom__company_history
     description: Table containing historical information about companies which have been created within Intercom.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: company_id
         description: The unique identifier representing the Intercom defined company.
         tests:
@@ -53,7 +56,9 @@ models:
   - name: stg_intercom__company_tag_history
     loaded_at_field: _fivetran_synced
     description: Mapping table for tags associated with companies.
-    columns: 
+    columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: company_id
         description: The unique identifier related to the company.
         tests:
@@ -74,6 +79,8 @@ models:
   - name: stg_intercom__contact_company_history
     description: Mapping table for contacts associated with companies.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: company_id
         description: The unique identifier related to the company.
         tests:
@@ -94,6 +101,8 @@ models:
   - name: stg_intercom__contact_history
     description: Table which provides historical details on contacts within Intercom.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: contact_id
         description: The unique identifier for the contact which is given by Intercom.
         tests: 
@@ -132,7 +141,9 @@ models:
   - name: stg_intercom__contact_tag_history
     loaded_at_field: _fivetran_synced
     description: Mapping table for tags associated with contacts.
-    columns: 
+    columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: contact_id
         description: The unique identifier related to the contact.
         tests:
@@ -153,6 +164,8 @@ models:
   - name: stg_intercom__conversation_contact_history
     description: Mapping table for contacts associated with a conversation.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: contact_id
         description: The unique identifier for the contact.
         tests:
@@ -173,6 +186,8 @@ models:
   - name: stg_intercom__conversation_history
     description: Table containing the historical records of each conversation. Conversations are created when a contact replies to an outbound message, or when one admin directly sends a message to a single contact.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: conversation_id
         description: The id representing the conversation.
         tests:
@@ -223,8 +238,10 @@ models:
         description: Timestamp to record the time when a record became inactive in the source system.
 
   - name: stg_intercom__conversation_part_history
-    description: Table containing data related to the individual parts of a single conversation. 
+    description: Table containing data related to the individual parts of a single conversation.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: conversation_part_id
         description: The id representing the conversation part.
         tests:
@@ -260,7 +277,9 @@ models:
 
   - name: stg_intercom__conversation_tag_history
     description: Mapping table for tags associated with conversations.
-    columns: 
+    columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: conversation_id
         description: The unique identifier related to the conversation.
         tests:
@@ -278,7 +297,9 @@ models:
       
   - name: stg_intercom__tag
     description: Table consisting of tags which allow you to label your contacts, companies, or conversations.
-    columns: 
+    columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: tag_id
         description: The unique identifier related to the tag.
       - name: name
@@ -288,7 +309,9 @@ models:
 
   - name: stg_intercom__team_admin
     description: Mapping table for admins associated with teams.
-    columns: 
+    columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: team_id
         description: The unique identifier of the team.
         tests:
@@ -300,12 +323,13 @@ models:
 
   - name: stg_intercom__team
     description: Table containing teams which are made up of groups of admin in Intercom.
-    columns: 
+    columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: team_id
         description: The unique identifier of the team.
         tests:
           - not_null
-          - unique
       - name: name 
         description: The name of the team.
       - name: _fivetran_deleted

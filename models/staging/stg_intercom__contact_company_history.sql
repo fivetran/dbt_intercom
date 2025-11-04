@@ -22,13 +22,15 @@ fields as (
                 source_columns=adapter.get_columns_in_relation(ref('stg_intercom__contact_company_history_tmp')),
                 staging_columns=get_contact_company_history_columns()
             )
-        }}   
+        }}
+        {{ intercom.apply_source_relation() }}
     from base
 ),
 
 final as (
-    
-    select 
+
+    select
+        source_relation,
         company_id,
         contact_id,
         cast(contact_updated_at as {{ dbt.type_timestamp() }}) as contact_updated_at,
