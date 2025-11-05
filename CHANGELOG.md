@@ -6,13 +6,15 @@
 | Data Model(s) | Change type | Old | New | Notes |
 | ------------- | ----------- | ----| --- | ----- |
 | All models | New column | | `source_relation` | Identifies the source connection when using multiple Intercom connections |
+| `stg_intercom__tag` | New Data Type | `name` categorized as timestamp | `name` categorized as string | Modifies name to its proper string format. |
 
 ## Feature Update
 - **Union Data Functionality**: This release supports running the package on multiple Intercom source connections. See the [README](https://github.com/fivetran/dbt_intercom/tree/main?tab=readme-ov-file#step-3-define-database-and-schema-variables) for details on how to leverage this feature.
 
-## Tests Update
+## Under the Hood
 - Removes uniqueness tests. The new unioning feature requires combination-of-column tests to consider the new `source_relation` column in addition to the existing primary key, but this is not supported across dbt versions.
 - These tests will be reintroduced once a version-agnostic solution is available.
+- New consistency tests introduced on all end models to validate that the above changes do not impact end model values. 
 
 # dbt_intercom v1.1.0
 [PR #69](https://github.com/fivetran/dbt_intercom/pull/69) includes the following updates:
