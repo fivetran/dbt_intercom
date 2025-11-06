@@ -32,7 +32,7 @@ company_tags_aggregate as (
 
     left join tags
       on tags.tag_id = company_tags.tag_id
-      and tags.source_relation = company_history.source_relation
+      and tags.source_relation = company_tags.source_relation
 
   group by 1, 2
 ),

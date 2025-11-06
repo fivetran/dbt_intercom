@@ -3,7 +3,7 @@
     enabled=(var('fivetran_validation_tests_enabled', false))
 ) }}
 
-{% set exclude_cols = ['source_relation', 'all_contact_tags', 'all_contact_company_names'] + var('consistency_test_exclude_metrics', []) %}
+{% set exclude_cols = ['all_contact_tags', 'all_contact_company_names'] + var('consistency_test_exclude_metrics', []) %}
 
 -- this test ensures the intercom__contact_enhanced end model matches the prior version
 with prod as (

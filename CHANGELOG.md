@@ -1,21 +1,23 @@
 # dbt_intercom v1.2.0
+[PR #70](https://github.com/fivetran/dbt_intercom/pull/70) introduces the following updates:
 
-## Schema/Data Change
+## Schema/Data Changes
 **3 total change • 2 possible breaking changes**
 
 | Data Model(s) | Change type | Old | New | Notes |
 | ------------- | ----------- | ----| --- | ----- |
 | All models | New column | | `source_relation` | Identifies the source connection when using multiple Intercom connections |
-| `stg_intercom__tag` | Field data type change | `name` categorized as timestamp | `name` categorized as string | Modifies name to its proper string format, [per the Intercom docs](https://developers.intercom.com/docs/references/rest-api/api.intercom.io/tags/tag). |
-| `stg_intercom__team` </br> `stg_intercom__team_admin` | Field data type change | `team_id` categorized as integer | `team_id` categorized as string | Modifies team_id to its proper string format, [per the Intercom docs](https://developers.intercom.com/docs/references/rest-api/api.intercom.io/teams/team). |
+| `stg_intercom__tag` | New data type | `name` categorized as timestamp | `name` categorized as string | Modifies name to its proper string format, [per the Intercom docs](https://developers.intercom.com/docs/references/rest-api/api.intercom.io/tags/tag). |
+| `stg_intercom__team` </br> `stg_intercom__team_admin` | New data type | `team_id` categorized as integer | `team_id` categorized as string | Modifies team_id to its proper string format, [per the Intercom docs](https://developers.intercom.com/docs/references/rest-api/api.intercom.io/teams/team). |
 
 ## Feature Update
 - **Union Data Functionality**: This release supports running the package on multiple Intercom source connections. See the [README](https://github.com/fivetran/dbt_intercom/tree/main?tab=readme-ov-file#step-3-define-database-and-schema-variables) for details on how to leverage this feature.
 
-## Under the Hood
+## Tests Update
 - Removes uniqueness tests. The new unioning feature requires combination-of-column tests to consider the new `source_relation` column in addition to the existing primary key, but this is not supported across dbt versions.
-- Explicitly cast `team_id` as an integer in `stg_intercom__team` to avoid data type compilation as a string when the table is empty.
 - These tests will be reintroduced once a version-agnostic solution is available.
+
+## Under the Hood
 - New consistency tests introduced on all end models to validate that the above changes do not impact end model values. 
 
 # dbt_intercom v1.1.0

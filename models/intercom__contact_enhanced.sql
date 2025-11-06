@@ -44,7 +44,7 @@ contact_tags_aggregate as (
 
     left join tags
       on tags.tag_id = contact_tags.tag_id
-      and tags.source_relation = contact_latest.source_relation
+      and tags.source_relation = contact_tags.source_relation
 
   group by 1, 2
 ),
@@ -66,7 +66,7 @@ contact_company_array as (
 
   left join company_history
     on company_history.company_id = contact_company_history.company_id
-    and company_history.source_relation = contact_latest.source_relation
+    and company_history.source_relation = contact_company_history.source_relation
 
   group by 1, 2
 ),

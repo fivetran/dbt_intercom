@@ -48,7 +48,7 @@ conversation_tags_aggregate as (
 
     left join tags
         on tags.tag_id = conversation_tags.tag_id
-        and tags.source_relation = latest_conversation.source_relation
+        and tags.source_relation = conversation_tags.source_relation
 
     group by 1, 2
 ),

@@ -88,7 +88,7 @@ final as (
 
     left join team
         on team.team_id = team_admin.team_id
-        and team.source_relation = admin_table.source_relation
+        and team.source_relation = team_admin.source_relation
     {% endif %}
 )
 
