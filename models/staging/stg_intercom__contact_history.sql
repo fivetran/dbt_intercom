@@ -21,13 +21,15 @@ fields as (
                 staging_columns=get_contact_history_columns()
             )
         }}
+        {{ intercom.apply_source_relation() }}
 
     from base
 ),
 
 final as (
-    
-    select 
+
+    select
+        source_relation,
         id as contact_id,
         admin_id,
         cast(created_at as {{ dbt.type_timestamp() }}) as created_at,

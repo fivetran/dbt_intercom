@@ -3,9 +3,11 @@ version: 2
 models:
 
   - name: intercom__admin_metrics
-    description: > 
+    description: >
       Each record represents an individual admin (employee) and a unique team they are assigned on, enriched with admin specific conversation aggregates. For example, the admin's total conversations, average rating, and median response times by specific team.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: admin_id
         description: The unique identifier representing the admin.
       - name: admin_name
@@ -35,11 +37,12 @@ models:
     description: >
       Each record represents a single company, enriched with data related to the company industry, monthly_spend, and user_count.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: company_id
         description: The unique identifier representing the historical Intercom defined company.
         tests:
           - not_null
-          - unique
       - name: company_name
         description: The name of the company.
       - name: created_at
@@ -71,9 +74,11 @@ models:
       
   - name: intercom__company_metrics
     description: >
-      Each record represents a single row from intercom__company_enhanced, enriched with aggregates which determine the total conversation count, average satisfaction rating, 
+      Each record represents a single row from intercom__company_enhanced, enriched with aggregates which determine the total conversation count, average satisfaction rating,
       median time to first response, and median time to last close with contacts associated to a single company.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: total_conversations_closed
         description: The total closed conversations with contacts from that company.
       - name: average_conversation_parts
@@ -87,10 +92,9 @@ models:
       - name: median_time_to_last_close_minutes
         description: The median value of time it took for contacts of a single company to receive their last closure of a conversation.
       - name: company_id
-        description: The unique identifier representing the historical Intercom defined company. 
+        description: The unique identifier representing the historical Intercom defined company.
         tests:
           - not_null
-          - unique
       - name: company_name
         description: The name of the company.
       - name: created_at
@@ -122,14 +126,15 @@ models:
 
   - name: intercom__contact_enhanced
     description: >
-      Each record represents a single contact, enriched with data identifying the contacts role, if they have unsubscribed from 
+      Each record represents a single contact, enriched with data identifying the contacts role, if they have unsubscribed from
       the email list, last contacted information, and which company they belong to.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: contact_id
-        description: The unique identifier for the contact which is given by Intercom. 
+        description: The unique identifier for the contact which is given by Intercom.
         tests:
           - not_null
-          - unique
       - name: contact_name  
         description: The name of the contact.
       - name: admin_id
@@ -167,15 +172,16 @@ models:
 
   - name: intercom__conversation_enhanced
     description: >
-      Each record represents a single conversation, enriched with data from the multiple conversation parts. The conversation 
-      parts provide relevant information such as who was assigned to the conversation, which contact the conversation was with, 
+      Each record represents a single conversation, enriched with data from the multiple conversation parts. The conversation
+      parts provide relevant information such as who was assigned to the conversation, which contact the conversation was with,
       the current conversation state, who closed the conversation, and the final conversation ratings from the contact.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: conversation_id
         description: The id representing the conversation.
         tests:
           - not_null
-          - unique
       - name: conversation_created_at
         description: The time the conversation was created.
       - name: conversation_last_updated_at
@@ -245,9 +251,11 @@ models:
         
   - name: intercom__conversation_metrics
     description: >
-      Each record represents a single row from intercom__conversation_enhanced, enriched with aggregates which determine 
+      Each record represents a single row from intercom__conversation_enhanced, enriched with aggregates which determine
       time to first response, time to first close, and time to last close.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: count_reopens
         description: The count of conversation parts where the part_type value was 'open'. Note, a conversation part_type must be manually opened by an admin.
       - name: count_total_parts
@@ -296,7 +304,6 @@ models:
         description: The id representing the conversation.
         tests:
           - not_null
-          - unique
       - name: conversation_created_at
         description: The time the conversation was created.
       - name: conversation_last_updated_at

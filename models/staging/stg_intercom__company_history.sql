@@ -24,13 +24,15 @@ fields as (
                 staging_columns=get_company_history_columns()
             )
         }}
+        {{ intercom.apply_source_relation() }}
 
     from base
 ),
 
 final as (
-    
-    select 
+
+    select
+        source_relation,
         id as company_id,
         name as company_name,
         website,

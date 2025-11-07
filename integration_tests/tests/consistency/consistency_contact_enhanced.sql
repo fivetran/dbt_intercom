@@ -3,17 +3,17 @@
     enabled=(var('fivetran_validation_tests_enabled', false))
 ) }}
 
-{% set exclude_cols = ['all_conversation_tags', 'all_conversation_admins', 'all_conversation_contacts', 'all_contact_company_names'] + var('consistency_test_exclude_metrics', []) %}
+{% set exclude_cols = ['all_contact_tags', 'all_contact_company_names'] + var('consistency_test_exclude_metrics', []) %}
 
--- this test ensures the intercom__conversation_enhanced end model matches the prior version
+-- this test ensures the intercom__contact_enhanced end model matches the prior version
 with prod as (
-    select {{ dbt_utils.star(from=ref('intercom__conversation_enhanced'), except=exclude_cols) }}
-    from {{ target.schema }}_intercom_prod.intercom__conversation_enhanced
+    select {{ dbt_utils.star(from=ref('intercom__contact_enhanced'), except=exclude_cols) }}
+    from {{ target.schema }}_intercom_prod.intercom__contact_enhanced
 ),
 
 dev as (
-    select {{ dbt_utils.star(from=ref('intercom__conversation_enhanced'), except=exclude_cols) }}
-    from {{ target.schema }}_intercom_dev.intercom__conversation_enhanced
+    select {{ dbt_utils.star(from=ref('intercom__contact_enhanced'), except=exclude_cols) }}
+    from {{ target.schema }}_intercom_dev.intercom__contact_enhanced
 ),
 
 prod_not_in_dev as (

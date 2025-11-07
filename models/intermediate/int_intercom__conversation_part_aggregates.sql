@@ -12,7 +12,8 @@ latest_conversation as (
 
 --Aggregates conversation part data related to a single conversation from the int_intercom__latest_conversation model. See below for specific aggregates.
 final as (
-  select 
+  select
+    latest_conversation.source_relation,
     latest_conversation.conversation_id,
     latest_conversation.created_at as conversation_created_at,
     count(latest_conversation_part.conversation_part_id) as count_total_parts,
@@ -30,8 +31,9 @@ final as (
 
   left join latest_conversation_part
     on latest_conversation.conversation_id = latest_conversation_part.conversation_id
+    and latest_conversation.source_relation = latest_conversation_part.source_relation
 
-  group by 1, 2
+  group by 1, 2, 3
   
 )
 

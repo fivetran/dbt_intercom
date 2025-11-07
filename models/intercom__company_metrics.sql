@@ -24,6 +24,7 @@ contact_enhanced as (
 --Aggregates company specific metrics for companies where a contact from that company was attached to the conversation.
 company_metrics as (
     select
+        company_enhanced.source_relation,
         company_enhanced.company_id,
         sum(case when conversation_metrics.conversation_state = 'closed' then 1 else 0 end) as total_conversations_closed,
         round(cast(avg(conversation_metrics.count_total_parts) as numeric),2) as average_conversation_parts,
@@ -32,19 +33,23 @@ company_metrics as (
 
     left join contact_enhanced
         on contact_enhanced.contact_id = conversation_metrics.first_contact_author_id
+        and contact_enhanced.source_relation = conversation_metrics.source_relation
 
     left join contact_company_history
         on contact_company_history.contact_id = contact_enhanced.contact_id
+        and contact_company_history.source_relation = contact_enhanced.source_relation
 
     left join company_enhanced
         on company_enhanced.company_id = contact_company_history.company_id
+        and company_enhanced.source_relation = contact_company_history.source_relation
 
-    group by 1
+    group by 1, 2
 ),
 
 --Generates the median values for companies where a contact from that company was attached to the conversation.
 median_metrics as (
     select
+        company_enhanced.source_relation,
         company_enhanced.company_id,
         round(cast({{ fivetran_utils.percentile("conversation_metrics.count_reopens", "company_enhanced.company_id", "0.5") }} as numeric), 2) as median_conversations_reopened,
         round(cast({{ fivetran_utils.percentile("conversation_metrics.time_to_first_response_minutes", "company_enhanced.company_id", "0.5") }} as numeric), 2) as median_time_to_first_response_time_minutes,
@@ -54,16 +59,19 @@ median_metrics as (
 
     left join contact_enhanced
         on contact_enhanced.contact_id = conversation_metrics.first_contact_author_id
+        and contact_enhanced.source_relation = conversation_metrics.source_relation
 
     left join contact_company_history
         on contact_company_history.contact_id = contact_enhanced.contact_id
+        and contact_company_history.source_relation = contact_enhanced.source_relation
 
     left join company_enhanced
         on company_enhanced.company_id = contact_company_history.company_id
+        and company_enhanced.source_relation = contact_company_history.source_relation
 
 --The Postgres warehouse does not allow for a group by argument within the `percentile` function. As such, we will apply the group by for all statements at the end of the query for Postgres only.
-    {% if target.type == 'postgres' %} 
-    group by 1
+    {% if target.type == 'postgres' %}
+    group by 1, 2
     {% endif %}
 ),
 
@@ -81,9 +89,11 @@ final as (
 
     left join company_metrics
         on company_metrics.company_id = company_enhanced.company_id
+        and company_metrics.source_relation = company_enhanced.source_relation
 
     left join median_metrics
         on median_metrics.company_id = company_enhanced.company_id
+        and median_metrics.source_relation = company_enhanced.source_relation
 )
 
 select * 

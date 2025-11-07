@@ -21,12 +21,14 @@ fields as (
                 staging_columns=get_conversation_history_columns()
             )
         }}
+        {{ intercom.apply_source_relation() }}
     from base
 ),
 
 final as (
-    
-    select 
+
+    select
+        source_relation,
         id as conversation_id,
         cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
         assignee_id,

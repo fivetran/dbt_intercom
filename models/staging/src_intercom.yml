@@ -6,6 +6,7 @@ sources:
     database: "{% if target.type != 'spark' %}{{ var('intercom_database', target.database)}}{% endif %}"
     loader: fivetran
     config:
+      enabled: "{{ var('intercom_sources', []) == [] }}"
       loaded_at_field: _fivetran_synced
       freshness:
         warn_after: {count: 48, period: hour}
@@ -32,7 +33,7 @@ sources:
         description: Table containing historical information about companies which have been created within Intercom.
         config:
           loaded_at_field: _fivetran_synced
-          enabled: "{{ var('intercom__using_contact_company', true) }}"
+          enabled: "{{ var('intercom__using_contact_company', true) and var('intercom_sources', []) == [] }}"
         columns:
           - name: id
             description: The unique identifier representing the Intercom defined company.
@@ -70,7 +71,7 @@ sources:
         description: Mapping table for tags associated with companies.
         config:
           loaded_at_field: _fivetran_synced
-          enabled: "{{ var('intercom__using_company_tags', true) }}"
+          enabled: "{{ var('intercom__using_company_tags', true) and var('intercom_sources', []) == [] }}"
         columns: 
           - name: company_id
             description: The unique identifier related to the company.
@@ -90,7 +91,7 @@ sources:
         description: Mapping table for contacts associated with companies.
         config:
           loaded_at_field: _fivetran_synced
-          enabled: "{{ var('intercom__using_contact_company', true) }}"
+          enabled: "{{ var('intercom__using_contact_company', true) and var('intercom_sources', []) == [] }}"
         columns:
           - name: company_id
             description: The unique identifier related to the company.
@@ -145,7 +146,7 @@ sources:
         description: Mapping table for tags associated with contacts.
         config:
           loaded_at_field: _fivetran_synced
-          enabled: "{{ var('intercom__using_contact_tags', true) }}"
+          enabled: "{{ var('intercom__using_contact_tags', true) and var('intercom_sources', []) == [] }}"
         columns: 
           - name: contact_id
             description: The unique identifier related to the contact.
@@ -266,7 +267,7 @@ sources:
         description: Mapping table for tags associated with conversations.
         config:
           loaded_at_field: _fivetran_synced
-          enabled: "{{ var('intercom__using_conversation_tags', true) }}"
+          enabled: "{{ var('intercom__using_conversation_tags', true) and var('intercom_sources', []) == [] }}"
         columns: 
           - name: conversation_id
             description: The unique identifier related to the conversation.
@@ -295,7 +296,7 @@ sources:
         description: Mapping table for admins associated with teams.
         config:
           loaded_at_field: _fivetran_synced
-          enabled: "{{ var('intercom__using_team', true) }}"
+          enabled: "{{ var('intercom__using_team', true) and var('intercom_sources', []) == [] }}"
         columns:  
           - name: team_id
             description: The unique identifier of the team.
@@ -309,7 +310,7 @@ sources:
         description: Table containing teams which are made up of groups of admin in Intercom.
         config:
           loaded_at_field: _fivetran_synced
-          enabled: "{{ var('intercom__using_team', true) }}"
+          enabled: "{{ var('intercom__using_team', true) and var('intercom_sources', []) == [] }}"
         columns:  
           - name: id
             description: The unique identifier of the team.

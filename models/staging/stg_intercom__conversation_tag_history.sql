@@ -24,12 +24,14 @@ fields as (
                 staging_columns=get_conversation_tag_history_columns()
             )
         }}
+        {{ intercom.apply_source_relation() }}
     from base
 ),
 
 final as (
-    
-    select 
+
+    select
+        source_relation,
         conversation_id,
         tag_id,
         _fivetran_active,

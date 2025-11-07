@@ -34,6 +34,7 @@ final as (
 
   left join conversation_enhanced
     on conversation_enhanced.conversation_id = conversation_part_aggregates.conversation_id
+    and conversation_enhanced.source_relation = conversation_part_aggregates.source_relation
   
 )
 

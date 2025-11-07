@@ -37,17 +37,20 @@ tags as (
 --Aggregates the tags associated with a single conversation into an array.
 conversation_tags_aggregate as (
     select
+        latest_conversation.source_relation,
         latest_conversation.conversation_id,
         {{ fivetran_utils.string_agg('distinct tags.name', "', '" ) }} as all_conversation_tags
     from latest_conversation
 
     left join conversation_tags
         on conversation_tags.conversation_id = latest_conversation.conversation_id
-        
+        and conversation_tags.source_relation = latest_conversation.source_relation
+
     left join tags
         on tags.tag_id = conversation_tags.tag_id
+        and tags.source_relation = conversation_tags.source_relation
 
-    group by 1    
+    group by 1, 2
 ),
 {% endif %}  
 
@@ -60,7 +63,8 @@ team as (
 {% endif %}
 
 latest_conversation_enriched as (
-    select 
+    select
+        source_relation,
         conversation_id,
         created_at as conversation_created_at,
         updated_at as conversation_last_updated_at,
@@ -123,27 +127,33 @@ enriched_final as (
 
     left join conversation_string_aggregates
         on conversation_string_aggregates.conversation_id = latest_conversation_enriched.conversation_id
+        and conversation_string_aggregates.source_relation = latest_conversation_enriched.source_relation
 
     left join conversation_part_events
         on conversation_part_events.conversation_id = latest_conversation_enriched.conversation_id
-    
+        and conversation_part_events.source_relation = latest_conversation_enriched.source_relation
+
     {% if var('intercom__using_contact_company', True) %}
     left join contact_enhanced
         on contact_enhanced.contact_id = conversation_part_events.first_contact_author_id
+        and contact_enhanced.source_relation = conversation_part_events.source_relation
     {% endif %}
 
     --If you use conversation tags this will be included, if not it will be ignored.
     {% if var('intercom__using_conversation_tags', True) %}
     left join conversation_tags_aggregate
         on conversation_tags_aggregate.conversation_id = latest_conversation_enriched.conversation_id
-    {% endif %} 
+        and conversation_tags_aggregate.source_relation = latest_conversation_enriched.source_relation
+    {% endif %}
 
     {% if var('intercom__using_team', True) %}
     left join team as first_team
         on cast(first_team.team_id as {{ dbt.type_string() }}) = conversation_part_events.first_team_id
+        and first_team.source_relation = conversation_part_events.source_relation
 
     left join team as last_team
         on cast(last_team.team_id as {{ dbt.type_string() }}) = conversation_part_events.last_team_id
+        and last_team.source_relation = conversation_part_events.source_relation
     {% endif %}
 
 )

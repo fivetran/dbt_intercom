@@ -20,13 +20,15 @@ fields as (
                 source_columns=adapter.get_columns_in_relation(ref('stg_intercom__conversation_part_history_tmp')),
                 staging_columns=get_conversation_part_history_columns()
             )
-        }}       
+        }}
+        {{ intercom.apply_source_relation() }}
     from base
 ),
 
 final as (
-    
-    select 
+
+    select
+        source_relation,
         id as conversation_part_id,
         part_type,
         body,
