@@ -2,7 +2,7 @@
 [PR #70](https://github.com/fivetran/dbt_intercom/pull/70) introduces the following updates:
 
 ## Schema/Data Changes
-**3 total change • 2 possible breaking changes**
+**3 total changes • 2 possible breaking changes**
 
 | Data Model(s) | Change type | Old | New | Notes |
 | ------------- | ----------- | ----| --- | ----- |
