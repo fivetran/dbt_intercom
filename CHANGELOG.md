@@ -1,3 +1,10 @@
+# dbt_intercom v1.3.0
+
+This release includes the following updates:
+
+## Under the Hood
+- Increases the required dbt version upper limit to v3.0.0
+
 # dbt_intercom v1.2.0
 [PR #70](https://github.com/fivetran/dbt_intercom/pull/70) introduces the following updates:
 
