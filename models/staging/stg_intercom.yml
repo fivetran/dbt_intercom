@@ -54,7 +54,6 @@ models:
         description: Timestamp to record the time when a record became inactive in the source system.
 
   - name: stg_intercom__company_tag_history
-    loaded_at_field: _fivetran_synced
     description: Mapping table for tags associated with companies.
     columns:
       - name: source_relation
@@ -139,7 +138,6 @@ models:
         description: Timestamp to record the time when a record became inactive in the source system.
 
   - name: stg_intercom__contact_tag_history
-    loaded_at_field: _fivetran_synced
     description: Mapping table for tags associated with contacts.
     columns:
       - name: source_relation
