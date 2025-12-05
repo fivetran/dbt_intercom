@@ -28,9 +28,15 @@ vars:
     tag: "{{ source('intercom', 'tag') }}"
     team_admin: "{{ source('intercom', 'team_admin') }}"
     team: "{{ source('intercom', 'team') }}"
+    article_history: "{{ source('intercom', 'article_history') }}"
+    collection_history: "{{ source('intercom', 'collection_history') }}"
+    help_center_history: "{{ source('intercom', 'help_center_history') }}"
     intercom__company_history_pass_through_columns: []
     intercom__contact_history_pass_through_columns: []
     intercom__conversation_history_pass_through_columns: []
+    intercom__article_history_pass_through_columns: []
+    intercom__collection_history_pass_through_columns: []
+    intercom__help_center_history_pass_through_columns: []
 clean-targets:
 - target
 - dbt_modules

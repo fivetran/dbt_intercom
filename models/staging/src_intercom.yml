@@ -318,3 +318,129 @@ sources:
             description: The name of the team.
           - name: _fivetran_deleted
             description: Boolean indicating whether the contact is deleted.
+
+      - name: article_history
+        identifier: "{{ var('intercom_article_history_identifier', 'article_history') }}"
+        description: Table containing historical information about help center articles within Intercom.
+        config:
+          loaded_at_field: _fivetran_synced
+          enabled: "{{ var('intercom__using_articles', true) and var('intercom_sources', []) == [] }}"
+        columns:
+          - name: id
+            description: The unique identifier for the article.
+          - name: collection_id
+            description: The unique identifier of the collection this article belongs to.
+          - name: section_id
+            description: The unique identifier of the section (nested collection) if applicable.
+          - name: author_id
+            description: The unique identifier of the admin who authored the article.
+          - name: title
+            description: The title of the article.
+          - name: description
+            description: The description or summary of the article.
+          - name: body
+            description: The full body content of the article (HTML).
+          - name: url
+            description: The public URL of the article.
+          - name: type
+            description: The type of the article (e.g., 'article').
+          - name: state
+            description: The publication state of the article (draft, published).
+          - name: parent_type
+            description: The type of parent container (collection, section).
+          - name: default_locale
+            description: The default locale/language of the article.
+          - name: workspace_id
+            description: The Intercom workspace identifier.
+          - name: statistics_type
+            description: The type of statistics tracking.
+          - name: statistics_views
+            description: The number of article views.
+          - name: statistics_conversations
+            description: The number of conversations started from this article.
+          - name: statistics_reactions
+            description: The total number of reactions.
+          - name: statistics_happy_reaction_percentage
+            description: The percentage of happy reactions.
+          - name: statistics_neutral_reaction_percentage
+            description: The percentage of neutral reactions.
+          - name: statistics_sad_reaction_percentage
+            description: The percentage of sad reactions.
+          - name: created_at
+            description: The time the article was created.
+          - name: updated_at
+            description: The time the article was last updated.
+          - name: _fivetran_active
+            description: Boolean to identify an active record.
+          - name: _fivetran_start
+            description: Timestamp to record the time that a record is ingested by Fivetran. This value may not be identical to the time the record was created in the source system.
+          - name: _fivetran_end
+            description: Timestamp to record the time when a record became inactive in the source system.
+
+      - name: collection_history
+        identifier: "{{ var('intercom_collection_history_identifier', 'collection_history') }}"
+        description: Table containing historical information about help center collections (categories/sections) within Intercom.
+        config:
+          loaded_at_field: _fivetran_synced
+          enabled: "{{ var('intercom__using_articles', true) and var('intercom_sources', []) == [] }}"
+        columns:
+          - name: id
+            description: The unique identifier for the collection.
+          - name: help_center_id
+            description: The unique identifier of the help center this collection belongs to.
+          - name: parent_id
+            description: The unique identifier of the parent collection (for nested sections).
+          - name: name
+            description: The name of the collection.
+          - name: description
+            description: The description of the collection.
+          - name: url
+            description: The public URL of the collection.
+          - name: icon
+            description: The icon identifier for the collection.
+          - name: type
+            description: The type of collection (e.g., 'collection').
+          - name: default_locale
+            description: The default locale/language of the collection.
+          - name: workspace_id
+            description: The Intercom workspace identifier.
+          - name: order
+            description: The display order within the parent.
+          - name: created_at
+            description: The time the collection was created.
+          - name: updated_at
+            description: The time the collection was last updated.
+          - name: _fivetran_active
+            description: Boolean to identify an active record.
+          - name: _fivetran_start
+            description: Timestamp to record the time that a record is ingested by Fivetran. This value may not be identical to the time the record was created in the source system.
+          - name: _fivetran_end
+            description: Timestamp to record the time when a record became inactive in the source system.
+
+      - name: help_center_history
+        identifier: "{{ var('intercom_help_center_history_identifier', 'help_center_history') }}"
+        description: Table containing historical information about help centers within Intercom.
+        config:
+          loaded_at_field: _fivetran_synced
+          enabled: "{{ var('intercom__using_articles', true) and var('intercom_sources', []) == [] }}"
+        columns:
+          - name: id
+            description: The unique identifier for the help center.
+          - name: display_name
+            description: The display name of the help center.
+          - name: identifier
+            description: The URL-friendly identifier for the help center.
+          - name: workspace_id
+            description: The Intercom workspace identifier.
+          - name: website_turned_on
+            description: Boolean indicating whether the help center website is enabled.
+          - name: created_at
+            description: The time the help center was created.
+          - name: updated_at
+            description: The time the help center was last updated.
+          - name: _fivetran_active
+            description: Boolean to identify an active record.
+          - name: _fivetran_start
+            description: Timestamp to record the time that a record is ingested by Fivetran. This value may not be identical to the time the record was created in the source system.
+          - name: _fivetran_end
+            description: Timestamp to record the time when a record became inactive in the source system.
