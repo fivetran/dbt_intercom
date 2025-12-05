@@ -1,5 +1,5 @@
 # dbt_intercom v1.4.0
-[PR #72](https://github.com/fivetran/dbt_intercom/pull/72) includes the following updates:
+[PR #72](https://github.com/fivetran/dbt_intercom/pull/73) includes the following updates:
 
 ## Feature
 - Adds staging and intermediate models for Intercom Help Center articles and related entities.
