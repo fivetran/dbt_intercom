@@ -22,6 +22,9 @@ vars:
     intercom_tag_identifier: "tag_data"
     intercom_team_admin_identifier: "team_admin_data"
     intercom_team_identifier: "team_data"
+    intercom_article_history_identifier: "article_history_data"
+    intercom_collection_history_identifier: "collection_history_data"
+    intercom_help_center_history_identifier: "help_center_history_data"
 
 seeds:
   +docs:
@@ -95,6 +98,32 @@ seeds:
     team_data:
       +column_types:
         id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+    article_history_data:
+      +column_types:
+        id: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        collection_id: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        section_id: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        author_id: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        workspace_id: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        created_at: timestamp
+        updated_at: timestamp
+        statistics_happy_reaction_percentage: float
+        statistics_neutral_reaction_percentage: float
+        statistics_sad_reaction_percentage: float
+    collection_history_data:
+      +column_types:
+        id: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        help_center_id: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        parent_id: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        workspace_id: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        created_at: timestamp
+        updated_at: timestamp
+    help_center_history_data:
+      +column_types:
+        id: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        workspace_id: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        created_at: timestamp
+        updated_at: timestamp
 
 dispatch:
   - macro_namespace: dbt_utils

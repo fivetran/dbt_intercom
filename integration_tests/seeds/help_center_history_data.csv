@@ -1,0 +1,3 @@
+id,display_name,identifier,workspace_id,website_turned_on,created_at,updated_at,_fivetran_active,_fivetran_start,_fivetran_end,_fivetran_synced
+hc_001,Example Help Center,example-help,ws_001,true,2022-06-01 08:00:00,2023-05-15 10:00:00,true,2022-06-01 08:00:00,,2023-05-15 11:00:00
+hc_002,Partner Portal Help,partner-help,ws_001,false,2022-09-15 09:00:00,2023-04-20 14:00:00,true,2022-09-15 09:00:00,,2023-04-20 15:00:00
