@@ -8,7 +8,3 @@
         single_table_name='article_history'
     )
 }}
-
-
-
-
