@@ -68,7 +68,3 @@ final as (
 select * 
 from final
 where coalesce(_fivetran_active, true)
-
-
-
-

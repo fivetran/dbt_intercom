@@ -34,7 +34,3 @@
 {{ return(columns) }}
 
 {% endmacro %}
-
-
-
-

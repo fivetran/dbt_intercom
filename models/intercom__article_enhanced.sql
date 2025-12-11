@@ -116,7 +116,3 @@ final as (
 
 select * 
 from final
-
-
-
-
