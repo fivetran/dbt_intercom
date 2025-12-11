@@ -1,5 +1,5 @@
 # dbt_intercom v1.4.0
-[PR #73](https://github.com/fivetran/dbt_intercom/pull/73) includes the following updates:
+[PR #74](https://github.com/fivetran/dbt_intercom/pull/74) includes the following updates:
 
 ## Schema/Data Change
 **4 total changes • 0 possible breaking changes**
@@ -13,6 +13,9 @@
 
 ## Under the Hood
 - Added column definition macros and integration test seed files for the new sources.
+
+## Contributors
+- [@jhiza](https://github.com/jhiza) ([#73](https://github.com/fivetran/dbt_intercom/pull/73))
 
 # dbt_intercom v1.3.0
 [PR #71](https://github.com/fivetran/dbt_intercom/pull/71) includes the following updates:
