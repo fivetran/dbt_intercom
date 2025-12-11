@@ -33,6 +33,93 @@ models:
       - name: median_time_to_last_close_minutes
         description: The admins median value of time it took to the last closure of a conversation.
 
+  - name: intercom__article_enhanced
+    description: >
+      Each record represents a single help center article, enriched with data from collections, parent collections,
+      authors (admins), and help centers. This model provides a denormalized view of articles with all related
+      entity information for easier reporting and analysis on help center content performance.
+    columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+      - name: article_id
+        description: The unique identifier for the article.
+        tests:
+          - not_null
+      - name: article_title
+        description: The title of the article.
+      - name: article_description
+        description: The description or summary of the article.
+      - name: article_body
+        description: The full body content of the article (HTML).
+      - name: article_url
+        description: The public URL of the article.
+      - name: article_type
+        description: The type of the article (e.g., 'article').
+      - name: article_state
+        description: The publication state of the article (draft, published).
+      - name: default_locale
+        description: The default locale/language of the article.
+      - name: workspace_id
+        description: The Intercom workspace identifier.
+      - name: statistics_views
+        description: The number of article views.
+      - name: statistics_conversations
+        description: The number of conversations started from this article.
+      - name: statistics_reactions
+        description: The total number of reactions.
+      - name: statistics_happy_reaction_percentage
+        description: The percentage of happy reactions.
+      - name: statistics_neutral_reaction_percentage
+        description: The percentage of neutral reactions.
+      - name: statistics_sad_reaction_percentage
+        description: The percentage of sad reactions.
+      - name: collection_id
+        description: The unique identifier of the collection this article belongs to.
+      - name: collection_name
+        description: The name of the collection containing this article.
+      - name: collection_description
+        description: The description of the collection.
+      - name: collection_url
+        description: The public URL of the collection.
+      - name: collection_icon
+        description: The icon identifier for the collection.
+      - name: collection_display_order
+        description: The display order of the collection within its parent.
+      - name: parent_collection_id
+        description: The unique identifier of the parent collection (for nested sections).
+      - name: parent_collection_name
+        description: The name of the parent collection.
+      - name: parent_collection_url
+        description: The URL of the parent collection.
+      - name: author_id
+        description: The unique identifier of the admin who authored the article.
+      - name: author_name
+        description: The name of the article author.
+      - name: author_job_title
+        description: The job title of the article author.
+      - name: help_center_id
+        description: The unique identifier of the help center.
+      - name: help_center_name
+        description: The name of the help center.
+      - name: help_center_identifier
+        description: The URL-friendly identifier for the help center.
+      - name: is_help_center_website_enabled
+        description: Boolean indicating whether the help center website is enabled.
+      - name: article_created_at
+        description: The time the article was created.
+      - name: article_updated_at
+        description: The time the article was last updated.
+      - name: is_published
+        description: Boolean flag indicating if article state is 'published'.
+      - name: is_in_nested_section
+        description: Boolean flag indicating if the article is in a nested section (collection with parent).
+      - name: _fivetran_active
+        description: Boolean to identify an active record.
+      - name: _fivetran_start
+        description: Timestamp to record the time that a record is ingested by Fivetran.
+      - name: _fivetran_end
+        description: Timestamp to record the time when a record became inactive in the source system.
+
   - name: intercom__company_enhanced
     description: >
       Each record represents a single company, enriched with data related to the company industry, monthly_spend, and user_count.
@@ -354,91 +441,3 @@ models:
         description: An optional field for the customer to rate the conversation which will be between 1 and 5.
       - name: conversation_remark
         description: An optional field to add a remark to correspond to the number rating.
-
-  - name: intercom__article_enhanced
-    description: >
-      Each record represents a single help center article, enriched with data from collections, parent collections,
-      authors (admins), and help centers. This model provides a denormalized view of articles with all related
-      entity information for easier reporting and analysis on help center content performance.
-    columns:
-      - name: source_relation
-        description: "{{ doc('source_relation') }}"
-      - name: article_id
-        description: The unique identifier for the article.
-        tests:
-          - unique
-          - not_null
-      - name: article_title
-        description: The title of the article.
-      - name: article_description
-        description: The description or summary of the article.
-      - name: article_body
-        description: The full body content of the article (HTML).
-      - name: article_url
-        description: The public URL of the article.
-      - name: article_type
-        description: The type of the article (e.g., 'article').
-      - name: article_state
-        description: The publication state of the article (draft, published).
-      - name: default_locale
-        description: The default locale/language of the article.
-      - name: workspace_id
-        description: The Intercom workspace identifier.
-      - name: statistics_views
-        description: The number of article views.
-      - name: statistics_conversations
-        description: The number of conversations started from this article.
-      - name: statistics_reactions
-        description: The total number of reactions.
-      - name: statistics_happy_reaction_percentage
-        description: The percentage of happy reactions.
-      - name: statistics_neutral_reaction_percentage
-        description: The percentage of neutral reactions.
-      - name: statistics_sad_reaction_percentage
-        description: The percentage of sad reactions.
-      - name: collection_id
-        description: The unique identifier of the collection this article belongs to.
-      - name: collection_name
-        description: The name of the collection containing this article.
-      - name: collection_description
-        description: The description of the collection.
-      - name: collection_url
-        description: The public URL of the collection.
-      - name: collection_icon
-        description: The icon identifier for the collection.
-      - name: collection_display_order
-        description: The display order of the collection within its parent.
-      - name: parent_collection_id
-        description: The unique identifier of the parent collection (for nested sections).
-      - name: parent_collection_name
-        description: The name of the parent collection.
-      - name: parent_collection_url
-        description: The URL of the parent collection.
-      - name: author_id
-        description: The unique identifier of the admin who authored the article.
-      - name: author_name
-        description: The name of the article author.
-      - name: author_job_title
-        description: The job title of the article author.
-      - name: help_center_id
-        description: The unique identifier of the help center.
-      - name: help_center_name
-        description: The name of the help center.
-      - name: help_center_identifier
-        description: The URL-friendly identifier for the help center.
-      - name: is_help_center_website_enabled
-        description: Boolean indicating whether the help center website is enabled.
-      - name: article_created_at
-        description: The time the article was created.
-      - name: article_updated_at
-        description: The time the article was last updated.
-      - name: is_published
-        description: Boolean flag indicating if article state is 'published'.
-      - name: is_in_nested_section
-        description: Boolean flag indicating if the article is in a nested section (collection with parent).
-      - name: _fivetran_active
-        description: Boolean to identify an active record.
-      - name: _fivetran_start
-        description: Timestamp to record the time that a record is ingested by Fivetran.
-      - name: _fivetran_end
-        description: Timestamp to record the time when a record became inactive in the source system.
