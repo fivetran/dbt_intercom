@@ -30,6 +30,7 @@ The following table provides a detailed list of all tables materialized within t
 | **Table**                | **Description**                                                                                                                            |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | [intercom__admin_metrics](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__admin_metrics.sql)                                               | Each record represents an individual admin (employee) and a unique team they are assigned on, enriched with admin-specific conversation data like total conversations, average rating, and median response times by specific team. |
+| [intercom__article_enhanced](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__article_enhanced.sql)                                         | Each record represents a single help center article, enriched with data from collections, parent collections, authors (admins), and help centers. This model provides a denormalized view of articles with all related entity information for easier reporting and analysis on help center content performance. |
 | [intercom__company_enhanced](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__company_enhanced.sql)                                         | Each record represents a single company, enriched with data related to the company industry, monthly spend, and user count. |
 | [intercom__company_metrics](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__company_metrics.sql)                                           | Each record represents a single row from `intercom__company_enhanced`, enriched with data like total conversation count, average satisfaction rating, median time to first response, and median time to last close with contacts associated to a single company. |
 | [intercom__contact_enhanced](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__contact_enhanced.sql)                                         | Each record represents a single contact, enriched with data like the contact's role, company, last contacted information, and email list subscription status. |
@@ -37,7 +38,7 @@ The following table provides a detailed list of all tables materialized within t
 | [intercom__conversation_metrics](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__conversation_metrics.sql)                                 | Each record represents a single row from `intercom__conversation_enhanced`, enriched with data like time to first response, time to first close, and time to last close. |
 
 ### Materialized Models
-Each Quickstart transformation job run materializes 39 models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
+Each Quickstart transformation job run materializes 42 models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
 <!--section-end-->
 
 ## How do I use the dbt package?
@@ -128,11 +129,11 @@ vars:
 <details open><summary>Expand/Collapse details</summary>
 
 #### Adding passthrough metrics
-You can add additional columns to the `intercom__company_enhanced`, `intercom__contact_enhanced`, and `intercom__conversation_enhanced` tables using our pass-through column variables. These variables allow for the pass-through fields to be aliased (`alias`) and casted (`transform_sql`) if desired, but not required. Datatype casting is configured via a sql snippet within the `transform_sql` key. You may add the desired sql while omitting the `as field_name` at the end and your custom pass-though fields will be casted accordingly. Use the below format for declaring the respective pass-through variables in your root `dbt_project.yml`.
+You can add additional columns to the `intercom__company_enhanced`, `intercom__contact_enhanced`, `intercom__conversation_enhanced`, and `intercom__article_enhanced` tables using our pass-through column variables. These variables allow for the pass-through fields to be aliased (`alias`) and casted (`transform_sql`) if desired, but not required. Datatype casting is configured via a sql snippet within the `transform_sql` key. You may add the desired sql while omitting the `as field_name` at the end and your custom pass-though fields will be casted accordingly. Use the below format for declaring the respective pass-through variables in your root `dbt_project.yml`.
 
 ```yml
 vars:
-  intercom__company_history_pass_through_columns: 
+  intercom__company_history_pass_through_columns:
     - name: company_history_custom_field
       alias: new_name_for_this_field
       transform_sql:  "cast(new_name_for_this_field as int64)"
@@ -143,9 +144,12 @@ vars:
   # a similar pattern can be applied to the rest of the following variables.
   intercom__contact_history_pass_through_columns:
   intercom__conversation_history_pass_through_columns:
+  intercom__article_history_pass_through_columns:
+  intercom__collection_history_pass_through_columns:
+  intercom__help_center_history_pass_through_columns:
 ```
 #### Disabling Models
-This package assumes that you use Intercom's `company tag`, `contact tag`, `contact company`, and `conversation tag`, `team` and `team admin` mapping tables. If you do not use these tables, add the configuration below to your `dbt_project.yml`. By default, these variables are set to `True`:
+This package assumes that you use Intercom's `company tag`, `contact tag`, `contact company`, `conversation tag`, `team`, `team admin` mapping tables, and `articles` help center functionality. If you do not use these tables, add the configuration below to your `dbt_project.yml`. By default, these variables are set to `True`:
 
 ```yml
 # dbt_project.yml
@@ -157,6 +161,7 @@ vars:
   intercom__using_contact_tags: False
   intercom__using_conversation_tags: False
   intercom__using_team: False
+  intercom__using_articles: False
 ```
 
 #### Changing the build schema

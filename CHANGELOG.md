@@ -6,15 +6,13 @@
 
 | Data Model(s) | Change type | Old | New | Notes |
 | ------------- | ----------- | ----| --- | ----- |
-| `stg_intercom__article_history` | New model | N/A | Staging model for article history data | Processes raw article history data with Intercom help center articles |
-| `stg_intercom__collection_history` | New model | N/A | Staging model for collection history data | Processes raw collection history data with Intercom help center collections |
-| `stg_intercom__help_center_history` | New model | N/A | Staging model for help center history data | Processes raw help center history data with Intercom help centers |
-| `intercom__article_enhanced` | New model | N/A | Enhanced article model with related entities | Denormalized view combining articles with collections, authors, and help centers for comprehensive article reporting |
+| `stg_intercom__article_history`<br>`stg_intercom__article_history_tmp` | New models | | | Staging models for the `article_history` source |
+| `stg_intercom__collection_history`<br>`stg_intercom__collection_history_tmp` | New models | | | Staging models for the `collection_history` source |
+| `stg_intercom__help_center_history`<br>`stg_intercom__help_center_history_tmp` | New models | | | Staging models for the `help_center_history` source |
+| `intercom__article_enhanced` | New model | | | Help center articles with enenhanced with metadata including author details, collection hierarchy, and performance statistics |
 
-## Feature Update
-- Added comprehensive Intercom Help Center support including articles, collections, and help centers
-- New staging models provide cleaned and standardized data from raw Intercom help center sources
-- New end model `intercom__article_enhanced` delivers a complete view of help center articles with enriched metadata including author details, collection hierarchy, and performance statistics
+## Under the Hood
+- Added column definition macros and integration test seed files for the new sources.
 
 # dbt_intercom v1.3.0
 [PR #71](https://github.com/fivetran/dbt_intercom/pull/71) includes the following updates:

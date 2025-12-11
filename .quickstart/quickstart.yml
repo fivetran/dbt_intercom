@@ -27,6 +27,7 @@ destination_configurations:
 
 public_models: [
   "intercom__admin_metrics",
+  "intercom__article_enhanced",
   "intercom__conversation_metrics",
   "intercom__company_metrics",
   "intercom__contact_enhanced",
