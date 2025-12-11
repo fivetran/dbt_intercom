@@ -9,7 +9,7 @@
 | `stg_intercom__article_history`<br>`stg_intercom__article_history_tmp` | New models | | | Staging models for the `article_history` source |
 | `stg_intercom__collection_history`<br>`stg_intercom__collection_history_tmp` | New models | | | Staging models for the `collection_history` source |
 | `stg_intercom__help_center_history`<br>`stg_intercom__help_center_history_tmp` | New models | | | Staging models for the `help_center_history` source |
-| `intercom__article_enhanced` | New model | | | Help center articles with enenhanced with metadata including author details, collection hierarchy, and performance statistics |
+| `intercom__article_enhanced` | New model | | | Help center articles enhanced with metadata including author details, collection hierarchy, and performance statistics |
 
 ## Under the Hood
 - Added column definition macros and integration test seed files for the new sources.
