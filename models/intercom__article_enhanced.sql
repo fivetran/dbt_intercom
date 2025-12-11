@@ -4,20 +4,11 @@
 with articles as (
     select *
     from {{ ref('stg_intercom__article_history') }}
-    where coalesce(_fivetran_active, true)
 ),
 
 collections as (
     select *
     from {{ ref('stg_intercom__collection_history') }}
-    where coalesce(_fivetran_active, true)
-),
-
--- Self-join to get parent collection details for nested sections
-parent_collections as (
-    select *
-    from {{ ref('stg_intercom__collection_history') }}
-    where coalesce(_fivetran_active, true)
 ),
 
 admins as (
@@ -28,7 +19,6 @@ admins as (
 help_centers as (
     select *
     from {{ ref('stg_intercom__help_center_history') }}
-    where coalesce(_fivetran_active, true)
 ),
 
 final as (
@@ -107,7 +97,8 @@ final as (
         on articles.collection_id = collections.collection_id
         and articles.source_relation = collections.source_relation
 
-    left join parent_collections
+    -- Self-join to get parent collection details for nested sections
+    left join collections as parent_collections
         on collections.parent_collection_id = parent_collections.collection_id
         and collections.source_relation = parent_collections.source_relation
 

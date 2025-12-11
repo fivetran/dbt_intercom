@@ -43,7 +43,7 @@ final as (
         type as collection_type,
         default_locale,
         workspace_id,
-        {{ adapter.quote('order') }} as display_order,
+        display_order,
         cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
         cast(updated_at as {{ dbt.type_timestamp() }}) as updated_at,
         _fivetran_active,

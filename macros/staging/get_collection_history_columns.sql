@@ -12,7 +12,7 @@
     {"name": "icon", "datatype": dbt.type_string()},
     {"name": "id", "datatype": dbt.type_string()},
     {"name": "name", "datatype": dbt.type_string()},
-    {"name": "order", "datatype": dbt.type_int()},
+    {"name": "order", "datatype": dbt.type_int(), "quote": True, "alias": "display_order"},
     {"name": "parent_id", "datatype": dbt.type_string()},
     {"name": "type", "datatype": dbt.type_string()},
     {"name": "updated_at", "datatype": dbt.type_timestamp()},
