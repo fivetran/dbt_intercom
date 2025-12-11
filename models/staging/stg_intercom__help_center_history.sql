@@ -44,9 +44,6 @@ final as (
         cast(_fivetran_start as {{ dbt.type_timestamp() }}) as _fivetran_start,
         cast(_fivetran_end as {{ dbt.type_timestamp() }}) as _fivetran_end,
         cast(_fivetran_synced as {{ dbt.type_timestamp() }}) as _fivetran_synced
-
-        --The below script allows for pass through columns.
-        {{ fivetran_utils.fill_pass_through_columns('intercom__help_center_history_pass_through_columns') }}
     from fields
 )
 

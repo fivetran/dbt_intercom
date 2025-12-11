@@ -91,6 +91,9 @@ final as (
         articles._fivetran_start,
         articles._fivetran_end
 
+        -- Pass-through columns from article_history
+        {{ fivetran_utils.persist_pass_through_columns(pass_through_variable='intercom__article_history_pass_through_columns', identifier='articles') }}
+
     from articles
 
     left join collections

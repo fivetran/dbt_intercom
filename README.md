@@ -145,23 +145,21 @@ vars:
   intercom__contact_history_pass_through_columns:
   intercom__conversation_history_pass_through_columns:
   intercom__article_history_pass_through_columns:
-  intercom__collection_history_pass_through_columns:
-  intercom__help_center_history_pass_through_columns:
 ```
 #### Disabling Models
-This package assumes that you use Intercom's `company tag`, `contact tag`, `contact company`, `conversation tag`, `team`, `team admin` mapping tables, and `articles` help center functionality. If you do not use these tables, add the configuration below to your `dbt_project.yml`. By default, these variables are set to `True`:
+This package assumes that you use Intercom's `article`, `company tag`, `contact tag`, `contact company`, `conversation tag`, `team`, and `team admin` mapping tables help center functionality. If you do not use these tables, add the configuration below to your `dbt_project.yml`. By default, these variables are set to `True`:
 
 ```yml
 # dbt_project.yml
 
 ...
 vars:
+  intercom__using_articles: False
   intercom__using_contact_company: False
   intercom__using_company_tags: False
   intercom__using_contact_tags: False
   intercom__using_conversation_tags: False
   intercom__using_team: False
-  intercom__using_articles: False
 ```
 
 #### Changing the build schema
