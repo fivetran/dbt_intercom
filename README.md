@@ -129,7 +129,7 @@ vars:
 <details open><summary>Expand/Collapse details</summary>
 
 #### Adding passthrough metrics
-You can add additional columns to the `intercom__company_enhanced`, `intercom__contact_enhanced`, `intercom__conversation_enhanced`, and `intercom__article_enhanced` tables using our pass-through column variables. These variables allow for the pass-through fields to be aliased (`alias`) and casted (`transform_sql`) if desired, but not required. Datatype casting is configured via a sql snippet within the `transform_sql` key. You may add the desired sql while omitting the `as field_name` at the end and your custom pass-though fields will be casted accordingly. Use the below format for declaring the respective pass-through variables in your root `dbt_project.yml`.
+You can add additional columns to the `intercom__article_enhanced`, `intercom__company_enhanced`, `intercom__contact_enhanced`, and `intercom__conversation_enhanced` tables using our pass-through column variables. These variables allow for the pass-through fields to be aliased (`alias`) and casted (`transform_sql`) if desired, but not required. Datatype casting is configured via a sql snippet within the `transform_sql` key. You may add the desired sql while omitting the `as field_name` at the end and your custom pass-though fields will be casted accordingly. Use the below format for declaring the respective pass-through variables in your root `dbt_project.yml`.
 
 ```yml
 vars:
