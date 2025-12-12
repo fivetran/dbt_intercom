@@ -14,6 +14,8 @@
 ## Feature Update
 - Adds `intercom__article_history_pass_through_columns` variable to support custom fields in `intercom__article_enhanced` model
 - Adds `intercom__using_articles` variable to enable/disable help center article models (defaults to `True`)
+- Adds `intercom__using_collection_history` variable to enable/disable collection models (requires `intercom__using_articles` to be `True`)
+- Adds `intercom__using_help_center_history` variable to enable/disable help center models (requires both `intercom__using_articles` and `intercom__using_collection_history` to be `True`)
   - See the [README](https://github.com/fivetran/dbt_intercom#optional-step-4-additional-configurations) for configuration details
 
 ## Under the Hood

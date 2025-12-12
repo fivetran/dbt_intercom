@@ -91,7 +91,7 @@ sources:
         description: Table containing historical information about help center collections (categories/sections) within Intercom.
         config:
           loaded_at_field: _fivetran_synced
-          enabled: "{{ var('intercom__using_articles', true) and var('intercom_sources', []) == [] }}"
+          enabled: "{{ var('intercom__using_articles', true) and var('intercom__using_collection_history', true) and var('intercom_sources', []) == [] }}"
         columns:
           - name: id
             description: The unique identifier for the collection.
@@ -383,7 +383,7 @@ sources:
         description: Table containing historical information about help centers within Intercom.
         config:
           loaded_at_field: _fivetran_synced
-          enabled: "{{ var('intercom__using_articles', true) and var('intercom_sources', []) == [] }}"
+          enabled: "{{ var('intercom__using_articles', true) and var('intercom__using_collection_history', true) and var('intercom__using_help_center_history', true) and var('intercom_sources', []) == [] }}"
         columns:
           - name: id
             description: The unique identifier for the help center.

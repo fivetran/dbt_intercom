@@ -55,7 +55,7 @@ Include the following intercom package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/intercom
-    version: [">=1.3.0", "<1.4.0"]
+    version: [">=1.4.0", "<1.5.0"]
 ```
 ### Step 3: Define database and schema variables
 
@@ -147,14 +147,16 @@ vars:
   intercom__article_history_pass_through_columns:
 ```
 #### Disabling Models
-This package assumes that you use Intercom's `article`, `company tag`, `contact tag`, `contact company`, `conversation tag`, `team`, and `team admin` mapping tables help center functionality. If you do not use these tables, add the configuration below to your `dbt_project.yml`. By default, these variables are set to `True`:
+This package assumes that you use Intercom's help center functionality (`article`, `collection_history`, `help_center_history`) and mapping tables (`company tag`, `contact tag`, `contact company`, `conversation tag`, `team`, `team admin`). If you do not use these tables, add the configuration below to your `dbt_project.yml`. By default, these variables are set to `True`:
 
 ```yml
 # dbt_project.yml
 
 ...
 vars:
-  intercom__using_articles: False
+  intercom__using_articles: False # This disables all help center functionality
+  intercom__using_collection_history: False # Requires articles to be enabled
+  intercom__using_help_center_history: False # Requires both articles and collection_history to be enabled
   intercom__using_contact_company: False
   intercom__using_company_tags: False
   intercom__using_contact_tags: False

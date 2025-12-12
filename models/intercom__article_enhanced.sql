@@ -1,14 +1,13 @@
+{% set using_articles = var('intercom__using_articles', True) %}
+{% set using_collection_history = var('intercom__using_collection_history', True) %}
+{% set using_help_center_history = var('intercom__using_help_center_history', True) and using_collection_history %}
+
 --To disable this model, set the intercom__using_articles variable within your dbt_project.yml file to False.
-{{ config(enabled=var('intercom__using_articles', True)) }}
+{{ config(enabled=using_articles) }}
 
 with articles as (
     select *
     from {{ ref('stg_intercom__article_history') }}
-),
-
-collections as (
-    select *
-    from {{ ref('stg_intercom__collection_history') }}
 ),
 
 admins as (
@@ -16,10 +15,19 @@ admins as (
     from {{ ref('stg_intercom__admin') }}
 ),
 
+{% if using_collection_history %}
+collections as (
+    select *
+    from {{ ref('stg_intercom__collection_history') }}
+),
+{% endif %}
+
+{% if using_help_center_history %}
 help_centers as (
     select *
     from {{ ref('stg_intercom__help_center_history') }}
 ),
+{% endif %}
 
 final as (
     select
@@ -28,7 +36,12 @@ final as (
         
         -- Article identifiers
         articles.article_id,
-        
+
+        -- Author details
+        articles.author_id,
+        admins.name as author_name,
+        admins.job_title as author_job_title,
+
         -- Article content
         articles.article_title,
         articles.article_description,
@@ -49,27 +62,34 @@ final as (
         
         -- Collection details (direct parent)
         articles.collection_id,
+
+        {% if using_collection_history %}
         collections.collection_name,
         collections.collection_description,
         collections.collection_url,
         collections.collection_icon,
         collections.display_order as collection_display_order,
-        
+
         -- Parent collection details (for nested sections)
         collections.parent_collection_id,
         parent_collections.collection_name as parent_collection_name,
         parent_collections.collection_url as parent_collection_url,
-        
-        -- Author details
-        articles.author_id,
-        admins.name as author_name,
-        admins.job_title as author_job_title,
-        
+
         -- Help center details
         collections.help_center_id,
+
+        -- Derived fields
+        case
+            when collections.parent_collection_id is not null then true
+            else false
+        end as is_in_nested_section,
+        {% endif %}
+
+        {% if using_help_center_history %}
         help_centers.help_center_name,
         help_centers.help_center_identifier,
         help_centers.is_website_enabled as is_help_center_website_enabled,
+        {% endif %}
         
         -- Timestamps
         articles.created_at as article_created_at,
@@ -81,11 +101,6 @@ final as (
             else false 
         end as is_published,
         
-        case 
-            when collections.parent_collection_id is not null then true 
-            else false 
-        end as is_in_nested_section,
-        
         -- Fivetran metadata
         articles._fivetran_active,
         articles._fivetran_start,
@@ -96,6 +111,11 @@ final as (
 
     from articles
 
+    left join admins
+        on articles.author_id = admins.admin_id
+        and articles.source_relation = admins.source_relation
+
+    {% if using_collection_history %}
     left join collections
         on articles.collection_id = collections.collection_id
         and articles.source_relation = collections.source_relation
@@ -104,14 +124,13 @@ final as (
     left join collections as parent_collections
         on collections.parent_collection_id = parent_collections.collection_id
         and collections.source_relation = parent_collections.source_relation
+    {% endif %}
 
-    left join admins
-        on articles.author_id = admins.admin_id
-        and articles.source_relation = admins.source_relation
-
+    {% if using_help_center_history %}
     left join help_centers
         on collections.help_center_id = help_centers.help_center_id
         and collections.source_relation = help_centers.source_relation
+    {% endif %}
 )
 
 select * 
