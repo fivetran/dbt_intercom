@@ -77,7 +77,7 @@ final as (
         
         -- Derived fields
         case 
-            when articles.article_state = 'published' then true 
+            when lower(articles.article_state) = 'published' then true 
             else false 
         end as is_published,
         
