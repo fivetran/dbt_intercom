@@ -21,5 +21,10 @@ dbt source freshness --target "$db" || echo "...Only verifying freshness runs…
 dbt run --target "$db" --full-refresh
 dbt test --target "$db"
 dbt run --vars '{intercom__using_articles: false, intercom__using_contact_company: false, intercom__using_company_tags: false, intercom__using_contact_tags: false, intercom__using_conversation_tags: false, intercom__using_team: false}' --target "$db"
-dbt test --target "$db" --vars '{intercom__using_articles: false,intercom__using_contact_company: false, intercom__using_company_tags: false, intercom__using_contact_tags: false, intercom__using_conversation_tags: false, intercom__using_team: false}'
+dbt test --target "$db" --vars '{intercom__using_articles: false, intercom__using_contact_company: false, intercom__using_company_tags: false, intercom__using_contact_tags: false, intercom__using_conversation_tags: false, intercom__using_team: false}'
+# only need to test intercom__article_enhanced and its upstreams for these vars:
+dbt run --vars '{intercom__using_collection_history: false}' --target "$db" -m +intercom__article_enhanced
+dbt test --target "$db" --vars '{intercom__using_collection_history: false}'
+dbt run --vars '{intercom__using_help_center_history: false}' --target "$db" -m +intercom__article_enhanced
+dbt test --target "$db" --vars '{intercom__using_help_center_history: false}'
 dbt run-operation fivetran_utils.drop_schemas_automation --target "$db"
