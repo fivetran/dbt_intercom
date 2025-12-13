@@ -6,10 +6,10 @@
 
 | Data Model(s) | Change type | Old | New | Notes |
 | ------------- | ----------- | ----| --- | ----- |
+| `intercom__article_enhanced` | New model | | | Help center articles enhanced with metadata including author details, collection hierarchy, and performance statistics |
 | `stg_intercom__article_history`<br>`stg_intercom__article_history_tmp` | New models | | | Staging models for the `article_history` source |
 | `stg_intercom__collection_history`<br>`stg_intercom__collection_history_tmp` | New models | | | Staging models for the `collection_history` source |
 | `stg_intercom__help_center_history`<br>`stg_intercom__help_center_history_tmp` | New models | | | Staging models for the `help_center_history` source |
-| `intercom__article_enhanced` | New model | | | Help center articles enhanced with metadata including author details, collection hierarchy, and performance statistics |
 
 ## Feature Update
 - Adds `intercom__article_history_pass_through_columns` variable to support custom fields in `intercom__article_enhanced` model
