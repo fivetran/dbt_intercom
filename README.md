@@ -155,8 +155,8 @@ This package assumes that you use Intercom's help center functionality (`article
 ...
 vars:
   intercom__using_articles: False # This disables all help center functionality
-  intercom__using_collection_history: False # Requires articles to be enabled
-  intercom__using_help_center_history: False # Requires both articles and collection_history to be enabled
+  intercom__using_collection_history: False # Also requires articles to be enabled
+  intercom__using_help_center_history: False # Also requires articles and collection_history to be enabled
   intercom__using_contact_company: False
   intercom__using_company_tags: False
   intercom__using_contact_tags: False
