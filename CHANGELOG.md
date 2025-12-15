@@ -1,3 +1,30 @@
+# dbt_intercom v1.4.0
+[PR #74](https://github.com/fivetran/dbt_intercom/pull/74) includes the following updates:
+
+## Schema/Data Change
+**4 total changes • 0 possible breaking changes**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | ----| --- | ----- |
+| `intercom__article_enhanced` | New model | | | Help center articles enhanced with metadata including author details, collection hierarchy, and performance statistics |
+| `stg_intercom__article_history`<br>`stg_intercom__article_history_tmp` | New models | | | Staging models for the `article_history` source |
+| `stg_intercom__collection_history`<br>`stg_intercom__collection_history_tmp` | New models | | | Staging models for the `collection_history` source |
+| `stg_intercom__help_center_history`<br>`stg_intercom__help_center_history_tmp` | New models | | | Staging models for the `help_center_history` source |
+
+## Feature Update
+- Adds `intercom__article_history_pass_through_columns` variable to support custom fields in `intercom__article_enhanced` model
+- Adds `intercom__using_articles` variable to enable/disable help center article models (defaults to `True`)
+- Adds `intercom__using_collection_history` variable to enable/disable collection models (requires `intercom__using_articles` to be `True`)
+- Adds `intercom__using_help_center_history` variable to enable/disable help center models (requires both `intercom__using_articles` and `intercom__using_collection_history` to be `True`)
+  - See the [README](https://github.com/fivetran/dbt_intercom#optional-step-4-additional-configurations) for configuration details
+
+## Under the Hood
+- Adds column definition macros and integration test seed files for the new sources.
+- Adds consistency test for `intercom__article_enhanced`.
+
+## Contributors
+- [@jhiza](https://github.com/jhiza) ([#73](https://github.com/fivetran/dbt_intercom/pull/73))
+
 # dbt_intercom v1.3.0
 [PR #71](https://github.com/fivetran/dbt_intercom/pull/71) includes the following updates:
 

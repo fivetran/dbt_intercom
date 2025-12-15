@@ -1,5 +1,5 @@
 name: 'intercom_integration_tests'
-version: '1.3.0'
+version: '1.4.0'
 profile: 'integration_tests'
 config-version: 2
 
@@ -22,6 +22,9 @@ vars:
     intercom_tag_identifier: "tag_data"
     intercom_team_admin_identifier: "team_admin_data"
     intercom_team_identifier: "team_data"
+    intercom_article_history_identifier: "article_history_data"
+    intercom_collection_history_identifier: "collection_history_data"
+    intercom_help_center_history_identifier: "help_center_history_data"
 
 seeds:
   +docs:
@@ -30,23 +33,71 @@ seeds:
     +quote_columns: "{{ true if target.type == 'redshift' else false }}"
     +column_types:
       _fivetran_synced: timestamp
-      _fivetran_start: timestamp
-      _fivetran_end: timestamp
-      _fivetran_active: boolean
     admin_data:
       +column_types:
         id: "{{ 'varchar(100)'  if target.type in ('redshift', 'postgres') else 'string'}}"
+    article_history_data:
+      +column_types:
+        id: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        collection_id: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        section_id: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        author_id: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        workspace_id: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        created_at: timestamp
+        updated_at: timestamp
+        statistics_happy_reaction_percentage: float
+        statistics_neutral_reaction_percentage: float
+        statistics_sad_reaction_percentage: float
+        _fivetran_start: timestamp
+        _fivetran_end: timestamp
+        _fivetran_active: boolean
+    collection_history_data:
+      +quote_columns: true
+      +enabled: "{{ true if target.type != 'snowflake' else false }}"
+      +column_types:
+        id: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        help_center_id: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        parent_id: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        workspace_id: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        created_at: timestamp
+        updated_at: timestamp
+        _fivetran_start: timestamp
+        _fivetran_end: timestamp
+        _fivetran_active: boolean
+    collection_history_data_snowflake:
+      +quote_columns: true
+      +enabled: "{{ true if target.type == 'snowflake' else false }}"
+      +alias: "collection_history_data"
+      +column_types:
+        ID: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        HELP_CENTER_ID: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        PARENT_ID: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        WORKSPACE_ID: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        CREATED_AT: timestamp
+        UPDATED_AT: timestamp
+        _FIVETRAN_START: timestamp
+        _FIVETRAN_END: timestamp
+        _FIVETRAN_ACTIVE: boolean
     company_history_data:
       +column_types:
         created_at: timestamp
         updated_at: timestamp
+        _fivetran_start: timestamp
+        _fivetran_end: timestamp
+        _fivetran_active: boolean
     company_tag_history_data:
       +column_types:
         company_updated_at: timestamp
         tag_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        _fivetran_start: timestamp
+        _fivetran_end: timestamp
+        _fivetran_active: boolean
     contact_company_history_data:
       +column_types:
         contact_updated_at: timestamp
+        _fivetran_start: timestamp
+        _fivetran_end: timestamp
+        _fivetran_active: boolean
     contact_history_data:
       +column_types:
         created_at: timestamp
@@ -55,14 +106,23 @@ seeds:
         last_contacted_at: timestamp
         last_email_clicked_at: timestamp
         last_email_opened_at: timestamp
+        _fivetran_start: timestamp
+        _fivetran_end: timestamp
+        _fivetran_active: boolean
     contact_tag_history_data:
       +column_types:
         contact_updated_at: timestamp
         tag_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        _fivetran_start: timestamp
+        _fivetran_end: timestamp
+        _fivetran_active: boolean
     conversation_contact_history_data:
       +column_types:
         conversation_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
         conversation_updated_at: timestamp
+        _fivetran_start: timestamp
+        _fivetran_end: timestamp
+        _fivetran_active: boolean
     conversation_history_data:
       +column_types:
         id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
@@ -71,6 +131,9 @@ seeds:
         updated_at: timestamp
         waiting_since: timestamp
         snoozed_until: timestamp
+        _fivetran_start: timestamp
+        _fivetran_end: timestamp
+        _fivetran_active: boolean
     conversation_part_history_data:
       +column_types:
         id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
@@ -80,11 +143,26 @@ seeds:
         conversation_updated_at: timestamp
         updated_at: timestamp
         assigned_to_type: "{{ 'varchar(100)'  if target.type in ('redshift', 'postgres') else 'string'}}"
+        _fivetran_start: timestamp
+        _fivetran_end: timestamp
+        _fivetran_active: boolean
     conversation_tag_history_data:
       +column_types:
         conversation_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
         conversation_updated_at: timestamp
         tag_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        _fivetran_start: timestamp
+        _fivetran_end: timestamp
+        _fivetran_active: boolean
+    help_center_history_data:
+      +column_types:
+        id: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        workspace_id: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
+        created_at: timestamp
+        updated_at: timestamp
+        _fivetran_start: timestamp
+        _fivetran_end: timestamp
+        _fivetran_active: boolean
     tag_data:
       +column_types:
         id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"

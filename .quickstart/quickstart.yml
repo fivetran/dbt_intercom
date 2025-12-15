@@ -4,6 +4,10 @@ schema_key: intercom_schema
 dbt_versions: ">=1.3.0 <3.0.0"
 
 table_variables:
+  intercom__using_articles:
+    - article_history
+  intercom__using_collection_history:
+    - collection_history
   intercom__using_contact_company:
     - company_history
     - contact_company_history
@@ -13,6 +17,8 @@ table_variables:
     - contact_tag_history
   intercom__using_conversation_tags:
     - conversation_tag_history
+  intercom__using_help_center_history:
+    - help_center_history
   intercom__using_team:
     - team
     - team_admin
@@ -25,6 +31,7 @@ destination_configurations:
 
 public_models: [
   "intercom__admin_metrics",
+  "intercom__article_enhanced",
   "intercom__conversation_metrics",
   "intercom__company_metrics",
   "intercom__contact_enhanced",
