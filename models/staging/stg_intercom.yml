@@ -195,7 +195,7 @@ models:
       - name: assignee_id
         description: The id of the user assigned to the conversation. If it is not assigned to a user it will return null.
       - name: assignee_type
-        description: The type of user the conversation is assigned to. If it is not assigned to a user it will return null.
+        description: "[DEPRECATED] The type of user the conversation is assigned to. If it is not assigned to a user it will return null. Use is_assignee_admin in the conversation_enhanced model instead."
       - name: conversation_rating_value
         description: An optional field for the customer to rate the conversation which will be between 1 and 5.
       - name: conversation_rating_remark

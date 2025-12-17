@@ -281,8 +281,12 @@ models:
         description: How the conversation was initially delivered to the responder.
       - name: conversation_subject
         description: The subject of the conversation created by the initiator.
+      - name: conversation_assignee_id
+        description: The ID of the user assigned to the conversation. If it is not assigned to a user it will return null.
       - name: conversation_assignee_type
-        description: The type of user the conversation is assigned to. If it is not assigned to a user it will return null.
+        description: "[DEPRECATED] The type of user the conversation is assigned to. If it is not assigned to a user it will show 'unassigned'. Use is_assignee_admin instead."
+      - name: is_assignee_admin
+        description: Boolean indicating whether the conversation assignee is an admin user. Determined by joining assignee_id with the admin table. False if conversation is unassigned or assigned to a non-admin user.
       - name: conversation_author_type
         description: The type of individual who authored the first message. Will be either contact or admin.
       - name: first_close_by_admin_id
@@ -403,8 +407,12 @@ models:
         description: How the conversation was initially delivered to the responder.
       - name: conversation_subject
         description: The subject of the conversation created by the initiator.
+      - name: conversation_assignee_id
+        description: The ID of the user assigned to the conversation. If it is not assigned to a user it will return null.
       - name: conversation_assignee_type
-        description: The type of user the conversation is assigned to. If it is not assigned to a user it will return null.
+        description: "[DEPRECATED] The type of user the conversation is assigned to. If it is not assigned to a user it will show 'unassigned'. Use is_assignee_admin instead."
+      - name: is_assignee_admin
+        description: Boolean indicating whether the conversation assignee is an admin user. Determined by joining assignee_id with the admin table. False if conversation is unassigned or assigned to a non-admin user.
       - name: conversation_author_type
         description: The type of individual who authored the first message. Will be either contact or admin.
       - name: first_close_by_admin_id

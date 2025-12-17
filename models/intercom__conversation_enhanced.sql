@@ -14,6 +14,11 @@ conversation_part_events as (
     from {{ ref('int_intercom__conversation_part_events') }}
 ),
 
+admins as (
+    select *
+    from {{ ref('stg_intercom__admin') }}
+),
+
 --If you use the contact company table this will be included, if not it will be ignored.
 {% if var('intercom__using_contact_company', True) %}
 contact_enhanced as (
@@ -71,7 +76,8 @@ latest_conversation_enriched as (
         source_type as conversation_type,
         source_delivered_as as conversation_initiated_type,
         source_subject as conversation_subject,
-        case when (assignee_type is not null) then assignee_type else 'unassigned' end as conversation_assignee_type,
+        assignee_id as conversation_assignee_id,
+        case when (assignee_type is not null) then assignee_type else 'unassigned' end as conversation_assignee_type, -- [DEPRECATED] use is_assignee_admin instead
         source_author_type as conversation_author_type,
         state as conversation_state,
         is_read,
@@ -88,9 +94,10 @@ latest_conversation_enriched as (
 ),
 
 --Enriches the latest conversation model with data from conversation_part_events, conversation_string_aggregates, and conversation_tags_aggregate
-enriched_final as ( 
+enriched_final as (
     select
         latest_conversation_enriched.*,
+        case when admins.admin_id is not null then true else false end as is_assignee_admin,
 
         conversation_part_events.first_close_at,
         conversation_part_events.last_close_at,
@@ -155,6 +162,10 @@ enriched_final as (
         on cast(last_team.team_id as {{ dbt.type_string() }}) = conversation_part_events.last_team_id
         and last_team.source_relation = conversation_part_events.source_relation
     {% endif %}
+
+    left join admins
+        on admins.admin_id = cast(latest_conversation_enriched.conversation_assignee_id as {{ dbt.type_string() }})
+        and admins.source_relation = latest_conversation_enriched.source_relation
 
 )
 select * 
