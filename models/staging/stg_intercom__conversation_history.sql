@@ -32,7 +32,7 @@ final as (
         id as conversation_id,
         cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
         assignee_id,
-        assignee_type,
+        assignee_type, -- [DEPRECATED] use is_assignee_admin in the intercom__conversation_enhanced model instead.
         conversation_rating_value,
         conversation_rating_remark,
         cast(first_contact_reply_created_at as {{ dbt.type_timestamp() }}) as first_contact_reply_created_at,
