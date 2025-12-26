@@ -7,7 +7,7 @@
 
 | Data Model(s) | Change type | Old | New | Notes |
 | ------------- | ----------- | ----| --- | ----- |
-| `intercom__conversation_enhanced`<br>`intercom__conversation_metrics` | New field | | `conversation_assignee_id` | Exposes the assignee ID from the staging layer for reference and joining purposes |
+| `intercom__conversation_enhanced`<br>`intercom__conversation_metrics` | New field | | `conversation_assignee_id` | Exposes the assignee ID (the ID of the user assigned to the conversation) from the staging layer for reference and joining purposes |
 | `intercom__conversation_enhanced`<br>`intercom__conversation_metrics` | New field | | `is_assignee_admin` | Boolean field indicating whether the conversation assignee is an admin user, determined by joining `assignee_id` with the admin table. Returns `false` if conversation is unassigned or assigned to a non-admin user |
 | `intercom__conversation_enhanced`<br>`intercom__conversation_metrics`<br>`stg_intercom__conversation_history` | Deprecated field | `assignee_type` or `conversation_assignee_type` | Marked as [DEPRECATED] | The `assignee_type` field is no longer supported by Intercom's API. Use `is_assignee_admin` instead to determine if an assignee is an admin |
 
