@@ -33,8 +33,6 @@ This dbt package transforms data from Fivetran's Intercom connector into analyti
 ## What does this dbt package do?
 This package enables you to better understand the performance, responsiveness, and effectiveness of your team's conversations with customers via Intercom. It creates enriched models with metrics focused on conversation performance, admin performance, and customer engagement.
 
-**Note**: Intercom V2.0 does not support API exposure to company-defined business hours. We therefore calculate all `time_to` metrics in their entirety without subtracting business hours.
-
 ### Output schema
 Final output tables are generated in the following target schema:
 
