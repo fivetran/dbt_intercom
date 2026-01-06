@@ -18,6 +18,8 @@
 <!--section="intercom_transformation_model"-->
 This dbt package transforms data from Fivetran's Intercom connector into analytics-ready tables.
 
+**Note**: Intercom V2.0 does not support API exposure to company-defined business hours. We therefore calculate all `time_to` metrics in their entirety without subtracting business hours.
+
 ## Resources
 
 - Number of materialized models¹: 42
