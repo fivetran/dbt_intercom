@@ -1,3 +1,4 @@
+<!--section="intercom_transformation_model"-->
 # Intercom dbt Package
 
 <p align="left">
@@ -15,7 +16,6 @@
         <img src="https://img.shields.io/badge/Fivetran_Quickstart_Compatible%3F-yes-green.svg" /></a>
 </p>
 
-<!--section="intercom_transformation_model"-->
 This dbt package transforms data from Fivetran's Intercom connector into analytics-ready tables.
 
 ## Resources
