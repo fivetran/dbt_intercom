@@ -30,10 +30,12 @@ This dbt package transforms data from Fivetran's Intercom connector into analyti
   - [DAG](https://fivetran.github.io/dbt_intercom/#!/overview?g_v=1)
   - [Changelog](https://github.com/fivetran/dbt_intercom/blob/main/CHANGELOG.md)
 
+¹ Each Quickstart transformation job run materializes these models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
+
 ## What does this dbt package do?
 This package enables you to better understand the performance, responsiveness, and effectiveness of your team's conversations with customers via Intercom. It creates enriched models with metrics focused on conversation performance, admin performance, and customer engagement.
 
-**Note**: Intercom V2.0 does not support API exposure to company-defined business hours. We therefore calculate all `time_to` metrics in their entirety without subtracting business hours.
+> NOTE: Intercom V2.0 does not support API exposure to company-defined business hours. We therefore calculate all `time_to` metrics in their entirety without subtracting business hours.
 
 ### Output schema
 Final output tables are generated in the following target schema:
@@ -57,7 +59,6 @@ By default, this package materializes the following final tables:
 | [intercom__conversation_metrics](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__conversation_metrics.sql) | Aggregates conversation-level metrics including wait times, handling times, and assignment patterns to identify bottlenecks and measure overall support team performance. <br></br>**Example Analytics Questions:**<ul><li>What are the average first response time and total resolution time across all conversations?</li><li>How do conversation metrics vary by conversation source (chat, email, etc.) or priority?</li><li>Which time periods or days of the week have the longest wait times?</li></ul>|
 
 ---
-¹ Each Quickstart transformation job run materializes these models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
 
 ## Prerequisites
 To use this dbt package, you must have the following:
