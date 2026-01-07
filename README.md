@@ -1,4 +1,4 @@
-# Intercom dbt Package ([Docs](https://fivetran.github.io/dbt_intercom/))
+# Intercom dbt Package
 
 <p align="left">
     <a alt="License"
@@ -15,41 +15,67 @@
         <img src="https://img.shields.io/badge/Fivetran_Quickstart_Compatible%3F-yes-green.svg" /></a>
 </p>
 
-## What does this dbt package do?
-- Produces modeled tables that leverage Intercom data from [Fivetran's connector](https://fivetran.com/docs/applications/intercom) in the format described by [this ERD](https://fivetran.com/docs/applications/intercom#schemainformation).
-
-- Enables you to better understand the performance, responsiveness, and effectiveness of your team's conversations with customers via Intercom. It achieves this by:
-  - Creating an enhanced conversations table to enable large-scale reporting on all current and closed conversations
-  - Enriching conversation data with relevant contacts data
-  - Aggregating your team's performance data across all conversations
-  - Providing aggregate rating and timeliness metrics for customer conversations to enable company-level conversation performance reporting
-
 <!--section="intercom_transformation_model"-->
-The following table provides a detailed list of all tables materialized within this package by default.
+This dbt package transforms data from Fivetran's Intercom connector into analytics-ready tables.
 
-| **Table**                | **Description**                                                                                                                            |
-| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| [intercom__admin_metrics](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__admin_metrics.sql)                                               | Each record represents an individual admin (employee) and a unique team they are assigned on, enriched with admin-specific conversation data like total conversations, average rating, and median response times by specific team. |
-| [intercom__article_enhanced](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__article_enhanced.sql)                                         | Each record represents a single help center article, enriched with data from collections, authors, and help centers. |
-| [intercom__company_enhanced](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__company_enhanced.sql)                                         | Each record represents a single company, enriched with data related to the company industry, monthly spend, and user count. |
-| [intercom__company_metrics](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__company_metrics.sql)                                           | Each record represents a single row from `intercom__company_enhanced`, enriched with data like total conversation count, average satisfaction rating, median time to first response, and median time to last close with contacts associated to a single company. |
-| [intercom__contact_enhanced](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__contact_enhanced.sql)                                         | Each record represents a single contact, enriched with data like the contact's role, company, last contacted information, and email list subscription status. |
-| [intercom__conversation_enhanced](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__conversation_enhanced.sql)                               | Each record represents a single conversation, enriched with conversation part data like who was assigned to the conversation, which contact the conversation was with, the current conversation state, who closed the conversation, and the final conversation ratings from the contact. |
-| [intercom__conversation_metrics](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__conversation_metrics.sql)                                 | Each record represents a single row from `intercom__conversation_enhanced`, enriched with data like time to first response, time to first close, and time to last close. |
+## Resources
 
-### Materialized Models
-Each Quickstart transformation job run materializes 42 models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
-<!--section-end-->
+- Number of materialized models¹: 42
+- Connector documentation
+  - [Intercom connector documentation](https://fivetran.com/docs/connectors/applications/intercom)
+  - [Intercom ERD](https://fivetran.com/docs/connectors/applications/intercom#schemainformation)
+- dbt package documentation
+  - [GitHub repository](https://github.com/fivetran/dbt_intercom)
+  - [dbt Docs](https://fivetran.github.io/dbt_intercom/#!/overview)
+  - [DAG](https://fivetran.github.io/dbt_intercom/#!/overview?g_v=1)
+  - [Changelog](https://github.com/fivetran/dbt_intercom/blob/main/CHANGELOG.md)
 
-## How do I use the dbt package?
+## What does this dbt package do?
+This package enables you to better understand the performance, responsiveness, and effectiveness of your team's conversations with customers via Intercom. It creates enriched models with metrics focused on conversation performance, admin performance, and customer engagement.
 
-### Step 1: Prerequisites
+> NOTE: Intercom V2.0 does not support API exposure to company-defined business hours. We therefore calculate all `time_to` metrics in their entirety without subtracting business hours.
+
+### Output schema
+Final output tables are generated in the following target schema:
+
+```
+<your_database>.<connector/schema_name>_intercom
+```
+
+### Final output tables
+
+By default, this package materializes the following final tables:
+
+| Table | Description |
+| :---- | :---- |
+| [intercom__admin_metrics](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__admin_metrics.sql) | Tracks individual admin performance by team including conversation volumes, customer satisfaction ratings, and response times to measure support efficiency at the admin-team level. <br></br>**Example Analytics Questions:**<ul><li>Which admins have the fastest response times and highest customer satisfaction scores by team?</li><li>How is conversation workload distributed across admins within each team?</li><li>Do specific admin-team combinations show better or worse performance metrics?</li></ul>|
+| [intercom__article_enhanced](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__article_enhanced.sql) | Provides insights into help center article performance with enriched data from collections, authors, and help centers to analyze content effectiveness and user engagement. <br></br>**Example Analytics Questions:**<ul><li>Which articles have the highest view counts and what are their user satisfaction reaction percentages?</li><li>How do article views and conversation generation vary by collection, author, or help center?</li><li>Which articles are generating the most user reactions and conversations?</li></ul>|
+| [intercom__company_enhanced](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__company_enhanced.sql) | Provides a complete view of each company with contact counts, conversation metrics, tag associations, and plan information to analyze customer engagement and account health. <br></br>**Example Analytics Questions:**<ul><li>Which companies have the most contacts and highest conversation volumes?</li><li>How do conversation metrics and response times vary by company plan or segment?</li><li>What tags are most commonly associated with high-value companies?</li></ul>|
+| [intercom__company_metrics](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__company_metrics.sql) | Aggregates conversation metrics at the company level including total conversations, satisfaction ratings, and response times to understand company-level support needs and engagement patterns. <br></br>**Example Analytics Questions:**<ul><li>Which companies have the highest conversation volumes and what are their satisfaction scores?</li><li>How do response and resolution times vary across different companies or account tiers?</li><li>What companies show declining satisfaction ratings that may need proactive attention?</li></ul>|
+| [intercom__contact_enhanced](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__contact_enhanced.sql) | Consolidates contact profiles with company associations, conversation history, tag assignments, and engagement metrics to understand individual customer relationships and support needs. <br></br>**Example Analytics Questions:**<ul><li>Which contacts have the most conversations and longest average resolution times?</li><li>How do contact engagement patterns differ by company or role?</li><li>What tags are most frequently applied to contacts with high conversation volumes?</li></ul>|
+| [intercom__conversation_enhanced](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__conversation_enhanced.sql) | Tracks all customer conversations with participant details, response times, conversation state, and tag assignments to measure support efficiency and conversation resolution patterns. <br></br>**Example Analytics Questions:**<ul><li>What is the average response time and resolution time for conversations by team or assignee?</li><li>Which conversation tags are associated with longer resolution times?</li><li>How many conversations are currently open or waiting on customers versus closed?</li></ul>|
+| [intercom__conversation_metrics](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__conversation_metrics.sql) | Aggregates conversation-level metrics including wait times, handling times, and assignment patterns to identify bottlenecks and measure overall support team performance. <br></br>**Example Analytics Questions:**<ul><li>What are the average first response time and total resolution time across all conversations?</li><li>How do conversation metrics vary by conversation source (chat, email, etc.) or priority?</li><li>Which time periods or days of the week have the longest wait times?</li></ul>|
+
+¹ Each Quickstart transformation job run materializes these models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
+
+---
+
+## Prerequisites
 To use this dbt package, you must have the following:
 
 - At least one Fivetran Intercom connection syncing data into your destination.
 - A **BigQuery**, **Snowflake**, **Redshift** or **PostgreSQL** destination.
 
-### Step 2: Install the package
+## How do I use the dbt package?
+You can either add this dbt package in the Fivetran dashboard or import it into your dbt project:
+
+- To add the package in the Fivetran dashboard, follow our [Quickstart guide](https://fivetran.com/docs/transformations/dbt).
+- To add the package to your dbt project, follow the setup instructions in the dbt package's [README file](https://github.com/fivetran/dbt_intercom/blob/main/README.md#how-do-i-use-the-dbt-package) to use this package.
+
+
+<!--section-end-->
+
+### Install the package
 Include the following intercom package version in your `packages.yml` file:
 > TIP: Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.
 ```yaml
@@ -57,7 +83,7 @@ packages:
   - package: fivetran/intercom
     version: [">=1.4.0", "<1.5.0"]
 ```
-### Step 3: Define database and schema variables
+### Define database and schema variables
 
 #### Option A: Single connection
 By default, this package runs using your destination and the `intercom` schema. If this is not where your Intercom data is (for example, if your Intercom schema is named `intercom_fivetran`), add the following configuration to your root `dbt_project.yml` file:
@@ -116,7 +142,7 @@ sources:
     tables: # copy and paste from intercom/models/staging/src_intercom.yml - see https://support.atlassian.com/bitbucket-cloud/docs/yaml-anchors/ for how to use anchors to only do so once
 ```
 
-> **Note**: If there are source tables you do not have (see [Step 4](https://github.com/fivetran/dbt_intercom?tab=readme-ov-file#optional-step-4-additional-configurations)), you may still include them, as long as you have set the right variables to `False`.
+> **Note**: If there are source tables you do not have (see [Additional configurations](https://github.com/fivetran/dbt_intercom?tab=readme-ov-file#optional-step-4-additional-configurations)), you may still include them, as long as you have set the right variables to `False`.
 
 2. Set the `has_defined_sources` variable (scoped to the `intercom` package) to `True`, like such:
 ```yml
@@ -125,7 +151,7 @@ vars:
   intercom:
     has_defined_sources: true
 ```
-### (Optional) Step 4: Additional configurations
+### (Optional) Additional configurations
 <details open><summary>Expand/Collapse details</summary>
 
 #### Adding passthrough metrics
@@ -201,14 +227,19 @@ packages:
     - package: dbt-labs/dbt_utils
       version: [">=1.0.0", "<2.0.0"]
 ```
+<!--section="intercom_maintenance"-->
 ## How is this package maintained and can I contribute?
+
 ### Package Maintenance
-The Fivetran team maintaining this package _only_ maintains the latest version of the package. We highly recommend you stay consistent with the [latest version](https://hub.getdbt.com/fivetran/intercom/latest/) of the package and refer to the [CHANGELOG](https://github.com/fivetran/dbt_intercom/blob/main/CHANGELOG.md) and release notes for more information on changes across versions.
+The Fivetran team maintaining this package only maintains the [latest version](https://hub.getdbt.com/fivetran/intercom/latest/) of the package. We highly recommend you stay consistent with the latest version of the package and refer to the [CHANGELOG](https://github.com/fivetran/dbt_intercom/blob/main/CHANGELOG.md) and release notes for more information on changes across versions.
 
 ### Contributions
 A small team of analytics engineers at Fivetran develops these dbt packages. However, the packages are made better by community contributions.
 
-We highly encourage and welcome contributions to this package. Check out [this dbt Discourse article](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657) on the best workflow for contributing to a package.
+We highly encourage and welcome contributions to this package. Learn how to contribute to a package in dbt's [Contributing to an external dbt package article](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657).
+
+
+<!--section-end-->
 
 ## Are there any resources available?
 - If you have questions or want to reach out for help, see the [GitHub Issue](https://github.com/fivetran/dbt_intercom/issues/new/choose) section to find the right avenue of support for you.
