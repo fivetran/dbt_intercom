@@ -1,7 +1,7 @@
 with conversation_metrics as (
     select *
     from {{ ref('intercom__conversation_metrics') }}
-    where conversation_assignee_type = 'admin'
+    where is_assignee_admin
 ),
 
 admin_table as (
