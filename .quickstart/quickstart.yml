@@ -23,6 +23,9 @@ table_variables:
     - team
     - team_admin
 
+  _fivetran_quickstart_tag:
+    - tag
+
 destination_configurations:
   databricks:
     dispatch:
@@ -38,3 +41,20 @@ public_models: [
   "intercom__company_enhanced",
   "intercom__conversation_enhanced"
 ]
+
+supported_vars:
+  intercom__company_history_pass_through_columns:
+    type: dictionary
+    description: "Addtional `COMPANY_HISTORY` fields to include in `intercom__company_enhanced`"
+    display_name: "Additional Company Columns"
+
+  intercom__contact_history_pass_through_columns:
+    type: dictionary
+    description: "Addtional `CONTACT_HISTORY` fields to include in `intercom__contact_enhanced`"
+    display_name: "Additional Contact Columns"
+
+  intercom__conversation_history_pass_through_columns:
+    type: dictionary
+    description: "Addtional `CONVERSATION_HISTORY` fields to include in `intercom__conversation_enhanced`"
+    display_name: "Additional Conversation Columns"
+
