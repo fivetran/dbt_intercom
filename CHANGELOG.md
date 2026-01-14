@@ -1,3 +1,39 @@
+# dbt_intercom v1.5.0
+
+[PR #75](https://github.com/fivetran/dbt_intercom/pull/75) includes the following updates:
+
+## Schema/Data Change
+**3 total changes • 2 possible breaking change**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | ----| --- | ----- |
+| `intercom__conversation_enhanced`<br>`intercom__conversation_metrics` | New field | | `conversation_assignee_id` | The ID of the user assigned to the conversation. This column is an alias of `assignee_id` from `stg_intercom__conversation_history` model. If you also persist `assignee_id` using the `intercom__conversation_history_pass_through_columns` variable, ensure it uses a different alias to avoid duplicate column errors.  |
+| `intercom__conversation_enhanced`<br>`intercom__conversation_metrics` | New field | | `is_assignee_admin` | Boolean field indicating whether the conversation assignee is an admin user, determined by joining `assignee_id` with the admin table. Returns `false` if conversation is unassigned or assigned to a non-admin user |
+| `intercom__conversation_enhanced`<br>`intercom__conversation_metrics`<br>`stg_intercom__conversation_history` | Deprecated field | `assignee_type` or `conversation_assignee_type` | Marked as [DEPRECATED] | The `assignee_type` field is no longer supported by Intercom's API. Use `is_assignee_admin` instead to determine if an assignee is an admin |
+
+## Under the Hood
+- Updated `intercom__admin_metrics` to filter conversations using `is_assignee_admin` boolean instead of the deprecated `conversation_assignee_type = 'admin'` string comparison
+- Enhanced `intercom__conversation_enhanced` with a left join to the admin table to determine admin assignee status
+- Updates to the integrity and consistency validation tests to ensure accurate testing of model changes between versions.
+
+# dbt_intercom v1.5.0-a1
+
+[PR #75](https://github.com/fivetran/dbt_intercom/pull/75) includes the following updates:
+
+## Schema/Data Change
+**3 total changes • 2 possible breaking change**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | ----| --- | ----- |
+| `intercom__conversation_enhanced`<br>`intercom__conversation_metrics` | New field | | `conversation_assignee_id` | Exposes the conversation assignee ID (the ID of the user assigned to the conversation) from the staging layer for reference and joins. If you persist `assignee_id` via the `intercom__conversation_history_pass_through_columns` variable, ensure its alias does not match `conversation_assignee_id` to avoid duplicate column errors.  |
+| `intercom__conversation_enhanced`<br>`intercom__conversation_metrics` | New field | | `is_assignee_admin` | Boolean field indicating whether the conversation assignee is an admin user, determined by joining `assignee_id` with the admin table. Returns `false` if conversation is unassigned or assigned to a non-admin user |
+| `intercom__conversation_enhanced`<br>`intercom__conversation_metrics`<br>`stg_intercom__conversation_history` | Deprecated field | `assignee_type` or `conversation_assignee_type` | Marked as [DEPRECATED] | The `assignee_type` field is no longer supported by Intercom's API. Use `is_assignee_admin` instead to determine if an assignee is an admin |
+
+## Under the Hood
+- Updated `intercom__admin_metrics` to filter conversations using `is_assignee_admin` boolean instead of the deprecated `conversation_assignee_type = 'admin'` string comparison
+- Enhanced `intercom__conversation_enhanced` with a left join to the admin table to determine admin assignee status
+- Updates to the integrity and consistency validation tests to ensure accurate testing of model changes between versions.
+
 # dbt_intercom v1.4.0
 [PR #74](https://github.com/fivetran/dbt_intercom/pull/74) includes the following updates:
 

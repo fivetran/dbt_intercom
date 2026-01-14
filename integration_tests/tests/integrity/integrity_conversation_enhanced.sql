@@ -9,6 +9,7 @@ with conversation_source_count as (
 
     select count(distinct conversation_id) as stg_count
     from {{ target.schema }}_intercom_dev.stg_intercom__conversation_history
+    where coalesce(_fivetran_active, true)
 ),
 
 conversation_end_count as (
