@@ -45,16 +45,16 @@ public_models: [
 supported_vars:
   intercom__company_history_pass_through_columns:
     type: dictionary
-    description: "Addtional `COMPANY_HISTORY` fields to include in `intercom__company_enhanced`"
+    description: "Additional `COMPANY_HISTORY` fields to include in `intercom__company_enhanced`"
     display_name: "Additional Company Columns"
 
   intercom__contact_history_pass_through_columns:
     type: dictionary
-    description: "Addtional `CONTACT_HISTORY` fields to include in `intercom__contact_enhanced`"
+    description: "Additional `CONTACT_HISTORY` fields to include in `intercom__contact_enhanced`"
     display_name: "Additional Contact Columns"
 
   intercom__conversation_history_pass_through_columns:
     type: dictionary
-    description: "Addtional `CONVERSATION_HISTORY` fields to include in `intercom__conversation_enhanced`"
+    description: "Additional `CONVERSATION_HISTORY` fields to include in `intercom__conversation_enhanced`"
     display_name: "Additional Conversation Columns"
 
