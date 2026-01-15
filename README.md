@@ -12,7 +12,7 @@
     <a alt="PRs">
         <img src="https://img.shields.io/badge/Contributions-welcome-blueviolet" /></a>
     <a alt="Fivetran Quickstart Compatible"
-        href="https://fivetran.com/docs/transformations/dbt/quickstart">
+        href="https://fivetran.com/docs/transformations/data-models/quickstart-management#quickstartmanagement">
         <img src="https://img.shields.io/badge/Fivetran_Quickstart_Compatible%3F-yes-green.svg" /></a>
 </p>
 
@@ -69,7 +69,7 @@ To use this dbt package, you must have the following:
 ## How do I use the dbt package?
 You can either add this dbt package in the Fivetran dashboard or import it into your dbt project:
 
-- To add the package in the Fivetran dashboard, follow our [Quickstart guide](https://fivetran.com/docs/transformations/dbt).
+- To add the package in the Fivetran dashboard, follow our [Quickstart guide](https://fivetran.com/docs/transformations/data-models/quickstart-management).
 - To add the package to your dbt project, follow the setup instructions in the dbt package's [README file](https://github.com/fivetran/dbt_intercom/blob/main/README.md#how-do-i-use-the-dbt-package) to use this package.
 
 
@@ -81,7 +81,7 @@ Include the following intercom package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/intercom
-    version: [">=1.5.0", "<1.6.0"]
+    version: [">=1.6.0", "<1.7.0"]
 ```
 ### Define database and schema variables
 
@@ -212,8 +212,12 @@ vars:
 
 </details>
 
-### Limitations
-Intercom V2.0 does not support API exposure to company-defined business hours. We therefore calculate all `time_to` metrics in their entirety without subtracting business hours.
+### (Optional) Orchestrate your models with Fivetran Transformations for dbt Core™
+<details><summary>Expand for more details</summary>
+
+Fivetran offers the ability for you to orchestrate your dbt project through [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/transformations/dbt#transformationsfordbtcore). Learn how to set up your project for orchestration through Fivetran in our [Transformations for dbt Core setup guides](https://fivetran.com/docs/transformations/dbt/setup-guide#transformationsfordbtcoresetupguide).
+
+</details>
 
 ## Does this package have dependencies?
 This dbt package is dependent on the following dbt packages. These dependencies are installed by default within this package. For more information on the following packages, refer to the [dbt hub](https://hub.getdbt.com/) site.
