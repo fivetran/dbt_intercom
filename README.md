@@ -12,7 +12,7 @@
     <a alt="PRs">
         <img src="https://img.shields.io/badge/Contributions-welcome-blueviolet" /></a>
     <a alt="Fivetran Quickstart Compatible"
-        href="https://fivetran.com/docs/transformations/dbt/quickstart">
+        href="https://fivetran.com/docs/transformations/data-models/quickstart-management#quickstartmanagement">
         <img src="https://img.shields.io/badge/Fivetran_Quickstart_Compatible%3F-yes-green.svg" /></a>
 </p>
 
@@ -48,13 +48,13 @@ By default, this package materializes the following final tables:
 
 | Table | Description |
 | :---- | :---- |
-| [intercom__admin_metrics](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__admin_metrics.sql) | Tracks individual admin performance by team including conversation volumes, customer satisfaction ratings, and response times to measure support efficiency at the admin-team level. <br></br>**Example Analytics Questions:**<ul><li>Which admins have the fastest response times and highest customer satisfaction scores by team?</li><li>How is conversation workload distributed across admins within each team?</li><li>Do specific admin-team combinations show better or worse performance metrics?</li></ul>|
-| [intercom__article_enhanced](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__article_enhanced.sql) | Provides insights into help center article performance with enriched data from collections, authors, and help centers to analyze content effectiveness and user engagement. <br></br>**Example Analytics Questions:**<ul><li>Which articles have the highest view counts and what are their user satisfaction reaction percentages?</li><li>How do article views and conversation generation vary by collection, author, or help center?</li><li>Which articles are generating the most user reactions and conversations?</li></ul>|
-| [intercom__company_enhanced](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__company_enhanced.sql) | Provides a complete view of each company with contact counts, conversation metrics, tag associations, and plan information to analyze customer engagement and account health. <br></br>**Example Analytics Questions:**<ul><li>Which companies have the most contacts and highest conversation volumes?</li><li>How do conversation metrics and response times vary by company plan or segment?</li><li>What tags are most commonly associated with high-value companies?</li></ul>|
-| [intercom__company_metrics](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__company_metrics.sql) | Aggregates conversation metrics at the company level including total conversations, satisfaction ratings, and response times to understand company-level support needs and engagement patterns. <br></br>**Example Analytics Questions:**<ul><li>Which companies have the highest conversation volumes and what are their satisfaction scores?</li><li>How do response and resolution times vary across different companies or account tiers?</li><li>What companies show declining satisfaction ratings that may need proactive attention?</li></ul>|
-| [intercom__contact_enhanced](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__contact_enhanced.sql) | Consolidates contact profiles with company associations, conversation history, tag assignments, and engagement metrics to understand individual customer relationships and support needs. <br></br>**Example Analytics Questions:**<ul><li>Which contacts have the most conversations and longest average resolution times?</li><li>How do contact engagement patterns differ by company or role?</li><li>What tags are most frequently applied to contacts with high conversation volumes?</li></ul>|
-| [intercom__conversation_enhanced](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__conversation_enhanced.sql) | Tracks all customer conversations with participant details, response times, conversation state, and tag assignments to measure support efficiency and conversation resolution patterns. <br></br>**Example Analytics Questions:**<ul><li>What is the average response time and resolution time for conversations by team or assignee?</li><li>Which conversation tags are associated with longer resolution times?</li><li>How many conversations are currently open or waiting on customers versus closed?</li></ul>|
-| [intercom__conversation_metrics](https://github.com/fivetran/dbt_intercom/blob/main/models/intercom__conversation_metrics.sql) | Aggregates conversation-level metrics including wait times, handling times, and assignment patterns to identify bottlenecks and measure overall support team performance. <br></br>**Example Analytics Questions:**<ul><li>What are the average first response time and total resolution time across all conversations?</li><li>How do conversation metrics vary by conversation source (chat, email, etc.) or priority?</li><li>Which time periods or days of the week have the longest wait times?</li></ul>|
+| [intercom__admin_metrics](https://fivetran.github.io/dbt_intercom/#!/model/model.intercom.intercom__admin_metrics) | Tracks individual admin performance by team including conversation volumes, customer satisfaction ratings, and response times to measure support efficiency at the admin-team level. <br></br>**Example Analytics Questions:**<ul><li>Which admins have the fastest response times and highest customer satisfaction scores by team?</li><li>How is conversation workload distributed across admins within each team?</li><li>Do specific admin-team combinations show better or worse performance metrics?</li></ul>|
+| [intercom__article_enhanced](https://fivetran.github.io/dbt_intercom/#!/model/model.intercom.intercom__article_enhanced) | Provides insights into help center article performance with enriched data from collections, authors, and help centers to analyze content effectiveness and user engagement. <br></br>**Example Analytics Questions:**<ul><li>Which articles have the highest view counts and what are their user satisfaction reaction percentages?</li><li>How do article views and conversation generation vary by collection, author, or help center?</li><li>Which articles are generating the most user reactions and conversations?</li></ul>|
+| [intercom__company_enhanced](https://fivetran.github.io/dbt_intercom/#!/model/model.intercom.intercom__company_enhanced) | Provides a complete view of each company with contact counts, conversation metrics, tag associations, and plan information to analyze customer engagement and account health. <br></br>**Example Analytics Questions:**<ul><li>Which companies have the most contacts and highest conversation volumes?</li><li>How do conversation metrics and response times vary by company plan or segment?</li><li>What tags are most commonly associated with high-value companies?</li></ul>|
+| [intercom__company_metrics](https://fivetran.github.io/dbt_intercom/#!/model/model.intercom.intercom__company_metrics) | Aggregates conversation metrics at the company level including total conversations, satisfaction ratings, and response times to understand company-level support needs and engagement patterns. <br></br>**Example Analytics Questions:**<ul><li>Which companies have the highest conversation volumes and what are their satisfaction scores?</li><li>How do response and resolution times vary across different companies or account tiers?</li><li>What companies show declining satisfaction ratings that may need proactive attention?</li></ul>|
+| [intercom__contact_enhanced](https://fivetran.github.io/dbt_intercom/#!/model/model.intercom.intercom__contact_enhanced) | Consolidates contact profiles with company associations, conversation history, tag assignments, and engagement metrics to understand individual customer relationships and support needs. <br></br>**Example Analytics Questions:**<ul><li>Which contacts have the most conversations and longest average resolution times?</li><li>How do contact engagement patterns differ by company or role?</li><li>What tags are most frequently applied to contacts with high conversation volumes?</li></ul>|
+| [intercom__conversation_enhanced](https://fivetran.github.io/dbt_intercom/#!/model/model.intercom.intercom__conversation_enhanced) | Tracks all customer conversations with participant details, response times, conversation state, and tag assignments to measure support efficiency and conversation resolution patterns. <br></br>**Example Analytics Questions:**<ul><li>What is the average response time and resolution time for conversations by team or assignee?</li><li>Which conversation tags are associated with longer resolution times?</li><li>How many conversations are currently open or waiting on customers versus closed?</li></ul>|
+| [intercom__conversation_metrics](https://fivetran.github.io/dbt_intercom/#!/model/model.intercom.intercom__conversation_metrics) | Aggregates conversation-level metrics including wait times, handling times, and assignment patterns to identify bottlenecks and measure overall support team performance. <br></br>**Example Analytics Questions:**<ul><li>What are the average first response time and total resolution time across all conversations?</li><li>How do conversation metrics vary by conversation source (chat, email, etc.) or priority?</li><li>Which time periods or days of the week have the longest wait times?</li></ul>|
 
 ¹ Each Quickstart transformation job run materializes these models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
 
@@ -69,7 +69,7 @@ To use this dbt package, you must have the following:
 ## How do I use the dbt package?
 You can either add this dbt package in the Fivetran dashboard or import it into your dbt project:
 
-- To add the package in the Fivetran dashboard, follow our [Quickstart guide](https://fivetran.com/docs/transformations/dbt).
+- To add the package in the Fivetran dashboard, follow our [Quickstart guide](https://fivetran.com/docs/transformations/data-models/quickstart-management).
 - To add the package to your dbt project, follow the setup instructions in the dbt package's [README file](https://github.com/fivetran/dbt_intercom/blob/main/README.md#how-do-i-use-the-dbt-package) to use this package.
 
 
@@ -81,7 +81,7 @@ Include the following intercom package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/intercom
-    version: [">=1.5.0", "<1.6.0"]
+    version: [">=1.6.0", "<1.7.0"]
 ```
 ### Define database and schema variables
 
@@ -212,8 +212,12 @@ vars:
 
 </details>
 
-### Limitations
-Intercom V2.0 does not support API exposure to company-defined business hours. We therefore calculate all `time_to` metrics in their entirety without subtracting business hours.
+### (Optional) Orchestrate your models with Fivetran Transformations for dbt Core™
+<details><summary>Expand for more details</summary>
+
+Fivetran offers the ability for you to orchestrate your dbt project through [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/transformations/dbt#transformationsfordbtcore). Learn how to set up your project for orchestration through Fivetran in our [Transformations for dbt Core setup guides](https://fivetran.com/docs/transformations/dbt/setup-guide#transformationsfordbtcoresetupguide).
+
+</details>
 
 ## Does this package have dependencies?
 This dbt package is dependent on the following dbt packages. These dependencies are installed by default within this package. For more information on the following packages, refer to the [dbt hub](https://hub.getdbt.com/) site.
