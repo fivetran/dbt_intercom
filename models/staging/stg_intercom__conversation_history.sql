@@ -60,4 +60,4 @@ final as (
 
 select * 
 from final
-coalesce(_fivetran_active, true)
+where coalesce(_fivetran_active, true)
