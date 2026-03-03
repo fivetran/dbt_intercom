@@ -26,7 +26,8 @@ company_metrics as (
     select
         company_enhanced.source_relation,
         company_enhanced.company_id,
-        sum(case when conversation_metrics.conversation_state = 'closed' then 1 else 0 end) as total_conversations_closed,
+        -- Limit closed conversations to those including a customer message
+        count(distinct case when conversation_metrics.conversation_state = 'closed' and conversation_metrics.first_contact_reply_at is not null then conversation_id else null end) as total_conversations_closed,
         round(cast(avg(conversation_metrics.count_total_parts) as numeric),2) as average_conversation_parts,
         avg(conversation_metrics.conversation_rating) as average_conversation_rating
     from conversation_metrics

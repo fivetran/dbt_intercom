@@ -7,7 +7,6 @@ with latest_conversation_part as (
 latest_conversation as (
   select *
   from {{ ref('stg_intercom__conversation_history') }}
-  where coalesce(_fivetran_active, true)
 ),
 
 --Aggregates conversation part data related to a single conversation from the int_intercom__latest_conversation model. See below for specific aggregates.

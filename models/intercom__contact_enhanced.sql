@@ -2,7 +2,6 @@
 with contact_latest as (
   select *
   from {{ ref('stg_intercom__contact_history') }}
-  where coalesce(_fivetran_active, true)
 ),
 
 --If you use the contact company table this will be included, if not it will be ignored.
