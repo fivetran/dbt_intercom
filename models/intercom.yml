@@ -19,7 +19,7 @@ models:
       - name: job_title
         description: The admin job title.
       - name: total_conversations_closed
-        description: The admins sum of total closed conversations.
+        description: The total number of unique closed conversations that included a customer message, attributed to this admin.
       - name: average_conversation_parts
         description: The admins average number of parts associated with a single conversation.
       - name: average_conversation_rating
@@ -167,7 +167,7 @@ models:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: total_conversations_closed
-        description: The total closed conversations with contacts from that company.
+        description: The total number of unique closed conversations that included a customer message, for contacts associated with this company.
       - name: average_conversation_parts
         description: The average number of parts associated to a single conversation with contacts from that company.
       - name: average_conversation_rating

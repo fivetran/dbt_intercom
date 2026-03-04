@@ -1,3 +1,18 @@
+# dbt_intercom v1.7.0-a1
+
+## Schema/Data Change
+**4 total changes • 4 possible breaking changes**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | ----| --- | ----- |
+| `intercom__company_metrics`<br>`intercom__admin_metrics` | `total_conversations_closed` calculation | All closed conversations | Unique closed conversations that included a customer message | The calculation of `total_conversations_closed` is now aligned with Intercom's [definition](https://www.intercom.com/help/en/articles/7022438-reporting-metrics-attributes#h_a9baa0b2a5). |
+| `intercom__contact_enhanced` | `all_contact_company_names` value | Included companies no longer associated with the contact | Limits to companies currently associated with the contact | |
+| `intercom__conversation_enhanced` | `all_conversation_tags` value | Included tags no longer applied to the conversation | Limits to tags currently applied to the conversation | |
+| `stg_intercom__contact_history`<br>`stg_intercom__contact_company_history`<br>`stg_intercom__contact_tag_history`<br>`stg_intercom__conversation_history`<br>`stg_intercom__conversation_contact_history`<br>`stg_intercom__conversation_tag_history` | Filter | None | Filter on `_fivetran_active` | Records where `_fivetran_active = False` will be filtered out. Previously this filter was applied in downstream models. |
+
+## Bug Fix
+- Removes fanout that may have caused inflated metrics in `intercom__company_metrics`.
+
 # dbt_intercom v1.6.0
 
 [PR #78](https://github.com/fivetran/dbt_intercom/pull/78) includes the following updates:

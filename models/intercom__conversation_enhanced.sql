@@ -1,7 +1,6 @@
 with latest_conversation as (
     select *
     from {{ ref('stg_intercom__conversation_history') }}
-    where coalesce(_fivetran_active, true)
 ),
 
 conversation_string_aggregates as (
