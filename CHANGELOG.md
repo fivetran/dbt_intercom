@@ -1,3 +1,22 @@
+# dbt_intercom v1.7.0
+
+[PR #82](https://github.com/fivetran/dbt_intercom/pull/82) includes the following updates:
+
+## Bug Fix
+- Updates the following staging models to filter records using `coalesce(_fivetran_active, true)`, ensuring that end models reflect only current records for customers using [Fivetran History Mode](https://fivetran.com/docs/using-fivetran/features/history-mode). The `coalesce` fallback preserves existing behavior for sources where the `_fivetran_active` column is not present.
+  - `stg_intercom__contact_history`
+  - `stg_intercom__conversation_history`
+  - `stg_intercom__contact_company_history`
+  - `stg_intercom__contact_tag_history`
+  - `stg_intercom__conversation_contact_history`
+  - `stg_intercom__conversation_tag_history`
+- Applies the same `coalesce(_fivetran_active, true)` filter to `stg_intercom__conversation_part_history` within `int_intercom__conversation_part_aggregates`.
+
+## Under the Hood
+- Updates `integrity_conversation_enhanced` integration test to reflect the corrected row count behavior after the `_fivetran_active` filter changes.
+- Removes `coalesce(_fivetran_active, true)` filter from `intercom__contact_enhaced` and `intercom__conversation_enhanced` models as filter has been moved to the staging layer.
+
+
 # dbt_intercom v1.6.0
 
 [PR #78](https://github.com/fivetran/dbt_intercom/pull/78) includes the following updates:
