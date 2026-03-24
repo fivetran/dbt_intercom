@@ -68,7 +68,7 @@ Include the following intercom package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/intercom
-    version: [">=1.7.0", "<1.8.0"]
+    version: [">=1.6.0", "<1.7.0"]
 ```
 ### Define database and schema variables
 

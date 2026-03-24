@@ -1,4 +1,4 @@
-# dbt_intercom v1.7.0
+# dbt_intercom v1.6.1
 
 [PR #82](https://github.com/fivetran/dbt_intercom/pull/82) includes the following updates:
 
