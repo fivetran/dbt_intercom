@@ -34,11 +34,10 @@ seeds:
     show: False
   intercom_integration_tests:
     +quote_columns: "{{ true if target.type == 'redshift' else false }}"
-    +column_types:
-      _fivetran_synced: timestamp
     admin_data:
       +column_types:
         id: "{{ 'varchar(100)'  if target.type in ('redshift', 'postgres') else 'string'}}"
+        _fivetran_synced: timestamp
     article_history_data:
       +column_types:
         id: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
@@ -54,6 +53,7 @@ seeds:
         _fivetran_start: timestamp
         _fivetran_end: timestamp
         _fivetran_active: boolean
+        _fivetran_synced: timestamp
     collection_history_data:
       +quote_columns: true
       +enabled: "{{ true if target.type != 'snowflake' else false }}"
@@ -67,6 +67,7 @@ seeds:
         _fivetran_start: timestamp
         _fivetran_end: timestamp
         _fivetran_active: boolean
+        _fivetran_synced: timestamp
     collection_history_data_snowflake:
       +quote_columns: true
       +enabled: "{{ true if target.type == 'snowflake' else false }}"
@@ -81,6 +82,7 @@ seeds:
         _FIVETRAN_START: timestamp
         _FIVETRAN_END: timestamp
         _FIVETRAN_ACTIVE: boolean
+        _FIVETRAN_SYNCED: timestamp
     company_history_data:
       +column_types:
         created_at: timestamp
@@ -88,6 +90,7 @@ seeds:
         _fivetran_start: timestamp
         _fivetran_end: timestamp
         _fivetran_active: boolean
+        _fivetran_synced: timestamp
     company_tag_history_data:
       +column_types:
         company_updated_at: timestamp
@@ -95,12 +98,14 @@ seeds:
         _fivetran_start: timestamp
         _fivetran_end: timestamp
         _fivetran_active: boolean
+        _fivetran_synced: timestamp
     contact_company_history_data:
       +column_types:
         contact_updated_at: timestamp
         _fivetran_start: timestamp
         _fivetran_end: timestamp
         _fivetran_active: boolean
+        _fivetran_synced: timestamp
     contact_history_data:
       +column_types:
         created_at: timestamp
@@ -112,6 +117,7 @@ seeds:
         _fivetran_start: timestamp
         _fivetran_end: timestamp
         _fivetran_active: boolean
+        _fivetran_synced: timestamp
     contact_tag_history_data:
       +column_types:
         contact_updated_at: timestamp
@@ -119,6 +125,7 @@ seeds:
         _fivetran_start: timestamp
         _fivetran_end: timestamp
         _fivetran_active: boolean
+        _fivetran_synced: timestamp
     conversation_contact_history_data:
       +column_types:
         conversation_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
@@ -126,6 +133,7 @@ seeds:
         _fivetran_start: timestamp
         _fivetran_end: timestamp
         _fivetran_active: boolean
+        _fivetran_synced: timestamp
     conversation_history_data:
       +column_types:
         id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
@@ -137,6 +145,7 @@ seeds:
         _fivetran_start: timestamp
         _fivetran_end: timestamp
         _fivetran_active: boolean
+        _fivetran_synced: timestamp
     conversation_part_history_data:
       +column_types:
         id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
@@ -149,6 +158,7 @@ seeds:
         _fivetran_start: timestamp
         _fivetran_end: timestamp
         _fivetran_active: boolean
+        _fivetran_synced: timestamp
     conversation_tag_history_data:
       +column_types:
         conversation_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
@@ -157,6 +167,7 @@ seeds:
         _fivetran_start: timestamp
         _fivetran_end: timestamp
         _fivetran_active: boolean
+        _fivetran_synced: timestamp
     help_center_history_data:
       +column_types:
         id: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
@@ -166,16 +177,20 @@ seeds:
         _fivetran_start: timestamp
         _fivetran_end: timestamp
         _fivetran_active: boolean
+        _fivetran_synced: timestamp
     tag_data:
       +column_types:
         id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        _fivetran_synced: timestamp
     team_admin_data:
       +column_types:
         admin_id: "{{ 'varchar(100)'  if target.type in ('redshift', 'postgres') else 'string'}}"
         team_id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        _fivetran_synced: timestamp
     team_data:
       +column_types:
         id: "{{ 'int64' if target.type == 'bigquery' else 'bigint' }}"
+        _fivetran_synced: timestamp
 
 dispatch:
   - macro_namespace: dbt_utils
