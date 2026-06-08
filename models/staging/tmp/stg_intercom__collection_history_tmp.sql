@@ -2,7 +2,7 @@
 {{ config(enabled=var('intercom__using_articles', True) and var('intercom__using_collection_history', True)) }}
 
 {{
-    intercom.intercom_union_connections(
+    fivetran_utils.union_connections(
         connection_dictionary='intercom_sources',
         single_source_name='intercom',
         single_table_name='collection_history'

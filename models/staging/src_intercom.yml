@@ -319,7 +319,7 @@ sources:
           - name: sla_name
             description: The name of the SLA as given by the teammate when it was created.
           - name: sla_status
-            description: One of “hit”, ”missed”, or “cancelled”.
+            description: One of "hit", "missed", or "cancelled".
           - name: _fivetran_active
             description: Boolean to identify an active record.
           - name: _fivetran_start
