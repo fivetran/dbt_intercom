@@ -33,7 +33,7 @@ final as (
     select
         source_relation,
         conversation_id,
-        tag_id,
+        cast(tag_id as {{ dbt.type_string() }}) as tag_id,
         _fivetran_active,
         cast(_fivetran_start as {{ dbt.type_timestamp() }}) as _fivetran_start,
         cast(_fivetran_end as {{ dbt.type_timestamp() }}) as _fivetran_end

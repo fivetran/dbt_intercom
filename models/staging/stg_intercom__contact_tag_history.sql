@@ -34,7 +34,7 @@ final as (
         source_relation,
         contact_id,
         cast(contact_updated_at as {{ dbt.type_timestamp() }}) as contact_updated_at,
-        tag_id,
+        cast(tag_id as {{ dbt.type_string() }}) as tag_id,
         _fivetran_active,
         cast(_fivetran_start as {{ dbt.type_timestamp() }}) as _fivetran_start,
         cast(_fivetran_end as {{ dbt.type_timestamp() }}) as _fivetran_end

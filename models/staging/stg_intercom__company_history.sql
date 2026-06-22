@@ -33,7 +33,7 @@ final as (
 
     select
         source_relation,
-        id as company_id,
+        cast(id as {{ dbt.type_string() }}) as company_id,
         name as company_name,
         website,
         industry,
