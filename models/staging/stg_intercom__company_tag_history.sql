@@ -23,7 +23,7 @@ fields as (
                 staging_columns=get_company_tag_history_columns()
             )
         }}
-        {{ intercom.apply_source_relation() }}
+        {{ fivetran_utils.apply_source_relation(package_name='intercom') }}
     from base
 ),
 

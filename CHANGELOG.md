@@ -1,6 +1,6 @@
 # dbt_intercom v1.7.0
 
-[PR #85](https://github.com/fivetran/dbt_intercom/pull/85) includes the following updates:
+[PR #84](https://github.com/fivetran/dbt_intercom/pull/84) and [PR #85](https://github.com/fivetran/dbt_intercom/pull/85) includes the following updates:
 
 ## Schema/Data Change
 **2 total changes • 1 possible breaking change**
@@ -12,6 +12,10 @@
 
 ## Bug Fix
 - Resolves a `Database Error` in `intercom__company_enhanced` (and other tag-joined models) caused by mismatched `tag_id` data types. The fix casts all ID join keys to string in staging. See the Schema/Data Change table above.
+
+## Under the Hood
+- Migrates the `union_connections`, `apply_source_relation`, and `partition_by_source_relation` macros to the `dbt_fivetran_utils` package.
+- Adds the `fivetran_using_source_casing` variable for case-sensitive destination support. When enabled, downstream transformations respect source casing to ensure consistent results. See the [Additional Configurations](https://github.com/fivetran/dbt_intercom/#source-casing-for-case-sensitive-destinations) section of the README for details.
 
 
 # dbt_intercom v1.6.1
