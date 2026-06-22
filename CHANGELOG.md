@@ -1,3 +1,19 @@
+# dbt_intercom v1.7.0
+
+[PR #85](https://github.com/fivetran/dbt_intercom/pull/85) includes the following updates:
+
+## Schema/Data Change
+**2 total changes • 1 possible breaking change**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | --- | --- | ----- |
+| **(Breaking)** `stg_intercom__tag`, `stg_intercom__company_tag_history`, `stg_intercom__contact_tag_history`, `stg_intercom__conversation_tag_history` | Changed field | `tag_id` integer | `tag_id` string | Casts `tag_id` as a string so joins succeed regardless of source type. |
+| `stg_intercom__company_history`, `stg_intercom__company_tag_history`, `stg_intercom__contact_company_history` | Changed field | `company_id` source type | `company_id` string | Casts `company_id` as a string for consistent join keys. |
+
+## Bug Fix
+- Resolves a `Database Error` in `intercom__company_enhanced` (and other tag-joined models) caused by mismatched `tag_id` data types. The fix casts all ID join keys to string in staging. See the Schema/Data Change table above.
+
+
 # dbt_intercom v1.6.1
 
 [PR #82](https://github.com/fivetran/dbt_intercom/pull/82) includes the following updates:

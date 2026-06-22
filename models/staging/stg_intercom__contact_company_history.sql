@@ -31,7 +31,7 @@ final as (
 
     select
         source_relation,
-        company_id,
+        cast(company_id as {{ dbt.type_string() }}) as company_id,
         contact_id,
         cast(contact_updated_at as {{ dbt.type_timestamp() }}) as contact_updated_at,
         _fivetran_active,

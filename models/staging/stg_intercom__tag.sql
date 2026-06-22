@@ -29,7 +29,7 @@ final as (
 
     select
         source_relation,
-        id as tag_id,
+        cast(id as {{ dbt.type_string() }}) as tag_id,
         trim(name) as name,
         _fivetran_deleted
     from fields
