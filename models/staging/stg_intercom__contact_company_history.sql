@@ -23,7 +23,7 @@ fields as (
                 staging_columns=get_contact_company_history_columns()
             )
         }}
-        {{ intercom.apply_source_relation() }}
+        {{ fivetran_utils.apply_source_relation(package_name='intercom') }}
     from base
 ),
 
@@ -31,7 +31,7 @@ final as (
 
     select
         source_relation,
-        company_id,
+        cast(company_id as {{ dbt.type_string() }}) as company_id,
         contact_id,
         cast(contact_updated_at as {{ dbt.type_timestamp() }}) as contact_updated_at,
         _fivetran_active,

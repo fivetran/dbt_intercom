@@ -6,7 +6,7 @@
     {"name": "_fivetran_end", "datatype": dbt.type_timestamp()},
     {"name": "conversation_id", "datatype": dbt.type_int()},
     {"name": "conversation_updated_at", "datatype": dbt.type_timestamp()},
-    {"name": "tag_id", "datatype": dbt.type_int()}
+    {"name": "tag_id", "datatype": dbt.type_string()}
 ] %}
 
 {{ return(columns) }}

@@ -1,5 +1,5 @@
 name: 'intercom_integration_tests'
-version: '1.6.1'
+version: '1.7.0'
 profile: 'integration_tests'
 config-version: 2
 
@@ -33,7 +33,7 @@ seeds:
   +docs:
     show: False
   intercom_integration_tests:
-    +quote_columns: "{{ true if target.type == 'redshift' else false }}"
+    +quote_columns: "{{ target.type == 'redshift' or var('fivetran_using_source_casing', false) }}"
     admin_data:
       +column_types:
         id: "{{ 'varchar(100)'  if target.type in ('redshift', 'postgres') else 'string'}}"
@@ -56,7 +56,7 @@ seeds:
         _fivetran_synced: timestamp
     collection_history_data:
       +quote_columns: true
-      +enabled: "{{ true if target.type != 'snowflake' else false }}"
+      +enabled: "{{ target.type != 'snowflake' or var('fivetran_using_source_casing', false) }}"
       +column_types:
         id: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
         help_center_id: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"
@@ -70,7 +70,7 @@ seeds:
         _fivetran_synced: timestamp
     collection_history_data_snowflake:
       +quote_columns: true
-      +enabled: "{{ true if target.type == 'snowflake' else false }}"
+      +enabled: "{{ target.type == 'snowflake' and not var('fivetran_using_source_casing', false) }}"
       +alias: "collection_history_data"
       +column_types:
         ID: "{{ 'varchar(100)' if target.type in ('redshift', 'postgres') else 'string' }}"

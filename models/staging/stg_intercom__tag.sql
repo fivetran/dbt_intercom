@@ -21,7 +21,7 @@ fields as (
                 staging_columns=get_tag_columns()
             )
         }}
-        {{ intercom.apply_source_relation() }}
+        {{ fivetran_utils.apply_source_relation(package_name='intercom') }}
     from base
 ),
 
@@ -29,7 +29,7 @@ final as (
 
     select
         source_relation,
-        id as tag_id,
+        cast(id as {{ dbt.type_string() }}) as tag_id,
         trim(name) as name,
         _fivetran_deleted
     from fields
