@@ -1,3 +1,11 @@
+# dbt_intercom v1.7.1
+
+[PR #87](https://github.com/fivetran/dbt_intercom/pull/87) includes the following updates:
+
+## Feature Updates
+- Adds DuckDB as a supported destination.
+
+
 # dbt_intercom v1.7.0
 
 [PR #84](https://github.com/fivetran/dbt_intercom/pull/84) and [PR #85](https://github.com/fivetran/dbt_intercom/pull/85) includes the following updates:
