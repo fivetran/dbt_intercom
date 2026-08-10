@@ -69,7 +69,7 @@ median_metrics as (
         on company_enhanced.company_id = contact_company_history.company_id
         and company_enhanced.source_relation = contact_company_history.source_relation
 
---The Postgres and DuckDB warehouses do not allow for a group by argument within the `percentile` function. As such, we will apply the group by for all statements at the end of the query for Postgres and DuckDB only.
+--The Postgres warehouse does not allow for a group by argument within the `percentile` function. As such, we will apply the group by for all statements at the end of the query for Postgres only.
     {% if target.type == 'postgres' %}
     group by 1, 2
     {% endif %}
