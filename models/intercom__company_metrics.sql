@@ -70,9 +70,10 @@ median_metrics as (
         and company_enhanced.source_relation = contact_company_history.source_relation
 
 --The Postgres and DuckDB warehouses do not allow for a group by argument within the `percentile` function. As such, we will apply the group by for all statements at the end of the query for Postgres and DuckDB only.
-    {% if target.type in ('postgres', 'duckdb') %}
+    {% if target.type == 'postgres' %}
     group by 1, 2
     {% endif %}
+
 ),
 
 --Joins the aggregate, and median CTEs to the company_enhanced model. Distinct is necessary to keep grain with median values and aggregates.

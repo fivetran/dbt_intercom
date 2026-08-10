@@ -46,7 +46,7 @@ median_metrics as (
         round(cast({{ fivetran_utils.percentile("conversation_metrics.time_to_last_close_minutes", "last_close_by_admin_id", "0.5") }} as numeric), 2) as median_time_to_last_close_minutes
     from conversation_metrics
 --The Postgres and DuckDB warehouses do not allow for a group by argument within the `percentile` function. As such, we will apply the group by for all statements at the end of the query for Postgres and DuckDB only.
-    {% if target.type in ('postgres', 'duckdb') %}
+    {% if target.type == 'postgres' %}
     group by 1, 2
     {% endif %}
 ),
