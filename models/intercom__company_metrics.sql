@@ -73,6 +73,7 @@ median_metrics as (
     {% if target.type == 'postgres' %}
     group by 1, 2
     {% endif %}
+
 ),
 
 --Joins the aggregate, and median CTEs to the company_enhanced model. Distinct is necessary to keep grain with median values and aggregates.
