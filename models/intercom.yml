@@ -361,8 +361,15 @@ models:
         description: The time difference (not factoring in business hours) between the conversation creation and the first_assignment_at.
       - name: first_admin_response_at
         description: The time when the conversation part author of type admin first commented in a conversation.
+      - name: time_to_first_response_sec
+        description: The time difference in seconds (not factoring in business hours) between the conversation creation and the first_admin_response_at.
       - name: time_to_first_response_minutes
         description: The time difference (not factoring in business hours) between the conversation creation and the first_admin_response_at.
+      - name: first_human_admin_response_at
+        description: >
+          The time when the first admin with a non-null message body commented in the conversation, optionally excluding
+          admin author IDs listed in the `intercom__first_response_excluded_admin_author_ids` variable. When no IDs are
+          excluded, this matches `first_admin_response_at`.
       - name: first_admin_close_at
         description: The time of the first conversation part where part_type was 'close' by an admin indicating the conversation was closed.
       - name: first_close_at

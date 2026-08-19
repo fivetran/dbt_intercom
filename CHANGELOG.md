@@ -5,6 +5,13 @@
 ## Feature Updates
 - Adds DuckDB as a supported destination.
 
+# dbt_intercom Unreleased
+
+## Feature Updates
+- Adds `time_to_first_response_sec` to `intercom__conversation_metrics`, computed with the same `dbt.datediff` source as `time_to_first_response_minutes` to preserve sub-minute response times.
+- Adds `first_human_admin_response_at` to `int_intercom__conversation_part_aggregates` and passes the field through to `intercom__conversation_metrics`. Supports excluding bot or automated admin author IDs via the `intercom__first_response_excluded_admin_author_ids` project variable (defaults to an empty list).
+- Updates `time_to_first_response_minutes` to cast the second-based `dbt.datediff` result to numeric before dividing by 60, preventing sub-60-second responses from truncating to zero on warehouses with integer division.
+
 # dbt_intercom v1.7.0
 
 [PR #84](https://github.com/fivetran/dbt_intercom/pull/84) and [PR #85](https://github.com/fivetran/dbt_intercom/pull/85) includes the following updates:
