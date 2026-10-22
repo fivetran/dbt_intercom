@@ -43,7 +43,6 @@ final as (
         url as article_url,
         type as article_type,
         state as article_state,
-        parent_type,
         default_locale,
         workspace_id,
         statistics_type,

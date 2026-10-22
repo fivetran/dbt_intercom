@@ -1,0 +1,30 @@
+version: 1.8.0
+
+schema_data_changes:
+  entries:
+    - models:
+        - stg_intercom__article_history
+      change_type: Removed field/model
+      old: "`parent_type`"
+      is_breaking: true
+      notes: Intercom API v2.16 no longer returns article `parent_type`, so we removed it from the model.
+    - models:
+        - stg_intercom__conversation_history
+        - intercom__conversation_enhanced
+        - intercom__conversation_metrics
+      change_type: Removed field/model
+      old: "`assignee_type` / `conversation_assignee_type`"
+      is_breaking: true
+      notes: Removes the deprecated field. Use `is_assignee_admin` instead.
+    - models:
+        - stg_intercom__conversation_history
+        - intercom__conversation_enhanced
+        - intercom__conversation_metrics
+      change_type: Changed field/model
+      old: "`assignee_id` is `0` for unassigned conversations (Intercom API v2.16)"
+      new: "`assignee_id` is null for unassigned conversations"
+      is_breaking: false
+      notes: Converts `0` back to null so unassigned conversations keep the same behavior.
+
+under_the_hood:
+  - description: Updates integration test seeds to match the Intercom API v2.16 shape, including an unassigned conversation row.
