@@ -43,6 +43,7 @@ final as (
         url as article_url,
         type as article_type,
         state as article_state,
+        parent_type, -- [DEPRECATED] Intercom API v2.16 no longer returns this field.
         default_locale,
         workspace_id,
         statistics_type,

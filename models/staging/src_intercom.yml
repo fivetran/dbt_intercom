@@ -40,6 +40,8 @@ sources:
             description: The type of the article (e.g., 'article').
           - name: state
             description: The publication state of the article (draft, published).
+          - name: parent_type
+            description: "[DEPRECATED] The type of parent container (collection, section). Intercom API v2.16 no longer returns this field."
           - name: default_locale
             description: The default locale/language of the article.
           - name: workspace_id
@@ -283,7 +285,7 @@ sources:
           - name: created_at
             description: The time the conversation was created.
           - name: assignee_id
-            description: The id of the user assigned to the conversation. If it is not assigned to a user it will return null.
+            description: The id of the user assigned to the conversation. Intercom API v2.16 returns 0 instead of null when it is not assigned to a user.
           - name: conversation_rating_value
             description: An optional field for the customer to rate the conversation which will be between 1 and 5.
           - name: conversation_rating_remark

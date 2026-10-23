@@ -5,7 +5,7 @@
     {"name": "_fivetran_start", "datatype": dbt.type_timestamp()},
     {"name": "_fivetran_end", "datatype": dbt.type_timestamp()},
     {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
-    {"name": "admin_id", "datatype": dbt.type_int()},
+    {"name": "admin_id", "datatype": dbt.type_string()},
     {"name": "created_at", "datatype": dbt.type_timestamp()},
     {"name": "email", "datatype": dbt.type_string()},
     {"name": "id", "datatype": dbt.type_string()},

@@ -12,6 +12,7 @@
     {"name": "default_locale", "datatype": dbt.type_string()},
     {"name": "description", "datatype": dbt.type_string()},
     {"name": "id", "datatype": dbt.type_string()},
+    {"name": "parent_type", "datatype": dbt.type_string()},
     {"name": "section_id", "datatype": dbt.type_string()},
     {"name": "state", "datatype": dbt.type_string()},
     {"name": "statistics_conversations", "datatype": dbt.type_int()},

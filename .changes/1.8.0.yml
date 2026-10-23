@@ -3,28 +3,27 @@ version: 1.8.0
 schema_data_changes:
   entries:
     - models:
-        - stg_intercom__article_history
-      change_type: Removed field/model
-      old: "`parent_type`"
-      is_breaking: true
-      notes: Intercom API v2.16 no longer returns article `parent_type`, so we removed it from the model.
-    - models:
-        - stg_intercom__conversation_history
-        - intercom__conversation_enhanced
-        - intercom__conversation_metrics
+        - "`intercom__conversation_enhanced`"
+        - "`intercom__conversation_metrics`"
+        - "`stg_intercom__conversation_history`"
       change_type: Removed field/model
       old: "`assignee_type` / `conversation_assignee_type`"
       is_breaking: true
       notes: Removes the deprecated field. Use `is_assignee_admin` instead.
     - models:
-        - stg_intercom__conversation_history
-        - intercom__conversation_enhanced
-        - intercom__conversation_metrics
-      change_type: Changed field/model
-      old: "`assignee_id` is `0` for unassigned conversations (Intercom API v2.16)"
-      new: "`assignee_id` is null for unassigned conversations"
+        - "`stg_intercom__contact_history`"
+      change_type: Changed data type
+      old: "`admin_id` is an integer"
+      new: "`admin_id` is a string"
+      is_breaking: true
+      notes: Intercom API sends the contact `owner_id` as a string, and we populate `admin_id` from it.  
+    - models:
+        - "`stg_intercom__article_history`"
+      change_type: Deprecated field
+      old: "`parent_type`" 
+      new: Field now marked as deprecated.
       is_breaking: false
-      notes: Converts `0` back to null so unassigned conversations keep the same behavior.
+      notes: Intercom API v2.16 no longer returns article `parent_type`, and Fivetran removes the column from the `article_history` source table. The field returns null once the source column is gone. We plan to remove it in a future release.
 
 under_the_hood:
-  - description: Updates integration test seeds to match the Intercom API v2.16 shape, including an unassigned conversation row.
+  - description: Converts `assignee_id` from `0` to null in `stg_intercom__conversation_history`. Intercom API updates return `0` for unassigned conversations, so this keeps unassigned conversations null in the staging and end models, as before.

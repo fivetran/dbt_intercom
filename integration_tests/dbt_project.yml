@@ -109,6 +109,7 @@ seeds:
     contact_history_data:
       +column_types:
         created_at: timestamp
+        admin_id: "{{ 'varchar(100)'  if target.type in ('redshift', 'postgres') else 'string'}}"
         signed_up_at: timestamp
         last_replied_at: timestamp
         last_contacted_at: timestamp
