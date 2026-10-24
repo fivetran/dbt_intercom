@@ -6,7 +6,6 @@
     {"name": "_fivetran_start", "datatype": dbt.type_timestamp()},
     {"name": "_fivetran_end", "datatype": dbt.type_timestamp()},
     {"name": "assignee_id", "datatype": dbt.type_int()},
-    {"name": "assignee_type", "datatype": dbt.type_string()},
     {"name": "conversation_rating_remark", "datatype": dbt.type_int()},
     {"name": "conversation_rating_value", "datatype": dbt.type_int()},
     {"name": "created_at", "datatype": dbt.type_timestamp()},
