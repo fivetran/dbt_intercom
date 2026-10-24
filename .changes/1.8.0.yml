@@ -11,6 +11,7 @@ schema_data_changes:
       is_breaking: true
       notes: Removes the deprecated field. Use `is_assignee_admin` instead.
     - models:
+        - "`intercom__contact_enhanced`"
         - "`stg_intercom__contact_history`"
       change_type: Changed data type
       old: "`admin_id` is an integer"
