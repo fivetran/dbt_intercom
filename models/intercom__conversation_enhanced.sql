@@ -76,7 +76,6 @@ latest_conversation_enriched as (
         source_delivered_as as conversation_initiated_type,
         source_subject as conversation_subject,
         assignee_id as conversation_assignee_id,
-        case when (assignee_type is not null) then assignee_type else 'unassigned' end as conversation_assignee_type, -- [DEPRECATED] use is_assignee_admin instead
         source_author_type as conversation_author_type,
         state as conversation_state,
         is_read,

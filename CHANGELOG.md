@@ -1,3 +1,19 @@
+# dbt_intercom v1.8.0
+
+[PR #89](https://github.com/fivetran/dbt_intercom/pull/89) includes the following updates:
+
+## Schema/Data Change
+**3 total changes • 2 possible breaking changes**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | --- | --- | ----- |
+| `intercom__conversation_enhanced`<br>`intercom__conversation_metrics`<br>`stg_intercom__conversation_history`<br>(Breaking) | Removed field/model | `assignee_type` / `conversation_assignee_type` |  | Removes the deprecated field. Use `is_assignee_admin` instead. |
+| `intercom__contact_enhanced`<br>`stg_intercom__contact_history`<br>(Breaking) | Changed data type | `admin_id` is an integer | `admin_id` is a string | Intercom API sends the contact `owner_id` as a string, and we populate `admin_id` from it. |
+| `stg_intercom__article_history` | Deprecated field | `parent_type` | Field now marked as deprecated. | Intercom API v2.16 no longer returns article `parent_type`, and Fivetran removes the column from the `article_history` source table. The field returns null once the source column is gone. We plan to remove it in a future release. |
+
+## Under the Hood
+- Converts `assignee_id` from `0` to null in `stg_intercom__conversation_history`. Intercom API updates return `0` for unassigned conversations, so this keeps unassigned conversations null in the staging and end models, as before.
+
 # dbt_intercom v1.7.1
 
 [PR #87](https://github.com/fivetran/dbt_intercom/pull/87) includes the following updates:
