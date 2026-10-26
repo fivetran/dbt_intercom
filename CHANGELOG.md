@@ -1,5 +1,7 @@
 # dbt_intercom v1.8.0
 
+[PR #89](https://github.com/fivetran/dbt_intercom/pull/89) includes the following updates:
+
 ## Schema/Data Change
 **3 total changes • 2 possible breaking changes**
 
