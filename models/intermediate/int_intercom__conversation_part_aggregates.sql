@@ -19,6 +19,22 @@ final as (
     min(case when latest_conversation_part.part_type = 'comment' and latest_conversation_part.author_type in ('lead','user') then latest_conversation_part.created_at else null end) as first_contact_reply_at,
     min(case when latest_conversation_part.part_type like '%assignment%' then latest_conversation_part.created_at else null end) as first_assignment_at,
     min(case when latest_conversation_part.part_type in ('comment','assignment') and latest_conversation_part.author_type = 'admin' and latest_conversation_part.body is not null then latest_conversation_part.created_at else null end) as first_admin_response_at,
+    min(
+      case
+        when latest_conversation_part.part_type in ('comment','assignment')
+          and latest_conversation_part.author_type = 'admin'
+          and latest_conversation_part.body is not null
+          {% if var('intercom__first_response_excluded_admin_author_ids', []) | length > 0 %}
+          and latest_conversation_part.author_id not in (
+            {%- for admin_author_id in var('intercom__first_response_excluded_admin_author_ids', []) -%}
+            {{ admin_author_id }}{%- if not loop.last -%},{%- endif -%}
+            {%- endfor -%}
+          )
+          {% endif %}
+        then latest_conversation_part.created_at
+        else null
+      end
+    ) as first_human_admin_response_at,
     min(case when latest_conversation_part.part_type = 'open' then latest_conversation_part.created_at else null end) as first_reopen_at,
     max(case when latest_conversation_part.part_type like '%assignment%' then latest_conversation_part.created_at else null end) as last_assignment_at,
     max(case when latest_conversation_part.part_type = 'comment' and latest_conversation_part.author_type in ('lead','user') then latest_conversation_part.created_at else null end) as last_contact_reply_at,

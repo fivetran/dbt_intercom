@@ -34,6 +34,7 @@ vars:
     intercom__contact_history_pass_through_columns: []
     intercom__conversation_history_pass_through_columns: []
     intercom__article_history_pass_through_columns: []
+    intercom__first_response_excluded_admin_author_ids: []
 clean-targets:
 - target
 - dbt_modules
