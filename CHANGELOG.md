@@ -1,3 +1,13 @@
+# dbt_intercom v1.8.1
+
+[PR #91](https://github.com/fivetran/dbt_intercom/pull/91) includes the following updates:
+
+## Bug Fix
+- Fixes a runtime error in `stg_intercom__conversation_history` when `assignee_id` arrives from the source as a string. The conversion of `0` to null added in v1.8.0 now compares the value as text and keeps the column's original type.
+
+## Under the Hood
+- Updates the `assignee_id` datatype in `get_conversation_history_columns` from integer to string to match how the connector delivers the column. This only affects the null-filled column when `assignee_id` is missing from the source.
+
 # dbt_intercom v1.8.0
 
 [PR #89](https://github.com/fivetran/dbt_intercom/pull/89) includes the following updates:

@@ -1,10 +1,12 @@
 version: 1.8.1
 pr_number: 91
-
 bug_fixes:
-  - description: Fixes a runtime error in `stg_intercom__conversation_history` when `assignee_id` arrives from the source as a string. The conversion of `0` to null added in v1.8.0 now compares the value as text and keeps the column's original type.
-
+- description: Fixes a runtime error in `stg_intercom__conversation_history` when
+    `assignee_id` arrives from the source as a string. The conversion of `0` to null
+    added in v1.8.0 now compares the value as text and keeps the column's original
+    type.
 under_the_hood:
-  - description: Updates the `assignee_id` datatype in `get_conversation_history_columns` from integer to string to match how the connector delivers the column. This only affects the null-filled column when `assignee_id` is missing from the source.
-
+- description: Updates the `assignee_id` datatype in `get_conversation_history_columns`
+    from integer to string to match how the connector delivers the column. This only
+    affects the null-filled column when `assignee_id` is missing from the source.
 date: '2026-11-03'
