@@ -31,7 +31,7 @@ final as (
         source_relation,
         id as conversation_id,
         cast(created_at as {{ dbt.type_timestamp() }}) as created_at,
-        nullif(assignee_id, 0) as assignee_id,
+        case when cast(assignee_id as {{ dbt.type_string() }}) = '0' then null else assignee_id end as assignee_id,
         conversation_rating_value,
         conversation_rating_remark,
         cast(first_contact_reply_created_at as {{ dbt.type_timestamp() }}) as first_contact_reply_created_at,
