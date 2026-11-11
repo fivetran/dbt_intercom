@@ -20,7 +20,7 @@ admin_conversation_aggregates as (
     select
         source_relation,
         conversation_id,
-        {{ fivetran_utils.string_agg('distinct author_id', "', '" ) }} as conversation_admins
+        {{ dbt.listagg('distinct author_id', "', '" ) }} as conversation_admins
     from admin_conversation_parts
 
     group by 1, 2
@@ -43,7 +43,7 @@ contact_conversation_aggregates as (
     select
         source_relation,
         conversation_id,
-        {{ fivetran_utils.string_agg('distinct author_id', "', '" ) }} as conversation_contacts
+        {{ dbt.listagg('distinct author_id', "', '" ) }} as conversation_contacts
     from contact_conversation_parts
 
     group by 1, 2

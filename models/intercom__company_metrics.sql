@@ -51,10 +51,10 @@ median_metrics as (
     select
         company_enhanced.source_relation,
         company_enhanced.company_id,
-        round(cast({{ fivetran_utils.percentile("conversation_metrics.count_reopens", "company_enhanced.company_id", "0.5") }} as numeric), 2) as median_conversations_reopened,
-        round(cast({{ fivetran_utils.percentile("conversation_metrics.time_to_first_response_minutes", "company_enhanced.company_id", "0.5") }} as numeric), 2) as median_time_to_first_response_time_minutes,
-        round(cast({{ fivetran_utils.percentile("conversation_metrics.time_to_first_close_minutes", "company_enhanced.company_id", "0.5") }} as numeric), 2) as median_time_to_first_close_minutes,
-        round(cast({{ fivetran_utils.percentile("conversation_metrics.time_to_last_close_minutes", "company_enhanced.company_id", "0.5") }} as numeric), 2) as median_time_to_last_close_minutes
+        round(cast({{ dbt_utils.percentile("conversation_metrics.count_reopens", "company_enhanced.company_id", "0.5") }} as numeric), 2) as median_conversations_reopened,
+        round(cast({{ dbt_utils.percentile("conversation_metrics.time_to_first_response_minutes", "company_enhanced.company_id", "0.5") }} as numeric), 2) as median_time_to_first_response_time_minutes,
+        round(cast({{ dbt_utils.percentile("conversation_metrics.time_to_first_close_minutes", "company_enhanced.company_id", "0.5") }} as numeric), 2) as median_time_to_first_close_minutes,
+        round(cast({{ dbt_utils.percentile("conversation_metrics.time_to_last_close_minutes", "company_enhanced.company_id", "0.5") }} as numeric), 2) as median_time_to_last_close_minutes
     from conversation_metrics
 
     left join contact_enhanced
