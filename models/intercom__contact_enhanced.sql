@@ -34,7 +34,7 @@ contact_tags_aggregate as (
   select
     contact_latest.source_relation,
     contact_latest.contact_id,
-    {{ fivetran_utils.string_agg('distinct tags.name', "', '" ) }} as all_contact_tags
+    {{ dbt.listagg('distinct tags.name', "', '" ) }} as all_contact_tags
   from contact_latest
 
   left join contact_tags
@@ -55,7 +55,7 @@ contact_company_array as (
   select
     contact_latest.source_relation,
     contact_latest.contact_id,
-    {{ fivetran_utils.string_agg('distinct company_history.company_name', "', '" ) }} as all_contact_company_names
+    {{ dbt.listagg('distinct company_history.company_name', "', '" ) }} as all_contact_company_names
 
   from contact_latest
 

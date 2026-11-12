@@ -43,7 +43,7 @@ conversation_tags_aggregate as (
     select
         latest_conversation.source_relation,
         latest_conversation.conversation_id,
-        {{ fivetran_utils.string_agg('distinct tags.name', "', '" ) }} as all_conversation_tags
+        {{ dbt.listagg('distinct tags.name', "', '" ) }} as all_conversation_tags
     from latest_conversation
 
     left join conversation_tags
