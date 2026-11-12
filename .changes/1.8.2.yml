@@ -5,5 +5,5 @@ bug_fixes:
     aggregated values that contain a comma followed by a space are no longer split apart. Output on
     other warehouses doesn't change.
 under_the_hood:
-- description: Replaces `fivetran_utils.percentile` with `dbt_utils.percentile`, which uses the same logic.
+- description: Replaces `fivetran_utils.percentile` with dbt's built-in `dbt.percentile`, which uses the same logic.
     Output doesn't change.
