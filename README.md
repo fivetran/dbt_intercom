@@ -15,7 +15,7 @@ This dbt package transforms data from Fivetran's Intercom connector into analyti
   - [DAG](https://fivetran.github.io/dbt_intercom/#!/overview?g_v=1)
   - [Changelog](https://github.com/fivetran/dbt_intercom/blob/main/CHANGELOG.md)
 - dbt Core™ supported versions
-  - `>=1.3.0, <3.0.0`
+  - `>=1.10.0, <3.0.0`
 
 ## What does this dbt package do?
 This package enables you to better understand the performance, responsiveness, and effectiveness of your team's conversations with customers via Intercom. It creates enriched models with metrics focused on conversation performance, admin performance, and customer engagement.
@@ -68,7 +68,7 @@ Include the following intercom package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/intercom
-    version: [">=1.8.0", "<1.9.0"]
+    version: [">=1.9.0", "<1.10.0"]
 ```
 ### Define database and schema variables
 #### Option A: Single connection
