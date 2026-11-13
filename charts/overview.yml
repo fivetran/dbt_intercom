@@ -1,0 +1,112 @@
+title: Intercom Support Overview
+notes: |
+  Conversation intake, current state, and response times from intercom__conversation_metrics.
+  The date filter selects conversations by creation date. Current-state counts are
+  for that creation cohort, not historical backlog. Time metrics use calendar minutes;
+  averages exclude null values, and ratings include only rated conversations.
+
+variables:
+  date_range:
+    label: Conversations created between
+    input: daterange
+
+queries:
+  totals:
+    dialect: duckdb
+    sql: |
+      select count(*) as conversations,
+        sum(case when conversation_state = 'open' then 1 else 0 end) as open_conversations,
+        avg(time_to_first_response_minutes) as average_first_response_minutes,
+        count(conversation_rating) as rated_conversations
+      from {{ ref('intercom__conversation_metrics') }}
+      where {{ filter_date_range('conversation_created_at', date_range) }}
+  weekly_intake:
+    dialect: duckdb
+    sql: |
+      select date_trunc('week', conversation_created_at) as week, count(*) as conversations
+      from {{ ref('intercom__conversation_metrics') }}
+      where {{ filter_date_range('conversation_created_at', date_range) }}
+      group by 1
+      order by 1
+  states:
+    dialect: duckdb
+    sql: |
+      select coalesce(conversation_state, 'Unknown') as state, count(*) as conversations
+      from {{ ref('intercom__conversation_metrics') }}
+      where {{ filter_date_range('conversation_created_at', date_range) }}
+      group by 1
+      order by 2 desc, 1
+  weekly_response:
+    dialect: duckdb
+    sql: |
+      select date_trunc('week', conversation_created_at) as week,
+        avg(time_to_first_response_minutes) as average_first_response_minutes
+      from {{ ref('intercom__conversation_metrics') }}
+      where {{ filter_date_range('conversation_created_at', date_range) }}
+      group by 1
+      order by 1
+  teams:
+    dialect: duckdb
+    sql: |
+      select coalesce(last_team_id, 'Unassigned') as team_id,
+        count(*) as conversations,
+        sum(case when conversation_state = 'open' then 1 else 0 end) as open_conversations,
+        avg(time_to_first_response_minutes) as average_first_response_minutes,
+        avg(count_reopens) as average_reopens,
+        count(conversation_rating) as rated_conversations,
+        avg(conversation_rating) as average_rating
+      from {{ ref('intercom__conversation_metrics') }}
+      where {{ filter_date_range('conversation_created_at', date_range) }}
+      group by 1
+      order by 2 desc, 1
+      limit 15
+
+charts:
+  conversations:
+    type: kpi
+    query: totals
+    value: conversations
+    label: Conversations created
+  open:
+    type: kpi
+    query: totals
+    value: open_conversations
+    label: Currently open in cohort
+  response:
+    type: kpi
+    query: totals
+    value: average_first_response_minutes
+    label: Average first response (min)
+  rating:
+    type: kpi
+    query: totals
+    value: rated_conversations
+    label: Rated conversations
+  intake:
+    type: line
+    query: weekly_intake
+    title: Conversations Created per Week
+    x: week
+    y: conversations
+  state_mix:
+    type: bar
+    query: states
+    title: Current State of Selected Conversations
+    x: state
+    y: conversations
+  response_trend:
+    type: line
+    query: weekly_response
+    title: Average First Response by Creation Week (min)
+    x: week
+    y: average_first_response_minutes
+  team_table:
+    type: table
+    query: teams
+    title: Workload by Last Assigned Team
+
+rows:
+  - cols: [conversations, open, response, rating]
+  - intake
+  - cols: [state_mix, response_trend]
+  - team_table
