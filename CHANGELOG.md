@@ -1,3 +1,14 @@
+# dbt_intercom v1.9.0
+
+[PR #93](https://github.com/fivetran/dbt_intercom/pull/93) includes the following updates:
+
+## Feature Update
+- Raises the minimum dbt version to 1.10.0.
+- Adds `dbt_utils.unique_combination_of_columns` tests to staging and end models. If a test fails, please [open an issue](https://github.com/fivetran/dbt_intercom/issues/new/choose).
+
+## Under the Hood
+- Documents the `first_team_id`, `last_team_id`, `first_team_name`, and `last_team_name` columns in [intercom__conversation_metrics](https://fivetran.github.io/dbt_intercom/#!/model/model.intercom.intercom__conversation_metrics). The model already output these fields, but they were missing from the yml, so they did not appear in the dbt docs or Quickstart.
+
 # dbt_intercom v1.8.1
 
 [PR #91](https://github.com/fivetran/dbt_intercom/pull/91) includes the following updates:
