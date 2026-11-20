@@ -54,7 +54,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: article_id
         description: The unique identifier for the article.
-        tests:
+        data_tests:
           - not_null
       - name: article_title
         description: The title of the article.
@@ -145,7 +145,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: company_id
         description: The unique identifier representing the historical Intercom defined company.
-        tests:
+        data_tests:
           - not_null
       - name: company_name
         description: The name of the company.
@@ -203,7 +203,7 @@ models:
         description: The median value of time it took for contacts of a single company to receive their last closure of a conversation.
       - name: company_id
         description: The unique identifier representing the historical Intercom defined company.
-        tests:
+        data_tests:
           - not_null
       - name: company_name
         description: The name of the company.
@@ -249,7 +249,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: contact_id
         description: The unique identifier for the contact which is given by Intercom.
-        tests:
+        data_tests:
           - not_null
       - name: contact_name  
         description: The name of the contact.
@@ -302,7 +302,7 @@ models:
         description: "{{ doc('source_relation') }}"
       - name: conversation_id
         description: The id representing the conversation.
-        tests:
+        data_tests:
           - not_null
       - name: conversation_created_at
         description: The time the conversation was created.
@@ -432,7 +432,7 @@ models:
         description: The time difference (not factoring in business hours) between the last_close_at and the first_contact_reply.
       - name: conversation_id
         description: The id representing the conversation.
-        tests:
+        data_tests:
           - not_null
       - name: conversation_created_at
         description: The time the conversation was created.
