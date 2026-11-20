@@ -3,7 +3,7 @@
 [PR #93](https://github.com/fivetran/dbt_intercom/pull/93) includes the following updates:
 
 ## Feature Update
-- Raises the minimum dbt version to 1.10.0.
+- **Breaking change**: Raises the minimum dbt version to 1.10.0.
 - Adds `dbt_utils.unique_combination_of_columns` tests to staging and end models. If a test fails, please [open an issue](https://github.com/fivetran/dbt_intercom/issues/new/choose).
 
 ## Under the Hood
