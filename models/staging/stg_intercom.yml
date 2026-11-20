@@ -3,12 +3,18 @@ version: 2
 models:
   - name: stg_intercom__admin
     description: Table containing information related to admins. Admins are the teammate accounts that have access to a workspace.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - admin_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: admin_id
         description: The unique identifier representing the admin.
-        tests:
+        data_tests:
           - not_null
       - name: job_title
         description: The admin job title.
@@ -19,12 +25,18 @@ models:
 
   - name: stg_intercom__company_history
     description: Table containing historical information about companies which have been created within Intercom.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - company_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: company_id
         description: The unique identifier representing the Intercom defined company.
-        tests:
+        data_tests:
           - not_null
       - name: company_name
         description: The name of the company.
@@ -55,18 +67,25 @@ models:
 
   - name: stg_intercom__company_tag_history
     description: Mapping table for tags associated with companies.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - company_id
+              - tag_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: company_id
         description: The unique identifier related to the company.
-        tests:
+        data_tests:
           - not_null
       - name: company_updated_at
         description: The date the company was last updated at.
       - name: tag_id
         description: The unique identifier related to the tag.
-        tests:
+        data_tests:
           - not_null
       - name: _fivetran_active
         description: Boolean to identify an active record.
@@ -77,16 +96,23 @@ models:
 
   - name: stg_intercom__contact_company_history
     description: Mapping table for contacts associated with companies.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - contact_id
+              - company_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: company_id
         description: The unique identifier related to the company.
-        tests:
+        data_tests:
           - not_null
       - name: contact_id
         description: The unique identifier related to the contact.
-        tests:
+        data_tests:
           - not_null
       - name: contact_updated_at
         description: The time the contact was last updated at.
@@ -99,12 +125,18 @@ models:
 
   - name: stg_intercom__contact_history
     description: Table which provides historical details on contacts within Intercom.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - contact_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: contact_id
         description: The unique identifier for the contact which is given by Intercom.
-        tests: 
+        data_tests: 
           - not_null
       - name: admin_id
         description: The unique identifier representing the admin which has been assigned ownership of the contact.
@@ -139,18 +171,25 @@ models:
 
   - name: stg_intercom__contact_tag_history
     description: Mapping table for tags associated with contacts.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - contact_id
+              - tag_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: contact_id
         description: The unique identifier related to the contact.
-        tests:
+        data_tests:
           - not_null
       - name: contact_updated_at
         description: The date the contact was last updated at.
       - name: tag_id
         description: The unique identifier related to the tag.
-        tests:
+        data_tests:
           - not_null
       - name: _fivetran_active
         description: Boolean to identify an active record.
@@ -161,16 +200,23 @@ models:
 
   - name: stg_intercom__conversation_contact_history
     description: Mapping table for contacts associated with a conversation.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - conversation_id
+              - contact_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: contact_id
         description: The unique identifier for the contact.
-        tests:
+        data_tests:
           - not_null
       - name: conversation_id
         description: The unique identifier for the conversation.
-        tests:
+        data_tests:
           - not_null
       - name: conversation_updated_at
         description: Time the conversation was last updated at.
@@ -183,12 +229,18 @@ models:
 
   - name: stg_intercom__conversation_history
     description: Table containing the historical records of each conversation. Conversations are created when a contact replies to an outbound message, or when one admin directly sends a message to a single contact.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - conversation_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: conversation_id
         description: The id representing the conversation.
-        tests:
+        data_tests:
           - not_null
       - name: created_at
         description: The time the conversation was created.
@@ -235,12 +287,19 @@ models:
 
   - name: stg_intercom__conversation_part_history
     description: Table containing data related to the individual parts of a single conversation.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - conversation_part_id
+              - _fivetran_start
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: conversation_part_id
         description: The id representing the conversation part.
-        tests:
+        data_tests:
           - not_null
       - name: part_type
         description: The type of conversation part.
@@ -252,7 +311,7 @@ models:
         description: The type of individual that sent the message (user, admin, or bot).
       - name: created_at
         description: The time the conversation part was created.
-        tests:
+        data_tests:
           - not_null
       - name: assigned_to_id
         description: The id of the admin that was assigned the conversation by this conversation_part (null if there has been no change in assignment).
@@ -273,16 +332,23 @@ models:
 
   - name: stg_intercom__conversation_tag_history
     description: Mapping table for tags associated with conversations.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - conversation_id
+              - tag_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: conversation_id
         description: The unique identifier related to the conversation.
-        tests:
+        data_tests:
           - not_null
       - name: tag_id
         description: The unique identifier related to the tag.
-        tests:
+        data_tests:
           - not_null
       - name: _fivetran_active
         description: Boolean to identify an active record.
@@ -293,6 +359,12 @@ models:
       
   - name: stg_intercom__tag
     description: Table consisting of tags which allow you to label your contacts, companies, or conversations.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - tag_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -305,12 +377,19 @@ models:
 
   - name: stg_intercom__team_admin
     description: Mapping table for admins associated with teams.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - team_id
+              - admin_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: team_id
         description: The unique identifier of the team.
-        tests:
+        data_tests:
           - not_null
       - name: admin_id 
         description: The unique identifier of the admin associate with the team.
@@ -319,12 +398,18 @@ models:
 
   - name: stg_intercom__team
     description: Table containing teams which are made up of groups of admin in Intercom.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - team_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: team_id
         description: The unique identifier of the team.
-        tests:
+        data_tests:
           - not_null
       - name: name 
         description: The name of the team.
@@ -333,12 +418,18 @@ models:
 
   - name: stg_intercom__article_history
     description: Table containing historical information about help center articles within Intercom.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - article_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: article_id
         description: The unique identifier for the article.
-        tests:
+        data_tests:
           - not_null
       - name: collection_id
         description: The unique identifier of the collection this article belongs to.
@@ -393,12 +484,18 @@ models:
 
   - name: stg_intercom__collection_history
     description: Table containing historical information about help center collections (categories/sections) within Intercom.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - collection_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: collection_id
         description: The unique identifier for the collection.
-        tests:
+        data_tests:
           - not_null
       - name: help_center_id
         description: The unique identifier of the help center this collection belongs to.
@@ -435,12 +532,18 @@ models:
 
   - name: stg_intercom__help_center_history
     description: Table containing historical information about help centers within Intercom.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - help_center_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: help_center_id
         description: The unique identifier for the help center.
-        tests:
+        data_tests:
           - not_null
       - name: help_center_name
         description: The display name of the help center.

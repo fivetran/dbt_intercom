@@ -5,6 +5,11 @@ models:
   - name: intercom__admin_metrics
     description: >
       Each record represents an individual admin (employee) and a unique team they are assigned on, enriched with admin specific conversation aggregates. For example, the admin's total conversations, average rating, and median response times by specific team.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            # team_id is only in this model when intercom__using_team is true (admins can belong to multiple teams)
+            combination_of_columns: "{{ ['source_relation', 'admin_id', 'team_id'] if var('intercom__using_team', true) else ['source_relation', 'admin_id'] }}"
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -38,12 +43,18 @@ models:
       Each record represents a single help center article, enriched with data from collections, parent collections,
       authors (admins), and help centers. This model provides a denormalized view of articles with all related
       entity information for easier reporting and analysis on help center content performance.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - article_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: article_id
         description: The unique identifier for the article.
-        tests:
+        data_tests:
           - not_null
       - name: article_title
         description: The title of the article.
@@ -123,12 +134,18 @@ models:
   - name: intercom__company_enhanced
     description: >
       Each record represents a single company, enriched with data related to the company industry, monthly_spend, and user_count.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - company_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: company_id
         description: The unique identifier representing the historical Intercom defined company.
-        tests:
+        data_tests:
           - not_null
       - name: company_name
         description: The name of the company.
@@ -163,6 +180,12 @@ models:
     description: >
       Each record represents a single row from intercom__company_enhanced, enriched with aggregates which determine the total conversation count, average satisfaction rating,
       median time to first response, and median time to last close with contacts associated to a single company.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - company_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -180,7 +203,7 @@ models:
         description: The median value of time it took for contacts of a single company to receive their last closure of a conversation.
       - name: company_id
         description: The unique identifier representing the historical Intercom defined company.
-        tests:
+        data_tests:
           - not_null
       - name: company_name
         description: The name of the company.
@@ -215,12 +238,18 @@ models:
     description: >
       Each record represents a single contact, enriched with data identifying the contacts role, if they have unsubscribed from
       the email list, last contacted information, and which company they belong to.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - contact_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: contact_id
         description: The unique identifier for the contact which is given by Intercom.
-        tests:
+        data_tests:
           - not_null
       - name: contact_name  
         description: The name of the contact.
@@ -262,12 +291,18 @@ models:
       Each record represents a single conversation, enriched with data from the multiple conversation parts. The conversation
       parts provide relevant information such as who was assigned to the conversation, which contact the conversation was with,
       the current conversation state, who closed the conversation, and the final conversation ratings from the contact.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - conversation_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: conversation_id
         description: The id representing the conversation.
-        tests:
+        data_tests:
           - not_null
       - name: conversation_created_at
         description: The time the conversation was created.
@@ -330,18 +365,24 @@ models:
       - name: conversation_remark
         description: An optional field to add a remark to correspond to the number rating.
       - name: first_team_id
-        description: ID of the team that was first assigned to the conversation.
+        description: "{{ doc('first_team_id') }}"
       - name: last_team_id
-        description: ID of the team that was last assigned to the conversation.
+        description: "{{ doc('last_team_id') }}"
       - name: first_team_name
-        description: Name of the team that was first assigned to the conversation.
+        description: "{{ doc('first_team_name') }}"
       - name: last_team_name
-        description: Name of the team that was last assigned to the conversation.
+        description: "{{ doc('last_team_name') }}"
         
   - name: intercom__conversation_metrics
     description: >
       Each record represents a single row from intercom__conversation_enhanced, enriched with aggregates which determine
       time to first response, time to first close, and time to last close.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - conversation_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -391,7 +432,7 @@ models:
         description: The time difference (not factoring in business hours) between the last_close_at and the first_contact_reply.
       - name: conversation_id
         description: The id representing the conversation.
-        tests:
+        data_tests:
           - not_null
       - name: conversation_created_at
         description: The time the conversation was created.
@@ -445,3 +486,11 @@ models:
         description: An optional field for the customer to rate the conversation which will be between 1 and 5.
       - name: conversation_remark
         description: An optional field to add a remark to correspond to the number rating.
+      - name: first_team_id
+        description: "{{ doc('first_team_id') }}"
+      - name: last_team_id
+        description: "{{ doc('last_team_id') }}"
+      - name: first_team_name
+        description: "{{ doc('first_team_name') }}"
+      - name: last_team_name
+        description: "{{ doc('last_team_name') }}"
